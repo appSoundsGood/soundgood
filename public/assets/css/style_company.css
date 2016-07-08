@@ -1,0 +1,68 @@
+@media (min-width: 768px) {
+	.job-description {
+		min-height: 321px;
+	}
+}
+.background-dashboard {
+	background: url(/assets/img/dashboard_background.jpg);
+	height: 247px;
+	background-size: cover;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	border-top: 2px solid #2188FC;
+	z-index: -1;
+}
+
+.bs-docs-masthead {
+	position: relative;
+	min-height: 550px;
+}
+
+.margin-top-50 {
+	margin-top: 50px;
+}
+
+.color-white {
+	color: #fff;
+}
+
+.job-open {
+	font-size: 11px;
+	color: white;
+	background-color: #428bca;
+	padding: 1px 13px 2px 13px;
+	margin-top: 5px;
+}
+
+.job-progress {
+	font-size: 11px;
+	color: white;
+	background-color: #5cb85c;
+	padding: 1px 13px 2px 13px;
+	margin-top: 5px;
+}
+
+.company-job-title{
+	font-size: 23px;
+	font-weight: 600;	
+}
+
+.company-job-info-span{
+	font-size: 25px;
+	color: #009cff;
+}
+
+.company-info-value {
+	font-weight: bold;
+}
+
+.company-info-number {
+	color: #009cff;
+}
+
+.job-view-small-title {
+	font-size: 17px;
+	font-weight: bold;	
+}
