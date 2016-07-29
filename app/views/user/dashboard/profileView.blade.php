@@ -33,10 +33,13 @@
                         <button class="btn btn-primary" type="submit" id="js-btn-subscriber">Escort</button>
                     </div>
 					<div class="row">
-                        <button class="btn btn-primary" type="submit" id="js-btn-subscriber">Out Call</button>
+                        <button class="btn btn-primary" type="submit" id="js-btn-subscriber">My Recipes</button>
                     </div>
 					<div class="row">
-                        <button class="btn btn-primary" type="submit" id="js-btn-subscriber">Older Posts</button>
+                        <button class="btn btn-primary" type="submit" id="js-btn-subscriber">Followers</button>
+                    </div>
+					<div class="row">
+                        <button class="btn btn-primary" type="submit" id="js-btn-subscriber">Following</button>
                     </div>
 				</div>
 				<div class="col-sm-12 margin-top-sm" style = "display:none;">

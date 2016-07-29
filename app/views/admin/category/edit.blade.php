@@ -38,10 +38,8 @@
 	</div>
     <div class="portlet-body">
         <form class="form-horizontal" role="form" method="post" action="{{ URL::route('admin.category.store') }}">
-        
-        	<input type="hidden" name="category_id" value="{{ $category->id }}">
-        
-            @foreach ([
+			<input type="hidden" name="category_id" value="{{ $category->id }}">
+			@foreach ([
                 'name' => 'Name',
                 'created_at' => 'Created At',
                 'updated_at' => 'Updated At',
@@ -57,7 +55,6 @@
                 </div>
             </div>
             @endforeach
-			
 			<div class="form-group">
 			  <div class="col-sm-offset-2 col-sm-10 text-center">
 				  <button class="btn btn-success">

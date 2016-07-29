@@ -20,7 +20,8 @@ Route::get('/', function()
 });
 //Route::get('home/{id?}',   	['as' => 'user.job.home',          'uses' => 'User\JobController@home']);
 
-Route::get('cron',        ['as' => 'user.cron',               'uses' => 'HomeController@cronJob']);
+Route::get('cron',        ['as' => 'user.cron',               'uses' => 'HomeController@cronJob']);      
+Route::get('phpinfo',        ['as' => 'user.phpinfo',          'uses' => 'HomeController@phpInfo']);
 
 
 
@@ -37,10 +38,20 @@ Route::get('home', 			['as' => 'user.home', 					'uses' => 'User\UserController@
 Route::get('search',        ['as' => 'user.post.search',  	   		'uses' => 'User\UserController@search']);
 Route::get('dashboard', 	['as' => 'user.dashboard', 				'uses' => 'User\UserController@dashboard']);
 Route::get('post', 			['as' => 'user.post', 					'uses' => 'User\UserController@post']);
+Route::get('popular',       ['as' => 'user.popular',                'uses' => 'User\UserController@popular']);
+Route::get('recipe',        ['as' => 'user.recipe',                 'uses' => 'User\UserController@recipe']);
 Route::get('newPost', 		['as' => 'user.postNew', 				'uses' => 'User\UserController@postNew']);
+Route::get('newRecipe', 	['as' => 'user.recipeNew', 				'uses' => 'User\UserController@recipeNew']);
+Route::get('profileView/{id}', 	['as' => 'user.viewProfile', 		'uses' => 'User\UserController@viewProfile']);
+
 Route::post('makePost', 	['as' => 'user.post.makeNew', 			'uses' => 'User\UserController@postMake']);
+Route::post('makeRecipe',   ['as' => 'user.recipe.makeNew',         'uses' => 'User\UserController@recipeMake']);
+Route::post('follow',   	['as' => 'user.follow',         		'uses' => 'User\UserController@follow']);
+Route::post('unfollow',   	['as' => 'user.unfollow',         		'uses' => 'User\UserController@unfollow']);
+
 Route::post('postData', 	['as' => 'user.post.postData', 			'uses' => 'User\UserController@postData']);
 Route::get('store',         ['as' => 'user.store',                  'uses' => 'User\UserController@store']);
+Route::get('storeEdit/{id}',     ['as' => 'user.storeEdit',         'uses' => 'User\UserController@storeEdit']);  
 Route::get('product', 		['as' => 'user.product', 				'uses' => 'User\UserController@product']);
 
 
@@ -58,14 +69,22 @@ Route::get('customer/cabinet',     ['as' => 'customer.dashboard.cabinet',       
 Route::get('customer/ingredient',     ['as' => 'customer.dashboard.ingredient',      'uses' => 'User\CustomerController@ingredient']); 
 Route::get('customer/buy', ['as' => 'customer.home.buy',                    'uses' => 'User\CustomerController@buy']);
 
+Route::post('customer/follow',   	['as' => 'customer.follow',         		'uses' => 'User\CustomerController@follow']);
+Route::post('customer/unfollow',   	['as' => 'customer.unfollow',         		'uses' => 'User\CustomerController@unfollow']);
+Route::post('customer/like',   	['as' => 'customer.like',         				'uses' => 'User\CustomerController@like']);
+Route::post('customer/unlike',   	['as' => 'customer.unlike',         		'uses' => 'User\CustomerController@unlike']);
+
+
 Route::get('customer/postApply/{id}', ['as' => 'customer.postApply',             'uses' => 'User\CustomerController@postApply']);
 Route::get('customer/deleteApply/{id}', ['as' => 'customer.deleteApply',           'uses' => 'User\CustomerController@deleteApply']);
 
+Route::get('customer/popular', ['as' => 'customer.popular',                    'uses' => 'User\CustomerController@popular']);
+Route::get('customer/profileView/{id}', ['as' => 'customer.viewProfile',                    'uses' => 'User\CustomerController@viewProfile']);
 
 
 Route::get('profile', 		['as' => 'user.dashboard.profile', 		'uses' => 'User\UserController@profile']);
-Route::get('profile/edit', 	['as' => 'user.dashboard.profileEdit', 		'uses' => 'User\UserController@profileEdit']);
-Route::get('profile/{etc}', ['as' => 'user.dashboard.profileView', 		'uses' => 'User\UserController@profileView']);
+Route::get('profile/edit', 	['as' => 'user.dashboard.profileEdit', 	'uses' => 'User\UserController@profileEdit']);
+Route::get('profile/{etc}', ['as' => 'user.dashboard.profileView', 	'uses' => 'User\UserController@profileView']);
 Route::post('saveProfile', 	['as' => 'user.dashboard.saveProfile', 	'uses' => 'User\UserController@saveProfile']);
 Route::get('cart', 			['as' => 'user.dashboard.cart', 		'uses' => 'User\UserController@cart']);
 Route::get('appliedJobs', 	['as' => 'user.dashboard.appliedJobs', 	'uses' => 'User\UserController@appliedJobs']);

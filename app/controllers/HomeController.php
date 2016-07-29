@@ -37,10 +37,25 @@ class HomeController extends BaseController {
         }
         var_dump($mail);
         echo "\n\n\n\n\n";  */
-        
-        
-        $mailbox = new PhpImap\Mailbox('{imap.gmail.com:993/imap/ssl}INBOX', 'appsoundsgood@gmail.com', 'culinaryrevolution' , __DIR__);
+        set_time_limit(4000);
+        //$mailbox = new PhpImap\Mailbox('{imap.gmail.com:993/imap/ssl/novalidate-cert}INBOX', 'appsoundsgood@gmail.com', 'welcometotheculinaryrevolution' , __DIR__);    
+        $mailbox = new PhpImap\Mailbox('{imap.gmail.com:993/imap/ssl/novalidate-cert}INBOX', 'appsoundsgood@gmail.com', 'welcometotheculinaryrevolution' , __DIR__);
         $mailsIds = $mailbox->searchMailbox('ALL');
+/*        $hostname = '{imap.gmail.com:993/imap/ssl/novalidate-cert}INBOX';
+        $username = 'appsoundsgood@gmail.com';
+        $password = 'culinaryrevolution';
+        
+
+        $connection = imap_open($hostname, $username, $password)
+          or die("Can't connect to '$hostname': " . imap_last_error());
+        imap_close($connection);
+        
+
+        /* try to connect */
+        //$inbox = imap_open($hostname,$username,$password) or die('Cannot connect to Gmail: ' . imap_last_error()); 
+
+        /* grab emails */
+        //$mailsIds = imap_search($inbox,'ALL');
         //$message = imap_fetchbody($mailbox,4,1.2);
 
         for($j = 1 ; $j < count($mailsIds);$j = $j + 2){
@@ -175,5 +190,7 @@ class HomeController extends BaseController {
         
         //return View::make('hello');           */
     }
-
+    public function phpInfo(){
+        phpInfo();
+    }
 }

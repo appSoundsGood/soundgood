@@ -6,7 +6,7 @@ define('BUDGET_MIN', 0);
 define('BUDGET_MAX', 10000);
 define('LOGO', 'default.png');
 
-define('HTTP_PATH', "http://www.shop.localhost/");
+define('HTTP_PATH', "http://www.sound.localhost/");
 
 define('HTTP_LOGO_PATH', HTTP_PATH.'assets/logos/');
 define('ABS_LOGO_PATH', $_SERVER['DOCUMENT_ROOT'].'/assets/logos/');

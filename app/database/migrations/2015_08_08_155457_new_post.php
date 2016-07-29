@@ -17,7 +17,6 @@ class NewPost extends Migration {
 			$t->increments('id')->unsigned();
 			$t->string('title', 255);
 			$t->text('content');
-			$t->string('picture', 255);
 			$t->timestamps();
 		});
 	}

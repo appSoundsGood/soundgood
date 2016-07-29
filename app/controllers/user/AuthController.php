@@ -112,6 +112,7 @@ class AuthController extends \BaseController {
         if (count($user) != 0) {
             Session::set('user_id', $user[0]->id);
 			Session::set('user_type', "user");
+            Session::set('user_name' , $user[0]->name);
             return Redirect::route('user.dashboard.profile');
         } else {
             $alert['msg'] = 'Email & Password is incorrect';

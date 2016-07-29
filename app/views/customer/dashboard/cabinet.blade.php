@@ -31,7 +31,7 @@
 				<div class="col-sm-12 margin-top-normal text-center">
 				
 					<div class="row">
-                        <button class="btn btn-primary" type="submit" id="js-btn-subscriber">Out Call</button>
+                        <button class="btn btn-primary" type="submit" id="js-btn-subscriber">My Recipes</button>
                     </div>
 					<div class="row">
                         <button class="btn btn-primary" type="submit" id="js-btn-subscriber">Older Posts</button>
@@ -51,9 +51,7 @@
 					</div>
 				</div>
 				<div class="col-sm-12 margin-top-sm" style = "margin-bottom:20px;">
-					  <div class="iframeDiv">
-                        <iframe width="100%" height="" src="//www.youtube.com/embed/eFSqX4xAaUY?feature=player_detailpage" frameborder="0" allowfullscreen=""></iframe> 
-                	  </div>  	
+					 	
                 </div>
 				
 			</div>

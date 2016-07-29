@@ -31,10 +31,13 @@
 				<div class="col-sm-12 margin-top-normal text-center">
 				
 					<div class="row">
-                        <button class="btn btn-primary" type="submit" id="js-btn-subscriber">Out Call</button>
+                        <a class="btn btn-primary" type="submit" id="js-btn-subscriber" href = "/recipe">My Recipes</a>
                     </div>
 					<div class="row">
-                        <button class="btn btn-primary" type="submit" id="js-btn-subscriber">Older Posts</button>
+                        <a class="btn btn-primary" type="submit" id="js-btn-subscriber" href = "/follwers">Followers</a>
+                    </div>
+					<div class="row">
+                        <a class="btn btn-primary" type="submit" id="js-btn-subscriber" href = "/follwing">Following</a>
                     </div>
 				</div>
 				<div class="col-sm-12 margin-top-sm" style = "display:none;">
@@ -51,9 +54,7 @@
 					</div>
 				</div>
 				<div class="col-sm-12 margin-top-sm" style = "margin-bottom:20px;">
-					  <div class="iframeDiv">
-                        <iframe width="100%" height="" src="//www.youtube.com/embed/eFSqX4xAaUY?feature=player_detailpage" frameborder="0" allowfullscreen=""></iframe> 
-                	  </div>  	
+						
                 </div>
 				
 			</div>
@@ -63,82 +64,40 @@
 			
 			<!-- End for My Jobs -->
 		</div>  
-		<div class="col-sm-7">
+		<div class="col-sm-6">
 	        <div class="row text-center margin-top-sm">
 	            <h1 class="color-home" style="color: white;">Profile</h1>
 	        </div>
-	        
-	        <div class="row" style="min-height: 600px;margin-left:0px;visibility:hidden;">
-				<div class="row">
-					<!-- Div for Applications sent -->
-					<div class="col-sm-5">
-						<!-- Div for My Jobs -->
-						<div class="row div-gray-box margin-top-xs" style = "margin-left:0px;">
-							<div class="col-sm-12 div-light-gray-box">
-								<i class="fa fa-tasks"></i>&nbsp <span>Applications Sent</span>
-							</div>
-							<div class="col-sm-12 div-myjobs-box padding-bottom-sm">
-								<?php foreach($posts as $post){?>
-								<div class="col-sm-12 margin-top-sm">
-									<span><a href=""><?php echo $post->title;?>sdfsdfsd</a></span>
-								</div>
-								<?php }?>
-								<div class="col-sm-12">
-									<hr style="margin-top: 10px; margin-bottom: 0px;"/>
-								</div>
-							
-							</div>
-							
-							<div class="col-sm-12 text-center margin-top-sm margin-bottom-sm">
-								<span>There are no applied jobs.</span>
-							</div>
-							
-						</div>
-						<!-- End for My Jobs -->					
-					</div>
-					<!-- End for Applications sent -->
-					
-					<!-- Div for Newest Jobs -->
-					<div class="col-sm-5 col-sm-offset-1">
-						<!-- Div for My Jobs -->
-						<div class="row div-gray-box margin-top-xs">
-							<div class="col-sm-12 div-light-gray-box">
-								<i class="fa fa-tasks"></i>&nbsp <span>New Jobs</span>
-							</div>
-							
-							<div class="col-sm-12 div-myjobs-box padding-bottom-sm">
-							
-								<div class="col-sm-12 margin-top-sm">
-									<span><a href=""></a></span>
-								</div>
-								
-								<div class="col-sm-12 margin-top-xxs">
-									
-									sdfsdfsd
-									
-								</div>
-								<div class="col-sm-12">
-									<hr style="margin-top: 10px; margin-bottom: 0px;"/>
-								</div>
-								
-							</div>
-							
-							<div class="col-sm-12 text-center margin-top-sm margin-bottom-sm">
-								<span>There are no matched jobs.</span>
-							</div>
-							
-						</div>
-						<!-- End for Newest Jobs -->					
-					</div>
-					<!-- End for Applications opened -->
-				</div>
-	
+            <div class="row" style="min-height: 600px;margin-left:0px;">
+                <div class="row">
+                    @foreach ($data as $key => $value)
+                    
+                        <div class="col-sm-10 col-sm-offset-1">
+                            <div class="panel panel-default">
+                                <?php if($value->type == "post"){?>
+                                <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>{{ $value->post->title}}</h4></div>
+                                <div class="panel-body">
+                                    {{ $value->post->content}}
+                                </div>
+                                <?php }else{?>
+                                <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>{{ $value->recipe->name}}</h4></div>
+                                <div class="panel-body">
+                                    {{ $value->recipe->content}}
+                                </div>
+                                <?php } ?>
+                        <!-- End for Applications sent -->
+                            </div>
+                        </div>
+                        <!-- Div for Newest Jobs -->
+                    </tr>
+                    @endforeach
+	         	  </div>
 	        </div> 
 		</div>  
-		<div class="col-sm-2">
+		<div class="col-sm-3">
 			<!-- Div for Profile -->
 			<!-- Div for My Jobs -->
-			<a href="/profile/edit" class="btn btn-sm btn-danger">
+			<a href="/profile/edit" class="btn btn-sm btn-danger" style ="visibility:hidden;">
                     <span class="glyphicon glyphicon-edit"></span> Edit
             </a>
 			<div class="row div-gray-box margin-top-sm">
@@ -151,14 +110,7 @@
 					<div class="col-sm-12 margin-top-sm">
 						<span><a href=""></a></span>
 					</div>
-					<?php foreach($posts as $post){?>
-					<div class="col-sm-12 margin-top-xxs">
-						<?php echo $post->title;?>
-					</div>
-					<div class="col-sm-12">
-						<hr style="margin-top: 10px; margin-bottom: 0px;"/>
-					</div>
-					<?php }?>
+				
 				</div>
 				<div class="col-sm-12 text-center margin-top-sm margin-bottom-sm">
 					<span></span>

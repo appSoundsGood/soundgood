@@ -11,78 +11,27 @@
 @section('body')
 <main class="bs-docs-masthead" role="main" style="min-height: 0px;">
 	<div class="col-sm-12" style="padding: 0px">
-			 <div class="home-switch-part1">
-				   <div id="demo5" class="scroll-img">
-				      <ul>
-						<?php foreach($products as $product){?>
-				        <li>
-							<a href="/profile/<?php echo $product->name;?>" target="_blank">
-								<img src="<?php echo ABS_CATEGORY_PATH_REL.$product->categoryImg;?>" width = "124" height = "124"/>
-							</a>
-						</li>
-						<?php }?>
-					  </ul>
-				    </div>                                    
-			</div> 
-			<div class="container search-box margin-bottom-sm">
-	        <div class="row">
-	            <div class="col-sm-10 col-sm-offset-1 margin-top-xl padding-bottom-normal" style="background: rgba(0, 157, 255,0.65);">
-	            	<div class="row">
-	                    <div class="col-sm-12 text-center margin-top-normal">
-	                        <h2 class="color-white">
-	                            <i>Select Ads which you are going to find.</i>
-	                        </h2>
-	                    </div>
-	                </div>
-	                <div class="row margin-top-normal">
-	                    <form class="form-horizontal" method="post" action="<?php echo URL::route('user.post.search'); ?>">
-	                        <div class="col-sm-5 col-sm-offset-1">
-	                            <input type="text" name="keyword" class="form-control input-lg" placeholder="Please enter for search.">
-	                        </div>
-	                        <div class="col-sm-4">
-						        <select class="form-control input-lg" name="location">
-						        	<?php foreach($locations as $location){?>
-	                                <option value="<?php echo $location->id;?>"><?php echo $location->name;?></option>
-	                               	<?php }?>
-	                            </select>
-	                        </div>
-	                        <div class="col-sm-1">
-	                            <button class="btn green btn-lg btn-block"><i class="fa fa-search"></i></button>
-	                        </div>
-	                    </form>
-	                </div>
-	                <div class="row margin-top-normal">
-	                    <div class="col-sm-12 text-center">
-	                        <h4 class="color-white"><i>Enjoy and make fun in your life.</i></h4>
-	                    </div>
-	                </div>                
-	            </div>
-	        </div>
-    </div>          	
+	</div>          	
 		
 	</div>
 </main>
-<div>
-    <div class="container">
-        <div class="row text-center margin-top-normal">
-            <h1 class="color-home"></h1>
-        </div>
+<div class = "backgroundDiv">
+    <div class="container search-box margin-bottom-sm">
         <div class="row">
-            <?php foreach($locations as $location){?>
-           	<div class="col-sm-2 col-sm-offset-1 color-gray-dark">
-                <div class="step-item">
-                    <h3 class="color-gray-dark"><b><?php echo $location->name;?></b></h3>
-                    
+            <div class="margin-top-xl padding-bottom-normal" >
+                <div class="col-sm-6">
+                    <div class="col-sm-9  col-md-offset-3">
+                        <h3 class="soundsGoodFont">Introducing<br/>SoundsGood</h3>     
+                        <h5 class="soundsGoodFont">The SoundsGood application recommends meals to you based on the ingredients in your kitchen, your eating habits and health goals.
+                        </h5>                     
+                    </div>
                 </div>
-                <?php foreach($categories as $category){?>
-                    <a class="color-blue-dark" href = "category/view/<?php echo $category->name;?>"  id = "categoryLink" ><?php echo $category->name;?></a><br/>
-                <?php }?>
+
+                <div class="col-sm-4 soundComputer col-sm-offset-1">
+                    
+                </div>                
             </div>
-           <?php }?>
         </div>
-        <div class="row text-center margin-top-normal margin-bottom-normal">
-            <h1 class="home color-home"></h1>
-        </div>        
     </div>
 </div>
 <div class="gray-container">    

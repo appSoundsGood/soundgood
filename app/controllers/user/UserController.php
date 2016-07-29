@@ -29,6 +29,10 @@ use UserTestimonial as UserTestimonialModel;
 use UserStore as UserStoreModel;
 use Store as StoreModel;
 use Product as ProductModel;
+use UserPost as UserPostModel;
+use UserRecipe as UserRecipeModel;
+use UserActivity as UserActivityModel;
+use Following as FollowingModel;
 use Mail;
 
 
@@ -70,16 +74,33 @@ class UserController extends \BaseController {
 	
     public function post() {
 		
-		$param['posts'] = PostModel::paginate(10);
+        $userId = Session::get('user_id');
+        $posts = UserPostModel::where('user_id', $userId)->paginate(10);
+		
+        $param['posts'] = $posts;
 		$param['pageNo'] = 5;
 			
 		return View::make('user.dashboard.appliedPosts')->with($param);
-		
 	}
+    
+    public function recipe() {
+        
+        $userId = Session::get('user_id');
+        $recipe =  UserRecipeModel::where('user_id', $userId)->paginate(10);
+        
+        $param['recipes'] = $recipe;
+        $param['pageNo'] = 5;
+            
+        return View::make('user.dashboard.appliedRecipes')->with($param);
+        
+    }
 	
     public function postView($etc){
 		
-		$post = PostModel::where('title', $etc)->get(); 
+		$userId = Session::get('user_id');
+        
+        
+        $post = PostModel::where('user_id', $userId)->paginate(10);
 		
 		$postVideos = PostVideoModel::where('postId', $post[0]->id)->get(); 
 		$postImages = PostImageModel::where('postId', $post[0]->id)->get();
@@ -102,6 +123,7 @@ class UserController extends \BaseController {
 		
 		return View::make('user.dashboard.postView')->with($param);
 	}
+    
 	public function profileEdit(){
 		
 		$param['user'] = UserModel::find(Session::get('user_id'));
@@ -113,7 +135,7 @@ class UserController extends \BaseController {
 	public function chat() {
 	
 		if (!Session::has('user_id')) {
-			return Redirect::route('user.auth.login');
+			return Redirect::route('user.unfollow.login');
 		}else {
 			$param['pageNo'] = 3;
 			$param['user'] = UserModel::find(Session::get('user_id'));
@@ -123,26 +145,112 @@ class UserController extends \BaseController {
 	
 	}
 	
+	public function follow(){
+
+		$follow = new FollowingModel;
+		$userId = Session::get('user_id'); 
+		$followingId = Input::get('followerId');
+
+
+		$follow->followerUserId = $userId ;
+		$follow->followerCustomerId = '1' ;
+		$follow->follwingId =  $followingId;
+		$follow->follwertype = "user" ;
+		$follow->is_valid = "1";
+
+		$follow->save();
+		return Response::json(['result' => 'success']);
+
+	}
+	public function unfollow(){
+
+		
+		$userId = Session::get('user_id'); 
+		$followingId = Input::get('followerId');
+
+
+		$condition = [ 'followerUserId' => $userId ,  'follwingId' => $followingId , 'is_valid' => '1'];
+
+
+		$follow = FollowingModel::where($condition)->get();
+		$followId = $follow[0]->id;
+		$followModel = FollowingModel::find($followId); 
+		$followModel->is_valid = "0";
+
+
+
+		$followModel->save();
+
+		return Response::json(['result' => 'success']);
+
+	
+	}
+
 	public function postMake() {
 		
 		$title = Input::get('title');
 		$articleContent = Input::get('articleContent');
-		$location = Input::get('locationArticle');
-		$email = Input::get('email');
+        
+        $userId = Session::get('user_id'); 
 		
 		$post = new PostModel;	 
 		
 		$post->title = $title;
 		$post->content = $articleContent;
-		$post->location = $location;
-		$post->email = $email;
 		
 		$post->save();
-		
+        
+        $postId = $post->id;
+        $UserPost = new UserPostModel;
+        
+        $UserPost->user_id = $userId;
+        $UserPost->post_id = $postId;
+        $UserPost->save();
+        
+        $userActivity = new UserActivityModel;
+        
+        $userActivity->user_id = $userId;
+        $userActivity->type = "post";
+        $userActivity->post_id = $postId;
+        $userActivity->recipe_id = 1;
+        $userActivity->save();
 		return Response::json(['result' => 'success', 'msg' => 'You have successed in new post' , 'postId' => $post->id ]);
 		
 	}
-	
+    
+	public function recipeMake() {
+        
+        $title = Input::get('title');
+        $articleContent = Input::get('articleContent');
+        
+        $userId = Session::get('user_id'); 
+        
+        $recipe = new RecipeModel;     
+        
+        $recipe->name = $title;
+        $recipe->content = $articleContent;
+        
+        $recipe->save();
+        
+        $recipeId = $recipe->id;
+        $userRecipe = new UserRecipeModel;
+        
+        $userRecipe->user_id = $userId;
+        $userRecipe->recipe_id = $recipeId;
+        $userRecipe->save();
+        
+        $userActivity = new UserActivityModel;
+        
+        $userActivity->user_id = $userId;
+        $userActivity->type = "recipe";
+        $userActivity->recipe_id = $recipeId;
+        $userActivity->post_id = 1;
+        $userActivity->save();
+        
+        return Response::json(['result' => 'success', 'msg' => 'You have successed in new post' , 'postId' => $recipe->id ]);
+        
+    }
+    
 	public function postData() {
 	
 		$postId = Input::get('postId');
@@ -198,6 +306,58 @@ class UserController extends \BaseController {
 			return View::make('user.dashboard.postNew')->with($param);
 		}
 	}
+    public function popular(){
+        if (!Session::has('user_id')) {
+            return Redirect::route('user.auth.login');
+        }else {
+            
+            $userId = Session::get('user_id');
+            
+            $param['pageNo'] = 3;
+            $param['user'] = UserModel::find(Session::get('user_id'));
+            
+            $param['data'] = UserActivityModel::orderBy('created_at', 'desc')->get();
+            
+            return View::make('user.dashboard.popular')->with($param);
+        }
+    }
+	
+	public function viewProfile($id){
+      
+            $userId = Session::get('user_id');
+
+            $param['pageNo'] = 3;
+            $param['user'] = UserModel::find($id);
+            
+            $param['data'] = UserActivityModel::orderBy('created_at', 'desc')->get();
+			$param['followingId'] = $id;
+            $param['followerId'] = $userId ;
+
+            $condition = [ 'followerUserId' => $userId ,  'follwingId' => $id , 'is_valid' => '1'];
+
+
+			$follow = FollowingModel::where($condition)->get();
+
+			if(count($follow)!=0){
+				$param['isFollow'] = 1 ; 
+			}else{
+				$param['isFollow'] = 0 ;
+			}
+
+			return View::make('user.dashboard.viewProfile')->with($param);
+        
+    }
+	
+    public function recipeNew() {
+        
+        if (!Session::has('user_id')) {
+            return Redirect::route('user.auth.login');
+        }else {
+            $param['pageNo'] = 5;
+            $param['user'] = UserModel::find(Session::get('user_id'));
+            return View::make('user.dashboard.recipeNew')->with($param);
+        }
+    }
 	
 	public function cart() {
 		if (!Session::has('user_id')) {
@@ -214,15 +374,20 @@ class UserController extends \BaseController {
 		if (!Session::has('user_id')) {
 			return Redirect::route('user.auth.login');
 		}else {
+            
+            $userId = Session::get('user_id');
+            
 			$param['pageNo'] = 3;
 			$param['user'] = UserModel::find(Session::get('user_id'));
+            
 			
-			$param['posts'] = PostModel::all();
+			$param['data'] = UserActivityModel::where('user_id', $userId)->orderBy('created_at','dsc')->paginate(10);
 			
 			
 			return View::make('user.dashboard.dashboard')->with($param);
 		}
 	}
+	
 	public function profileView($etc){
 		$param['pageNo'] = 3;
 		$param['user'] = UserModel::where('name',$etc)->get();
@@ -246,12 +411,25 @@ class UserController extends \BaseController {
 			return View::make('user.dashboard.userStore')->with($param);
 		}
 	}
+    
+    public function storeEdit($id){
+        if (!Session::has('user_id')) {
+            return Redirect::route('user.auth.login');
+        }else {
+            $param['pageNo'] = 12;
+            
+            $user =  UserModel::find(Session::get('user_id'));
+            $param['store'] = StoreModel::find($id);   
+            $param['user'] = $user ;
+            
+            return View::make('user.dashboard.userStoreEdit')->with($param);
+        }
+    }
+    
     public function storeCreate(){
        $param['user'] = ""; 
        return View::make('user.dashboard.createStore')->with($param);  
     }
-    
-    
     public function storeSave(){
         
         $param['pageNo'] = 12;
@@ -268,29 +446,30 @@ class UserController extends \BaseController {
             $name = Input::get('name');
             $userId = Session::get('user_id');
             
-            $userStore = new UserStoreModel;    
-            $store = new StoreModel;
+            
             
             if (Input::has('store_id')) {
-                $id = Input::get('recipe_id');
-                $category = CategoryModel::find($id);
-                
+                $id = Input::get('store_id');
+                $store = StoreModel::find($id);
+                $store->name = $name;
+                $store->save();
                 $alert['msg'] = 'Category has been updated successfully';
                 $alert['type'] = 'success';
             } else {
+                $userStore = new UserStoreModel;    
+                $store = new StoreModel;
+                
+                $store->name = $name;
+                $store->save();
+                
+                $userStore->store_id = $store->id;
+                $userStore->user_id = $userId;   
+                
+                $userStore->save();  
                      
                 $alert['msg'] = 'Category has been added successfully';
                 $alert['type'] = 'success';
             }
-            
-            $store->name = $name;
-            $store->save();
-            
-            $userStore->store_id = $store->id;
-            $userStore->user_id = $userId;   
-            
-            $userStore->save();      
-              
             return Redirect::route('user.store')->with('alert', $alert);            
         }
         

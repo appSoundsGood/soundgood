@@ -19,17 +19,14 @@ class StoreController extends \BaseController {
 			}
 		});
 	}
+    
     public function index() {
-        
-
         $param['stores'] = StoreModel::paginate(10);
         $param['pageNo'] = 7;
-        
-	    if ($alert = Session::get('alert')) {
+        if ($alert = Session::get('alert')) {
             $param['alert'] = $alert;
         }
-        
-		return View::make('admin.store.index')->with($param);
+        return View::make('admin.store.index')->with($param);
 	}
 	
 	public function create() {

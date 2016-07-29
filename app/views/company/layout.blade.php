@@ -56,8 +56,6 @@
                 <p class="text-uppercase margin-bottom-20"><b>Company Info</b></p>
                 <ul>
                     <li><a href="#">About us</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Careers</a></li>
                     <li><a href="#">Terms of Service</a></li>
                     <li><a href="#">Privacy Policy</a></li>
                     <li><a href="#">Contact &amp; Support</a></li>
@@ -67,8 +65,7 @@
                 <p class="text-uppercase margin-bottom-20"><b>HOW IT WORKS</b></p>
                 <ul>
                     <li><a href="#">How it works?</a></li>
-                    <li><a href="#">Media solutions</a></li>
-                    <li><a href="#">Partnerships</a></li>
+					<li><a href="#">Partnerships</a></li>
                 </ul>
             </div>
             <div class="col-sm-3 color-white">
@@ -76,7 +73,7 @@
                 <ul>
                     <li><a href="#"><i class="fa fa-facebook" style="width: 18px;"></i>&nbsp;Facebook</a></li>
                     <li><a href="#"><i class="fa fa-twitter" style="width: 18px;"></i>&nbsp;Twitter</a></li>
-                    <li><a href="#"><i class="fa fa-google-plus" style="width: 18px;"></i>&nbsp;Google Plus</a></li>
+                    
                 </ul>            
             </div>
             <div class="col-sm-3 color-white">

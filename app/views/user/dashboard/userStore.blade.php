@@ -2,7 +2,6 @@
 
 @section('custom-styles')
 @stop
-
 @section('body')
 <main class="bs-docs-masthead" role="main">
 	<div class="background-dashboard"></div>      
@@ -11,7 +10,6 @@
         <div class="row text-center margin-top-normal margin-bottom-normal">
             <h2 class="home color-white">Stores</h2>
         </div> 
-        
         <div class="row">
             <div class="actions" style = "float:right;margin-bottom:10px;">
                 <a href="{{ URL::route('user.store.create') }}" class="btn btn-default btn-sm">
@@ -35,7 +33,7 @@
                         <td>{{ $value->store->name}}</td>
                         <td>{{ $value->created_at }}</td>
                         <td>
-                            <a href="{{ URL::route('admin.apply.edit', $value->id)  }}" class="btn btn-sm btn-info">
+                            <a href="{{ URL::route('user.storeEdit', $value->id)  }}" class="btn btn-sm btn-info">
                                 <span class="glyphicon glyphicon-edit"></span> Edit
                             </a>
                         </td>

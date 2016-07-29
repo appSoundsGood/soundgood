@@ -15,7 +15,7 @@
 
 <div class="row">
 	<div class="col-md-12">
-		<h3 class="page-title">Recipt Management</h3>
+		<h3 class="page-title">Receipt Management</h3>
 		<ul class="page-breadcrumb breadcrumb">
 			<li>
 				<i class="fa fa-home"></i>

@@ -8,44 +8,64 @@
 @stop
 @section('header')
     <header class="header">
-        <div class="container">
-            <div class="pull-left">
-                <a href="/" style = "font-size:30px;">
-                    SoundsGood
-                </a>
+			<a href="/customer/home" style = "font-size:30px;">
+            <div class="pull-left soundLogo">
+                
             </div>
-            <div class="pull-right margin-top-xs">
-                <ul class="nav nav-pills nav-top">
-					<?php if (!isset($pageNo)) { $pageNo = 0; } ?>
-                    @if (Session::has('user_id'))
-                    	<li class="{{ ($pageNo == 5) ? 'active' : ''}}"><a href="{{ URL::route('customer.home') }}">Just For You</a></li>
-                        <li class="{{ ($pageNo == 6) ? 'active' : ''}}"><a href="{{ URL::route('customer.dashboard.cabinet') }}">Cabinet</a></li>
-                        <li class="{{ ($pageNo == 11) ? 'active' : ''}}"><a href="{{ URL::route('customer.dashboard.cabinet') }}">Collections</a></li>
-                        <li class="{{ ($pageNo == 12) ? 'active' : ''}}"><a href="{{ URL::route('customer.dashboard.cabinet') }}">Profile</a></li>
-                        <li class="{{ ($pageNo == 13) ? 'active' : ''}}"><a href="{{ URL::route('customer.dashboard.ingredient') }}" style = "display:none;">Ingredient</a></li>
-                        <li class="{{ ($pageNo == 8) ? 'active' : ''}}"><a href="{{ URL::route('customer.home.buy') }}" style = "display:none;">Discover</a></li>
-                        <li><a href="{{ URL::route('user.auth.doLogout') }}">Sign Out</a></li>
-                    @else
-                    	<li class="{{ ($pageNo == 1) ? 'active' : ''}}"><a href="{{ URL::route('user.home') }}">Home</a></li>
-                        <li class="dropdown">
-                        	<a >Sign in</a>
-                        	<ul class="dropdown-menu signin-dropdown-menu register-dropdown-menu">
-                        		<li><a href="{{ URL::route('user.auth.login') }}">Sign in as Store</a></li>
-                        		<li><a href="{{ URL::route('user.customer.login') }}">Sign in as Customer</a></li>
-                        	</ul>
-                        </li>
-                        <li class="dropdown">
-                        	<a href="">Register</a>
-                        	<ul class="dropdown-menu signin-dropdown-menu register-dropdown-menu">
-                        		<li><a href="{{ URL::route('user.auth.signup') }}">Register as Store</a></li>
-                        		<li><a href="{{ URL::route('user.customer.signup') }}">Register as Customer</a></li>
-                        	</ul>
-                        </li>
-                    @endif
-                </ul>
+			</a>
+
+            <div class="form-group navbar-form navbar-left searchForm">
+                <form>
+                    <div class="icon-addon addon-md">
+                        <input type="text" placeholder="Search the recipes" class="form-control searchInput" id="email">
+                        <label for="email" class="glyphicon glyphicon-search" rel="tooltip" title="email"></label>
+                    </div>
+                </form>
+            </div>
+            <div class="pull-right profileDiv">
+                 <div class = "col-sm-2">
+                       <div class = "container messageImg"></div>
+                 </div>
+                 <div class = "col-sm-2 addImg">
+                    +
+                 </div>
+                 <div class = "col-sm-2 profileImg">
+                    
+                     </div>
+                 <div class = "col-sm-4 profileName">
+                    {{$username}}
+                 </div>
+                 <div class = "col-sm-2">
+                     <div class="dropdown">
+                        <button class="" type="button" data-toggle="dropdown" style = "background: #ffffff;margin-top:5px;">
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                          <li><a href="#">Profile</a></li>
+                          <li><a href="{{ URL::route('user.auth.doLogout') }}">Sign Out</a></li>
+                          
+                        </ul>
+                      </div>
+                 </div>
             </div>
             <div class="clearfix"></div>
-        </div>
+            <nav class="navbar navbar-default soundgoodNav" style = "width:100%;">
+              <div class="container-fluid">
+                <div class="row text-center">
+                    <ul class="nav navbar-nav">
+                      <li class="threelineDiv"><a href="#"></a></li>
+                      <li class = "soundgoodLi soundgoodHome"><a href="/customer/home">For You</a></li>
+                      <li class = "soundgoodLi"><a href="{{ URL::route('customer.popular') }}">Popular</a></li> 
+                      <li class = "soundgoodLi"><a href="#">Shop</a></li> 
+                      <li class = "soundgoodLi"><a href="#">Health</a></li> 
+                      <li class = "soundgoodLi"><a href="#">Fitness</a></li> 
+                      <li class = "soundgoodLi"><a href="#">Collections</a></li> 
+                      <li class = "soundgoodLi"><a href="#">Support</a></li> 
+                    </ul>
+                  
+                </div>
+              </div>
+            </nav>
+
     </header>
 @stop
 	@yield('content')
@@ -57,8 +77,6 @@
                 <p class="text-uppercase margin-bottom-20"><b>Company Info</b></p>
                 <ul>
                     <li><a href="#">About us</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Careers</a></li>
                     <li><a href="#">Terms of Service</a></li>
                     <li><a href="#">Privacy Policy</a></li>
                     <li><a href="#">Contact &amp; Support</a></li>
@@ -68,7 +86,6 @@
                 <p class="text-uppercase margin-bottom-20"><b>HOW IT WORKS</b></p>
                 <ul>
                     <li><a href="#">How it works?</a></li>
-                    <li><a href="#">Media solutions</a></li>
                     <li><a href="#">Partnerships</a></li>
                 </ul>
             </div>
@@ -77,7 +94,6 @@
                 <ul>
                     <li><a href="#"><i class="fa fa-facebook" style="width: 18px;"></i>&nbsp;Facebook</a></li>
                     <li><a href="#"><i class="fa fa-twitter" style="width: 18px;"></i>&nbsp;Twitter</a></li>
-                    <li><a href="#"><i class="fa fa-google-plus" style="width: 18px;"></i>&nbsp;Google Plus</a></li>
                 </ul>            
             </div>
             <div class="col-sm-3 color-white">
@@ -86,10 +102,10 @@
             </div>                                    
         </div>
     </div>
-    <footer class="footer-area">
+    <footer class="footer-area" style = "display:none;">
         <div class="container">
             <div class="footer-logo pull-left">
-                <a href="/" style = "text-decoration:none;">SoundsGood Copyright  2015  E-force LLC copyright</a>
+                <a href="/" style = "text-decoration:none;"></a>
             </div>
             <div class="clearfix"></div>
         </div>

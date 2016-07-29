@@ -155,7 +155,7 @@
                     <li class="<?php echo ($pageNo == 10) ? "active" : "";?>">
                         <a href="{{ URL::route('admin.recipt') }}">
                             <i class="fa fa-glass"></i>
-                            <span class="title">Recipt Management</span>
+                            <span class="title">Receipt Management</span>
                         </a>
                     </li>
                </ul>

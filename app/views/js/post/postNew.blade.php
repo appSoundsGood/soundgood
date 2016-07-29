@@ -47,7 +47,7 @@ function nextform(){
    		$("#tab2").removeClass("active");
    		$("#tab3").addClass("active");
    		
-   		$("#successEmail").text("You have successed in email");
+   		$("#successEmail").text("You have created new advertisment");
    		document.getElementById("mainDiv").scrollIntoView();
    		
    		$.ajax({
@@ -63,8 +63,8 @@ function nextform(){
                if (data.result == 'success') {
             	   $("#imageForm").ajaxSubmit();
             	   		$("#postId").val(data.postId);
-            	   		
                } else {
+               	   		
             	   
                }
             }

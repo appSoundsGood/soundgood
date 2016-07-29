@@ -9,7 +9,7 @@
     <div class="container">
     	<div class="margin-top-lg"></div>
         <div class="row text-center margin-top-normal margin-bottom-normal">
-            <h2 class="home color-white"> Applied Posts</h2>
+            <h2 class="home color-white"> Advertisements</h2>
         </div>  
         <div class="row">
             <table class="table table-store-list">

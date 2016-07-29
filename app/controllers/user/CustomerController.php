@@ -26,6 +26,10 @@ use CustomerStore as CustomerStoreModel;
 use CustomerProduct as CustomerProductModel; 
 use Recipt as ReciptModel;
 use ReciptIngredient as ReciptIngredientModel; 
+use Following as FollowingModel;
+use UserActivity as UserActivityModel;
+
+use Like as LikeModel;
 use Mail;
 
 class CustomerController extends \BaseController {
@@ -78,6 +82,8 @@ class CustomerController extends \BaseController {
         if (count($user) != 0) {
             Session::set('user_id', $user[0]->id);
 			Session::set('user_type', "customer");
+            Session::set('user_name', $user[0]->name);
+            
 			return Redirect::route('customer.home');
         } else {
             $alert['msg'] = 'Email & Password is incorrect';
@@ -91,7 +97,9 @@ class CustomerController extends \BaseController {
 		$param['users'] = CustomerModel::paginate(10);
 		$param['locations'] = LocationModel::all();
 		$param['recipes'] = RecipeModel::all(); 
+        $param['username'] = Session::get('user_name');  
 		$param['pageNo'] = 5;
+         
 	
 		if ($alert = Session::get('alert')) {
 			$param['alert'] = $alert;
@@ -112,7 +120,149 @@ class CustomerController extends \BaseController {
         }
         return View::make('customer.home.buy')->with($param);
     }
-    
+
+    public function popular(){
+        if (!Session::has('user_id')) {
+            return Redirect::route('user.auth.login');
+        }else {
+            
+            $userId = Session::get('user_id');
+           	$param['username'] = Session::get('user_name');  
+            
+            $param['pageNo'] = 3;
+            $param['user'] = UserModel::find(Session::get('user_id'));
+            
+            $param['data'] = UserActivityModel::orderBy('created_at', 'desc')->get();
+            
+            return View::make('customer.dashboard.popular')->with($param);
+        }
+    }
+	
+	public function viewProfile($id){
+      
+            $userId = Session::get('user_id');
+
+            $param['pageNo'] = 3;
+            $param['user'] = UserModel::find($id);
+            $param['username'] = Session::get('user_name');  
+            
+            $param['data'] = UserActivityModel::orderBy('created_at', 'desc')->get();
+			$param['followingId'] = $id;
+            $param['followerId'] = $userId ;
+
+            $condition = [ 'followerUserId' => $userId ,  'follwingId' => $id , 'is_valid' => '1' , 'follwertype' => 'customer'];
+
+
+			$follow = FollowingModel::where($condition)->get();
+
+			if(count($follow)!=0){
+				$param['isFollow'] = 1 ; 
+			}else{
+				$param['isFollow'] = 0 ;
+			}
+
+			$conditionLike = ['likeCustomerId' => $userId ,  'is_valid' => '1' , 'usertype' => 'customer' , 'ownerUserId'=>$id];
+
+			$likes = LikeModel::where($conditionLike)->get();
+			$likesArr = array();
+		
+			foreach($likes as $key => $value){
+
+				$likesArr[count($likesArr)] = $value->recipeId;				
+			}
+
+			$param['likes'] = $likesArr; 
+
+			return View::make('customer.dashboard.viewProfile')->with($param);
+        
+    }
+    public function follow(){
+
+		$follow = new FollowingModel;
+		$userId = Session::get('user_id'); 
+		$followingId = Input::get('followerId');
+
+
+		$follow->followerUserId = '1' ;
+		$follow->followerCustomerId = $userId ;
+		$follow->follwingId =  $followingId;
+		$follow->follwertype = "customer" ;
+		$follow->is_valid = "1";
+
+		$follow->save();
+		return Response::json(['result' => 'success']);
+
+	}
+	public function unfollow(){
+
+		
+		$userId = Session::get('user_id'); 
+		$followingId = Input::get('followerId');
+
+
+		$condition = [ 'followerCustomerId' => $userId ,  'follwingId' => $followingId , 'is_valid' => '1' ,'follwertype' => 'customer'];
+
+
+		$follow = FollowingModel::where($condition)->get();
+		$followId = $follow[0]->id;
+		$followModel = FollowingModel::find($followId); 
+		$followModel->is_valid = "0";
+
+
+
+		$followModel->save();
+
+		return Response::json(['result' => 'success']);
+
+	
+	} 
+
+	public function like(){
+
+		$like = new LikeModel;
+		$userId = Session::get('user_id'); 
+		
+		$recipeId = Input::get('recipeId');
+		$ownerId = Input::get('ownerId');
+        
+		$like->likeUserId = '1' ;
+		$like->likeCustomerId = $userId ;
+		$like->ownerUserId =  $ownerId;
+		$like->recipeId = $recipeId ;
+		$like->usertype = "customer" ;
+		$like->is_valid = "1";
+
+		$like->save();
+
+		return Response::json(['result' => 'success']);
+
+	}
+	public function unlike(){
+
+		
+	$userId = Session::get('user_id'); 
+		
+		$recipeId = Input::get('recipeId');
+		$ownerId = Input::get('ownerId');
+		$userId = Session::get('user_id'); 
+		
+
+		$condition = [   'likeCustomerId' => $userId , 'is_valid' => '1' ,'ownerUserId' => $ownerId , 'recipeId' => $recipeId , 'usertype' => 'customer'];
+
+
+		$like = LikeModel::where($condition)->get();
+		$likeId = $like[0]->id;
+		$likeModel = LikeModel::find($likeId); 
+		$likeModel->is_valid = "0";
+
+
+		$likeModel->save();
+
+		return Response::json(['result' => 'success']);
+
+	
+	}
+
     public function cabinet() {
         $customerId = Session::get('user_id');
         

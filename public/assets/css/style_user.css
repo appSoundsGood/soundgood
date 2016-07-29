@@ -12,17 +12,14 @@ ul.ul-project-category a{
 	font-size: 14px;
 	border-color: #FFF !important;
 }
-
 .btn-home {
 	background-color: #009cff;
 	border-color: #009CFF;
 }
-
 .btn-home:hover, .btn-home:focus, .btn-home.focus, .btn-home:active, .btn-home.active, .open>.dropdown-toggle.btn-home {
 	background-color: #0075c4;
 	border-color: #0065a8;	
 }
-
 ul.ul-project-category .active a{
 	color: #000 !important;
 	border-bottom: 3px solid #00b0ff !important;
@@ -51,6 +48,17 @@ ul.ul-project-category .active a{
 	border-bottom: 5px solid #1bb4da;;
 	width: 90%;
 }
+.soundgoodLogo {
+    background-image: url('/assets/site/soundsgood.png');
+    height: 67px;
+    background-size: cover;
+    width: 200px;
+}
+.soundgoodform {
+    padding: 50px 50px;
+    border-radius: 10px;
+    background: #ffffff;
+}
 
 .home-desc-part1 {
 	background-color: rgba(76, 186, 255, 0.9);
@@ -65,7 +73,10 @@ ul.ul-project-category .active a{
 	height: 100%;
 	display: inline-block;	
 }
-
+.backgroundDiv{
+    background:#B12020;
+    padding-bottom: 100px;
+}
 .home-switch-part1 {
 	background-color: #4cbaff;
 	//height: 250px;
@@ -73,35 +84,31 @@ ul.ul-project-category .active a{
 	display: inline-block;
 	width: 100%;
 }
-
 .home-switch-part2 {
 	background-color: #bbbbbb;
 	height: 250px;
 	display: inline-block;
 	width: 100%;
 }
-
 .header {
 	margin-top: 5px;
 	margin-bottom: 10px;
 }
-
 .form-login input, .form-login select {
 	height: 42px;
 }
-
 .nav-pills > li > a {
 	margin-left: 20px;
-	color: #1bb4da;
+	color: #B12020;
 	font-weight: bold;
 }
 
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
-	background: #1bb4da;
+	background: #B12020;
 }
 
 .nav-pills > li > a:hover, .nav-pills > li > a:focus {
-	background: #1bb4da;
+	background: #B12020;
 	color: #FFF;
 }
 
@@ -111,12 +118,12 @@ ul.ul-project-category .active a{
 
 
 .footer-container {
-	background: #171717; 
+	background: #5F5F5F; 
 	padding-top: 30px;
 }
 
 .footer-area {
-	background: #009cff;
+	background: #B12020;
 	color: #FFF;
 	margin-top: 30px;
 	padding-bottom: 30px;
@@ -138,7 +145,7 @@ ul.ul-project-category .active a{
 
 .footer-menu a {
 	text-decoration: none;
-	color: #009cff;
+	color: #ffffff;
 }
 
 .footer-menu ul {
@@ -337,13 +344,13 @@ ul.ul-project-category .active a{
 }
 
 .signin-dropdown-menu>li>a {
-	color: #337ab7;
+	color: #B12020;    
 }
 
 .signin-dropdown-menu>li>a:hover {
 	color: #ffffff;
 	text-decoration: none;
-	background-color: #1bb4da;	
+	background-color: #B12020;	
 }
 
 .auth-container-color {
@@ -738,7 +745,7 @@ ul.ul-project-category .active a{
 }
 
 .background-dashboard {
-	background: url(/assets/img/dashboard_background.jpg);
+	//background: url(/assets/img/dashboard_background.jpg);
 	height: 247px;
 	background-size: cover;
 	position: absolute;
@@ -747,6 +754,7 @@ ul.ul-project-category .active a{
 	right: 0px;
 	border-top: 2px solid #2188FC;
 	z-index: -1;
+    background:#b21010;
 }
 
 
@@ -816,6 +824,10 @@ button#js-btn-subscriber {
     width: 80%;
     margin-bottom:10px;
 }
+a#js-btn-subscriber {
+    width: 80%;
+    margin-bottom:10px;
+}
 #categoryLink{
 	cursor:pointer;
 }
@@ -828,4 +840,8 @@ button#js-btn-subscriber {
     top: 70px;
     width: 100%;
     text-align: center;
+}
+.form-wizard .steps > li.active > a.step .number{
+    background-color: #b21010 !important;
+    color: #fff;
 }
