@@ -13,9 +13,6 @@ class Following extends Eloquent {
     public function followingUser() {
         return $this->belongsTo('User', 'follwingId');
     }
-    public function followingCustomer() {
-        return $this->belongsTo('Customer', 'followerCustomerId');
-    }
 	
     public function post() {
         return $this->belongsTo('Post');

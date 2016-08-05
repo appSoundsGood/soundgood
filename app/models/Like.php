@@ -18,8 +18,7 @@ class Like extends Eloquent {
     }
 	
     public function recipe() {
-        return $this->belongsTo('Recipe');
+        return $this->belongsTo('Recipe','recipeId');
     }
-    
     
 }

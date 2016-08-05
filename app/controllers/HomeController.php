@@ -8,6 +8,7 @@ use Customer as CustomerModel;
 use Recipt as ReciptModel;
 use ReciptProduct as ReciptProductModel;
 use Product as ProductModel;
+use CustomerProduct as CustomerProductModel;
 
 class HomeController extends BaseController {
 
@@ -124,6 +125,7 @@ class HomeController extends BaseController {
             //echo $reciptCode ;
             //check the recipt code exist or not
             if($reciptCode != ""){
+
                $recipt = ReciptModel::where('code', $reciptCode)->get();  
                
                if (count($recipt) == 0) {
@@ -153,6 +155,19 @@ class HomeController extends BaseController {
                            $reciptProductModel->recipt_id = $reciptId; 
                            $reciptProductModel->product_id = $productId; 
                            $reciptProductModel->save(); 
+
+                           $condition = ['customer_id' => $customerId , 'product_id' => $productId ] ;
+
+                           $checkCustomerProduct = CustomerProductModel::where($condition)->get();
+
+                           if(count($checkCustomerProduct) == 0){
+                                $newCustomerProduct = new CustomerProductModel;
+                                $newCustomerProduct-> product_id = $productId;     
+                                $newCustomerProduct-> customer_id = $customerId;  
+                                $newCustomerProduct->save();                    
+                           }
+
+
                         }
                     }
                 } else {

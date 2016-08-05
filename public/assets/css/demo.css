@@ -9,6 +9,12 @@ body {
     width: 200px;
     
 }
+.addIcon{
+    background-image: url('/assets/img/add.jpg');
+    height: 20px;
+    background-size: cover;
+    width: 22px;
+}
 .recipeDiv {
     border: 1px solid #e5e5e5;
     margin-left: 10px;

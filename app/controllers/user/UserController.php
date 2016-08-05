@@ -123,6 +123,23 @@ class UserController extends \BaseController {
 		
 		return View::make('user.dashboard.postView')->with($param);
 	}
+	public function following(){
+		$userId = Session::get('user_id');
+        $condition = ["followerUserId" => $userId , 'is_valid' => '1'];
+
+        $followings = FollowingModel::where($condition)->get();
+        $param['followings'] = $followings;
+        return View::make('user.home.following')->with($param);
+	}
+
+	public function followers(){
+		$userId = Session::get('user_id');
+        $condition = ["follwingId" => $userId , 'is_valid' => '1'];
+
+        $followings = FollowingModel::where($condition)->get();
+        $param['followings'] = $followings;
+        return View::make('user.home.followers')->with($param);
+	}
     
 	public function profileEdit(){
 		

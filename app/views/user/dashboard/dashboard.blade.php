@@ -37,7 +37,7 @@
                         <a class="btn btn-primary" type="submit" id="js-btn-subscriber" href = "/follwers">Followers</a>
                     </div>
 					<div class="row">
-                        <a class="btn btn-primary" type="submit" id="js-btn-subscriber" href = "/follwing">Following</a>
+                        <a class="btn btn-primary" type="submit" id="js-btn-subscriber" href = "/following">Following</a>
                     </div>
 				</div>
 				<div class="col-sm-12 margin-top-sm" style = "display:none;">

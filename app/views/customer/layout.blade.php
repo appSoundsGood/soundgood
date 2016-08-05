@@ -8,65 +8,50 @@
 @stop
 @section('header')
     <header class="header">
-			<a href="/customer/home" style = "font-size:30px;">
-            <div class="pull-left soundLogo">
-                
-            </div>
-			</a>
-
-            <div class="form-group navbar-form navbar-left searchForm">
-                <form>
-                    <div class="icon-addon addon-md">
-                        <input type="text" placeholder="Search the recipes" class="form-control searchInput" id="email">
-                        <label for="email" class="glyphicon glyphicon-search" rel="tooltip" title="email"></label>
-                    </div>
-                </form>
-            </div>
-            <div class="pull-right profileDiv">
-                 <div class = "col-sm-2">
-                       <div class = "container messageImg"></div>
-                 </div>
-                 <div class = "col-sm-2 addImg">
-                    +
-                 </div>
-                 <div class = "col-sm-2 profileImg">
-                    
-                     </div>
-                 <div class = "col-sm-4 profileName">
-                    {{$username}}
-                 </div>
-                 <div class = "col-sm-2">
-                     <div class="dropdown">
-                        <button class="" type="button" data-toggle="dropdown" style = "background: #ffffff;margin-top:5px;">
-                        <span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                          <li><a href="#">Profile</a></li>
-                          <li><a href="{{ URL::route('user.auth.doLogout') }}">Sign Out</a></li>
-                          
-                        </ul>
-                      </div>
-                 </div>
+        <div class="container">
+            
+            <a href = "/home">
+      <div class="pull-left soundgoodLogo">
+      </div>
+      </a>
+            <div class="pull-right margin-top-xs">
+                <ul class="nav nav-pills nav-top">
+          <?php if (!isset($pageNo)) { $pageNo = 0; } ?>
+                    @if (Session::has('user_id'))
+                      <li class="{{ ($pageNo == 5) ? 'active' : ''}}" style = "display:none;"><a href="{{ URL::route('user.home') }}">Home</a></li>
+                        <li class="{{ ($pageNo == 16) ? 'active' : ''}}"><a href="{{ URL::route('customer.profile') }}">Profile</a></li>
+                        
+                        <li class="{{ ($pageNo == 10) ? 'active' : ''}}"><a href="{{ URL::route('customer.dashboard.cabinet') }}">Cabinet</a></li>
+                        <li class="{{ ($pageNo == 11) ? 'active' : ''}}" style = "display:none;"><a href="{{ URL::route('user.post') }}">Post</a></li>
+                        <li ><a href="{{ URL::route('customer.popular') }}">Popular</a></li>  
+                        <li class="{{ ($pageNo == 13) ? 'active' : ''}}" style = "display:none;"><a href="{{ URL::route('user.product') }}">Product</a></li>  
+                        <li class="{{ ($pageNo == 14) ? 'active' : ''}}"><a href="{{ URL::route('customer.shop') }}">Shop</a></li>  
+                        <li class="{{ ($pageNo == 15) ? 'active' : ''}}"><a href="{{ URL::route('customer.shoppinglist') }}">Shopping List</a></li>
+                       <li><a href="{{ URL::route('user.auth.doLogout') }}">Sign Out</a></li>
+                    @else
+                      <li class="{{ ($pageNo == 1) ? 'active' : ''}}" style = "display:none;"><a href="{{ URL::route('user.home') }}">Home</a></li>
+                        <li class="dropdown">
+                            <a href="">SIGN UP</a>
+                            <ul class="dropdown-menu signin-dropdown-menu register-dropdown-menu">
+                                <li><a href="{{ URL::route('user.auth.signup') }}">Register as Store</a></li>
+                                <li><a href="{{ URL::route('user.customer.signup') }}">Register as Customer</a></li>
+                            </ul>
+                        </li>
+                        <li><a>|</a></li>
+                        <li class="dropdown">
+                          <a >SIGN IN</a>
+                          <ul class="dropdown-menu signin-dropdown-menu register-dropdown-menu">
+                            <li><a href="{{ URL::route('user.auth.login') }}">Sign in as Store</a></li>
+                            <li><a href="{{ URL::route('user.customer.login') }}">Sign in as Customer</a></li>
+                          </ul>
+                        </li>
+                    @endif
+                </ul>
             </div>
             <div class="clearfix"></div>
-            <nav class="navbar navbar-default soundgoodNav" style = "width:100%;">
-              <div class="container-fluid">
-                <div class="row text-center">
-                    <ul class="nav navbar-nav">
-                      <li class="threelineDiv"><a href="#"></a></li>
-                      <li class = "soundgoodLi soundgoodHome"><a href="/customer/home">For You</a></li>
-                      <li class = "soundgoodLi"><a href="{{ URL::route('customer.popular') }}">Popular</a></li> 
-                      <li class = "soundgoodLi"><a href="#">Shop</a></li> 
-                      <li class = "soundgoodLi"><a href="#">Health</a></li> 
-                      <li class = "soundgoodLi"><a href="#">Fitness</a></li> 
-                      <li class = "soundgoodLi"><a href="#">Collections</a></li> 
-                      <li class = "soundgoodLi"><a href="#">Support</a></li> 
-                    </ul>
-                  
-                </div>
-              </div>
-            </nav>
-
+        </div>
     </header>
+    
 @stop
 	@yield('content')
 @section('footer')

@@ -39,6 +39,10 @@ ul.ul-project-category .active a{
 	background: #FFF;
 	vertical-align: middle;
 }
+p.titleStore {
+    font-size: 30px;
+    color: blue;
+}
 
 .gray-container {
 	background: #F2F5F7;

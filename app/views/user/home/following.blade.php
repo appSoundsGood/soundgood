@@ -20,16 +20,16 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Product</th>
+                                        <th>Recipe</th>
                                         <th>Created At</th>
                                         <th style="width: 80px;"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($products as $key => $value)
+                                    @foreach ($followings as $key => $value)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ $value->product->itemName }}</td>
+                                            <td>{{ $value->followingUser->name }}</td>
                                             <td>{{ $value->created_at }}</td>
                                             <td style = "display:none;">
                                                 <a href="{{ URL::route('customer.postApply', $value->id)  }}" class="btn btn-sm btn-info">

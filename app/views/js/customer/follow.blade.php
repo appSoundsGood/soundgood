@@ -41,7 +41,7 @@ function like(recipeId , ownerId){
       success : function(data) {
          $("#likeButton" + recipeId).css("display","none");
          $("#unlikeButton" + recipeId).css("display","block");
-           
+         location.href = "/customer/recipe"  
       }
    });
 } 

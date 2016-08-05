@@ -22,14 +22,17 @@ use PostVideo as PostVideoModel;
 use Recipe as RecipeModel;
 use Store as StoreModel;
 use Admin as AdminModel;
-use CustomerStore as CustomerStoreModel;
-use CustomerProduct as CustomerProductModel; 
+use CustomerStoore as CustomerStoreModel;
 use Recipt as ReciptModel;
 use ReciptIngredient as ReciptIngredientModel; 
 use Following as FollowingModel;
 use UserActivity as UserActivityModel;
+use CustomerProduct as CustomerProductModel;
+use Product as ProductModel;
+
 
 use Like as LikeModel;
+
 use Mail;
 
 class CustomerController extends \BaseController {
@@ -133,8 +136,78 @@ class CustomerController extends \BaseController {
             $param['user'] = UserModel::find(Session::get('user_id'));
             
             $param['data'] = UserActivityModel::orderBy('created_at', 'desc')->get();
+
+            $param['followerId'] = $userId ;
+
+
+			$conditionLike = [  'is_valid' => '1' ];
+
+			$likes = LikeModel::where($conditionLike)->get();
+			$likesArr = array();
+		
+			foreach($likes as $key => $value){
+
+				$likesArr[count($likesArr)] = $value->recipeId;				
+			}
+
+			$param['likes'] = $likesArr; 
+
             
             return View::make('customer.dashboard.popular')->with($param);
+        }
+    }
+
+     public function shop(){
+        if (!Session::has('user_id')) {
+            return Redirect::route('user.auth.login');
+        }else {
+            
+            $userId = Session::get('user_id');
+           	$param['username'] = Session::get('user_name');  
+            
+            $param['pageNo'] = 14;
+       
+
+            $param['products'] = ProductModel::paginate(30);
+            $param['stores'] = StoreModel::all();
+
+			return View::make('customer.home.shop')->with($param);
+	    }
+    }
+
+    public function shopView($id){
+    	if (!Session::has('user_id')) {
+            return Redirect::route('user.auth.login');
+        }else {
+            
+            $userId = Session::get('user_id');
+           	$param['username'] = Session::get('user_name');  
+            
+            $param['pageNo'] = 14;
+       
+
+            $param['products'] = ProductModel::paginate(30);
+            $param['viewStore'] = StoreModel::find($id)->get();
+
+            $param['stores'] = StoreModel::all();
+
+			return View::make('customer.home.shopView')->with($param);
+	    }
+    }
+
+     public function shoppinglist(){
+        if (!Session::has('user_id')) {
+            return Redirect::route('user.auth.login');
+        }else {
+            
+            $customerId = Session::get('user_id');
+           	$param['username'] = Session::get('user_name');  
+            
+            $param['pageNo'] = 15;
+            $param['products'] = CustomerProductModel::where( 'customer_id', $customerId)->get();
+            
+               
+            return View::make('customer.home.shoppinglist')->with($param);
         }
     }
 	
@@ -193,6 +266,22 @@ class CustomerController extends \BaseController {
 		return Response::json(['result' => 'success']);
 
 	}
+
+    public function addItem(){
+
+        $customerProduct = new CustomerProductModel;
+        $customerId = Session::get('user_id'); 
+        $productId = Input::get('productId');
+        
+
+        $customerProduct->customer_id = $customerId ;
+        $customerProduct->product_id = $productId ;
+        
+        $customerProduct->save();
+        return Response::json(['result' => 'success']);
+
+    }
+
 	public function unfollow(){
 
 		
@@ -265,39 +354,32 @@ class CustomerController extends \BaseController {
 
     public function cabinet() {
         $customerId = Session::get('user_id');
-        
-        $recipt = ReciptModel::where('customer_id', $customerId )->get();
-        $reciptIngredient =  array();
-       
-        if (count($recipt) != 0) {
-            
-            $reciptId = $recipt[0]->id;
-            
-            
-            $reciptIngredient = ReciptIngredientModel::where('recipt_id', $reciptId )->get();
-            
-            $alert['msg'] = 'You have approved your account.Please login';
-            $alert['type'] = 'success';
-            
-        } else {
-            
-            
-            $alert['msg'] = 'The token is invaild';
-            $alert['type'] = 'success';
-            
-        }
-         
-        $param['reciptIngredients'] = $reciptIngredient; 
-        $param['recipes'] = RecipeModel::all();
-        
-        $param['pageNo'] = 6;
-    
-        if ($alert = Session::get('alert')) {
-            $param['alert'] = $alert;
-        }
+        $customerProduct = CustomerProductModel::where('customer_id', $customerId)->paginate(10);
+        $param['products'] = $customerProduct;
         return View::make('customer.home.cabinet')->with($param);
     }
     
+
+    public function recipe() {
+        $customerId = Session::get('user_id');
+        $condition = ["likeCustomerId" => $customerId , "usertype" => 'customer' , 'is_valid' => '1'];
+
+        $likes = LikeModel::where($condition)->get();
+        $param['likes'] = $likes;
+        return View::make('customer.home.recipe')->with($param);
+    }
+
+    public function following() {
+     	$customerId = Session::get('user_id');
+        $condition = ["followerCustomerId" => $customerId , "follwertype" => 'customer' , 'is_valid' => '1'];
+
+        $followings = FollowingModel::where($condition)->get();
+        $param['followings'] = $followings;
+        return View::make('customer.home.following')->with($param);
+    }
+    
+    
+
     public function ingredient() {
         $customerId = Session::get('user_id');
         $buyProducts = CustomerProductModel::where('customer_id', $customerId)->get();   
@@ -456,10 +538,10 @@ class CustomerController extends \BaseController {
 	}
 	public function profileEdit(){
 		
-		$param['user'] = "";
+		$param['user'] = CustomerModel::find(Session::get('user_id'));
 		$param['locations'] = LocationModel::all();
 		
-		return View::make('user.dashboard.profileEdit')->with($param);
+		return View::make('customer.dashboard.profileEdit')->with($param);
 	}
 	
 	public function chat() {
@@ -479,9 +561,9 @@ class CustomerController extends \BaseController {
 			return Redirect::route('user.auth.login');
 		}else {
 			$param['pageNo'] = 3;
-			$param['user'] = UserModel::find(Session::get('user_id'));
+			$param['user'] = CustomerModel::find(Session::get('user_id'));
 			$param['posts'] = PostModel::all();
-			return View::make('user.dashboard.dashboard')->with($param);
+			return View::make('customer.dashboard.dashboard')->with($param);
 		}
 	}
 	 	

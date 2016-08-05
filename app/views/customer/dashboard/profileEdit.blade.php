@@ -1,4 +1,4 @@
-@extends('user.layout')
+@extends('customer.layout')
 
 @section('body')
 <main class="auth">
@@ -224,7 +224,7 @@
                         </div>
                         <div class="tab-pane row fade" id="tab-experience">
                             <div class="text-center col-sm-10 col-sm-offset-1 margin-top-lg" id="div_experience">
-                                <h2 class="signup-sub-title"><i class="fa fa-building-o"></i> </h2>
+                                <h2 class="signup-sub-title"><i class="fa fa-building-oy77"></i> </h2>
                                 <p class="signup-sub-description"></p>
                             </div>
 
@@ -336,7 +336,7 @@
                         </div>
                         <div class="tab-pane row fade" id="tab-contact">
                             <div class="text-center col-sm-10 col-sm-offset-1 margin-top-lg" id="div_contact">
-                	    		<h2 class="signup-sub-title"><i class="fa fa-bookmark"></i> }</h2>
+                	    		<h2 class="signup-sub-title"><i class="fa fa-bookmark"></i> </h2>
                 	    		<p class="signup-sub-description"></p>
                 	    	</div>
 
@@ -419,50 +419,7 @@
                 				</div>
                 			</div>
 
-                			<div class="form-group">
-                				<div class="row">
-                					<div class="col-sm-6">
-                						<div class="row margin-top-sm">
-                							<div class="form-group margin-top-xs">
-                								<div class="col-sm-8 col-sm-offset-4">
-                				                    
-                				                    <label class="control-checkbox"></label>
-                								</div>
-                							</div>
-                						</div>
-                					</div>
-                					<div class="col-sm-6 padding-left-normal">
-                						<div class="row margin-top-sm">
-                							<div class="form-group">
-                								<label class="col-sm-4"></label>
-                								<div class="col-sm-8">
-                									
-                								</div>
-                							</div>
-                						</div>
-                					</div>
-                				</div>
-                			</div>
 
-
-                			<div class="form-group" style="margin-bottom: 0px;">
-                				<div class="row">
-                					<div class="col-sm-2">
-                						<div class="row margin-top-sm padding-left-sm">
-                							<div class="form-group">
-                								
-                							</div>
-                						</div>
-                					</div>
-                					<div class="col-sm-10">
-                						<div class="row margin-top-sm signup-long-input">
-                							<div class="form-group">
-                								
-                							</div>
-                						</div>
-                					</div>
-                				</div>
-                			</div>
 
                 	        <input type="hidden" name="lat" value id="lat">
                 	        <input type="hidden" name="lng" value="" id="lng">

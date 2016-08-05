@@ -42,6 +42,8 @@ Route::get('popular',       ['as' => 'user.popular',                'uses' => 'U
 Route::get('recipe',        ['as' => 'user.recipe',                 'uses' => 'User\UserController@recipe']);
 Route::get('newPost', 		['as' => 'user.postNew', 				'uses' => 'User\UserController@postNew']);
 Route::get('newRecipe', 	['as' => 'user.recipeNew', 				'uses' => 'User\UserController@recipeNew']);
+Route::get('followers', 		['as' => 'user.followers', 				'uses' => 'User\UserController@followers']);
+Route::get('following', 	['as' => 'user.following', 				'uses' => 'User\UserController@following']);
 Route::get('profileView/{id}', 	['as' => 'user.viewProfile', 		'uses' => 'User\UserController@viewProfile']);
 
 Route::post('makePost', 	['as' => 'user.post.makeNew', 			'uses' => 'User\UserController@postMake']);
@@ -73,6 +75,15 @@ Route::post('customer/follow',   	['as' => 'customer.follow',         		'uses' =
 Route::post('customer/unfollow',   	['as' => 'customer.unfollow',         		'uses' => 'User\CustomerController@unfollow']);
 Route::post('customer/like',   	['as' => 'customer.like',         				'uses' => 'User\CustomerController@like']);
 Route::post('customer/unlike',   	['as' => 'customer.unlike',         		'uses' => 'User\CustomerController@unlike']);
+Route::get('customer/recipe',   	['as' => 'customer.recipe',         		'uses' => 'User\CustomerController@recipe']);
+Route::get('customer/follower',   	['as' => 'customer.follower',         		'uses' => 'User\CustomerController@follower']);
+Route::get('customer/following',   	['as' => 'customer.following',         		'uses' => 'User\CustomerController@following']);
+Route::get('customer/shop',   	    ['as' => 'customer.shop',         		'uses' => 'User\CustomerController@shop']);
+Route::get('customer/shop/{id}',   	['as' => 'customer.shopView',         		'uses' => 'User\CustomerController@shopView']);
+
+
+Route::get('customer/shoppinglist',   	['as' => 'customer.shoppinglist',         		'uses' => 'User\CustomerController@shoppinglist']);
+
 
 
 Route::get('customer/postApply/{id}', ['as' => 'customer.postApply',             'uses' => 'User\CustomerController@postApply']);
@@ -80,7 +91,9 @@ Route::get('customer/deleteApply/{id}', ['as' => 'customer.deleteApply',        
 
 Route::get('customer/popular', ['as' => 'customer.popular',                    'uses' => 'User\CustomerController@popular']);
 Route::get('customer/profileView/{id}', ['as' => 'customer.viewProfile',                    'uses' => 'User\CustomerController@viewProfile']);
-
+Route::get('customer/profile', ['as' => 'customer.profile',                    'uses' => 'User\CustomerController@profile']);
+Route::get('customer/profile/edit', 	['as' => 'user.dashboard.profileEdit', 	'uses' => 'User\CustomerController@profileEdit']);
+Route::post('customer/addItem', 	['as' => 'customer.addItem', 	'uses' => 'User\CustomerController@addItem']);
 
 Route::get('profile', 		['as' => 'user.dashboard.profile', 		'uses' => 'User\UserController@profile']);
 Route::get('profile/edit', 	['as' => 'user.dashboard.profileEdit', 	'uses' => 'User\UserController@profileEdit']);

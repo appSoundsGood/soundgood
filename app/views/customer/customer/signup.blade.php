@@ -1,4 +1,4 @@
-@extends('user.layout')
+@extends('customer.layout')
 
 @section('body')
 <main class="background-auth">

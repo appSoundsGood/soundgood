@@ -60,6 +60,14 @@
                 <div class="panel-body">
                     {{ $value->recipe->content}}
                 </div>
+                <?php if ( in_array( $value->recipe->id , $likes)){?>
+                <button type="button" class="btn btn-primary pull-right" onclick = "like({{$value->recipe->id}},{{$value->user_id}})" style = "display:none;" id = "likeButton{{$value->recipe->id}}">Like</button>
+                <button type="button" class="btn btn-primary pull-right"likeButton onclick = "unlike({{$value->recipe->id}},{{$value->user_id}})" id = "unlikeButton{{$value->recipe->id}}">Unlike</button>                
+                <?php  }else{ ?>
+                    <button type="button" class="btn btn-primary pull-right" onclick = "like({{$value->recipe->id}},{{$value->user_id}})" id = "likeButton{{$value->recipe->id}}">Like</button>
+                    <button type="button" class="btn btn-primary pull-right" onclick = "unlike({{$value->recipe->id}},{{$value->user_id}})" style = "display:none;" id = "unlikeButton{{$value->recipe->id}}">Unlike</button>    
+                 
+                <?php  } ?>
                 <?php } ?>
              
               </article>
@@ -68,10 +76,6 @@
             <hr>
           </div>
           <p>
-            <a href="http://validator.w3.org/check?uri=http%3A%2F%2Fbootsnipp.com%2Fiframe%2FZkk0O" target="_blank"><small>HTML</small><sup>5</sup></a>
-            <br>
-            <br>
-
           </p>
       
     </div> 
@@ -79,6 +83,7 @@
 @stop
 
 @section('custom-scripts')
+@include('js.customer.follow');
 <script type="text/javascript">
 $(document).ready(function() {
 $('#pinBoot').pinterest_grid({

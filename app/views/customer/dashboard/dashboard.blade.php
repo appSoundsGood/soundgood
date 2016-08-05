@@ -1,4 +1,4 @@
-@extends('user.layout')
+@extends('customer.layout')
 
 @section('custom-styles')
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
@@ -29,15 +29,14 @@
 					</div>
 				</div>
 				<div class="col-sm-12 margin-top-normal text-center">
-				
-					<div class="row">
-                        <button class="btn btn-primary" type="submit" id="js-btn-subscriber">My Recipes</button>
+				    <div class="row">
+                        <a class="btn btn-primary" type="submit" id="js-btn-subscriber" href = "{{ URL::route('customer.recipe')}}">My Recipes</a>
+                    </div>
+					<div class="row" style = "display:none;">
+                        <a class="btn btn-primary" type="submit" id="js-btn-subscriber"  href = "{{ URL::route('customer.follower')}}">Followers</a>
                     </div>
 					<div class="row">
-                        <button class="btn btn-primary" type="submit" id="js-btn-subscriber">Followers</button>
-                    </div>
-					<div class="row">
-                        <button class="btn btn-primary" type="submit" id="js-btn-subscriber">Following</button>
+                        <a class="btn btn-primary" type="submit" id="js-btn-subscriber" href = "{{ URL::route('customer.following')}}">Following</a>
                     </div>
 				</div>
 				<div class="col-sm-12 margin-top-sm" style = "display:none;">
@@ -58,11 +57,6 @@
                 </div>
 				
 			</div>
-			<!-- End for Profile -->
-			
-			<!-- Div for My Jobs -->
-			
-			<!-- End for My Jobs -->
 		</div>  
 		<div class="col-sm-7">
 	        <div class="row text-center margin-top-sm">
