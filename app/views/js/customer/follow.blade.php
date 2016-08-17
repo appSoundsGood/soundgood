@@ -14,6 +14,13 @@ function follow(followerId){
       }
    });
 }
+
+function searchRecipe(){
+  var recipeName = $("#recipeFilter").val();
+  if(recipeName != ""){
+    $("#recipeButton").click();
+  }
+}
 function unfollow(followerId){
       $.ajax({
       url: "<?php echo URL::route('customer.unfollow'); ?>",
@@ -46,7 +53,7 @@ function like(recipeId , ownerId){
    });
 } 
 function unlike(recipeId , ownerId){
-      $.ajax({
+    $.ajax({
       url: "<?php echo URL::route('customer.unlike'); ?>",
       dataType : "json",
       type : "POST",
@@ -61,4 +68,37 @@ function unlike(recipeId , ownerId){
       }
    });
 } 
+function likeRecipe(userId , recipeId){
+  
+  $.ajax({
+      url: "<?php echo URL::route('customer.likeRecipe'); ?>",
+      dataType : "json",
+      type : "POST",
+      data : { 
+              userId : userId ,
+              recipeId : recipeId 
+          },
+      success : function(data) {
+         $("#unlikeRecipe").css("display","block");
+         $("#likeRecipe").css("display","none");
+      }
+   });
+}
+function unlikeRecipe(userId , recipeId){
+  
+  $.ajax({
+      url: "<?php echo URL::route('customer.unlikeRecipe'); ?>",
+      dataType : "json",
+      type : "POST",
+      data : { 
+              userId : userId ,
+              recipeId : recipeId 
+          },
+      success : function(data) {
+        $("#unlikeRecipe").css("display","none");
+        $("#likeRecipe").css("display","block");
+         
+      }
+   });
+}
 </script>

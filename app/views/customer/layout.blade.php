@@ -18,7 +18,7 @@
                 <ul class="nav nav-pills nav-top">
           <?php if (!isset($pageNo)) { $pageNo = 0; } ?>
                     @if (Session::has('user_id'))
-                      <li class="{{ ($pageNo == 5) ? 'active' : ''}}" style = "display:none;"><a href="{{ URL::route('user.home') }}">Home</a></li>
+                      <li class="{{ ($pageNo == 5) ? 'active' : ''}}"><a href="{{ URL::route('customer.home') }}">For you</a></li>
                         <li class="{{ ($pageNo == 16) ? 'active' : ''}}"><a href="{{ URL::route('customer.profile') }}">Profile</a></li>
                         
                         <li class="{{ ($pageNo == 10) ? 'active' : ''}}"><a href="{{ URL::route('customer.dashboard.cabinet') }}">Cabinet</a></li>
@@ -55,46 +55,23 @@
 @stop
 	@yield('content')
 @section('footer')
-<div class="footer-container">
-    <div class="container footer-menu">
-        <div class="row color-white">
-            <div class="col-sm-3">
-                <p class="text-uppercase margin-bottom-20"><b>Company Info</b></p>
-                <ul>
-                    <li><a href="#">About us</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Contact &amp; Support</a></li>
-                </ul>
+<div class="footer-like">
+    <div class="container">
+        <?php if(strstr($_SERVER['REQUEST_URI'], "external")) { ?>
+        <div class="row">
+            <div class = "col-sm-6 text-center" id = "likeRecipe" style = "border-right: 1px solid #ffffff;cursor:pointer;<?php if($isLike == 1){echo 'display:none';}?>;" onclick = "likeRecipe('{{ $userId}}' , '{{$recipeId}}')">
+                LIKE
             </div>
-            <div class="col-sm-3 color-white">
-                <p class="text-uppercase margin-bottom-20"><b>HOW IT WORKS</b></p>
-                <ul>
-                    <li><a href="#">How it works?</a></li>
-                    <li><a href="#">Partnerships</a></li>
-                </ul>
+            <div class = "col-sm-6 text-center" id = "unlikeRecipe"  style = "border-right: 1px solid #ffffff;cursor:pointer;<?php if($isLike == 0){echo 'display:none';}?>;" onclick = "unlikeRecipe('{{ $userId}}' , '{{$recipeId}}')">
+                UNLIKE
             </div>
-            <div class="col-sm-3 color-white">
-                <p class="text-uppercase margin-bottom-20"><b>FOLLOW US</b></p>
-                <ul>
-                    <li><a href="#"><i class="fa fa-facebook" style="width: 18px;"></i>&nbsp;Facebook</a></li>
-                    <li><a href="#"><i class="fa fa-twitter" style="width: 18px;"></i>&nbsp;Twitter</a></li>
-                </ul>            
+             <div class = "col-sm-6 text-center" style = "cursor:pointer;" onclick = "makeMeal()">
+                MAKE MEAL
             </div>
-            <div class="col-sm-3 color-white">
-                <p class="text-uppercase margin-bottom-20"><b>NEWS LETTERS</b></p>
-                <input type="text" class="form-control" placeholder="Email"/>
-            </div>                                    
         </div>
+        <?php } ?>
     </div>
-    <footer class="footer-area" style = "display:none;">
-        <div class="container">
-            <div class="footer-logo pull-left">
-                <a href="/" style = "text-decoration:none;"></a>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    </footer>
+    
 </div>
 @stop
 

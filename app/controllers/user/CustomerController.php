@@ -49,8 +49,6 @@ class CustomerController extends \BaseController {
         
         $user = CustomerModel::whereRaw('token = ? and is_active = ?', array( $token , '0'))->get();
        
-        
-       
         if (count($user) != 0) {
             
             $id = $user[0]->id;
@@ -65,7 +63,6 @@ class CustomerController extends \BaseController {
             $alert['type'] = 'success';
             
         } else {
-            
             
             $alert['msg'] = 'The token is invaild';
             $alert['type'] = 'success';
@@ -97,19 +94,169 @@ class CustomerController extends \BaseController {
 	
 	public function home() {
 		
-		$param['users'] = CustomerModel::paginate(10);
-		$param['locations'] = LocationModel::all();
-		$param['recipes'] = RecipeModel::all(); 
-        $param['username'] = Session::get('user_name');  
-		$param['pageNo'] = 5;
-         
-	
-		if ($alert = Session::get('alert')) {
-			$param['alert'] = $alert;
-		}
-		return View::make('customer.home.index')->with($param);
+		if (!Session::has('user_id')) {
+            return Redirect::route('user.auth.login');
+        }else {
+            
+            $userId = Session::get('user_id');
+            $recipeName = Input::get('recipe');
+
+            $param['username'] = Session::get('user_name');  
+            
+            $param['pageNo'] = 5;
+            $param['user'] = UserModel::find(Session::get('user_id'));
+            
+            //$param['data'] = UserActivityModel::orderBy('created_at', 'desc')->get();
+
+            
+            $recipeUrl = Yum_Recipe_Url.'?_app_id='.Yum_Recipe_App_Id.'&_app_key='.Yum_Recipe_App_Key.'&q='.$recipeName;
+
+            $ch = curl_init($recipeUrl);
+
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            $data = curl_exec($ch);
+              
+            $result = json_decode($data);
+            
+            curl_close($ch); 
+
+            //include the recipe medium image and ingredient amount
+            $data = $result->matches;
+
+            $recipeData = array();
+            foreach ($data as $key => $value){
+                $recipeId = $value->id;
+                $recipeUrl = Yum_Recipe_Url_Of_Id.$recipeId.'?_app_id='.Yum_Recipe_App_Id.'&_app_key='.Yum_Recipe_App_Key;
+
+                $ch = curl_init($recipeUrl);
+
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                $data = curl_exec($ch);
+                  
+                $result = json_decode($data);
+
+                curl_close($ch); 
+                $recipeData[] = $result;
+            }
+            $param['data'] = $recipeData;
+            
+            return View::make('customer.home.index')->with($param);
+        }
 	}
     
+    public function recipeView($recipeId) {
+        
+        if (!Session::has('user_id')) {
+            return Redirect::route('user.auth.login');
+        }else {
+            
+            $userId = Session::get('user_id');
+            
+
+            $param['username'] = Session::get('user_name');  
+            
+            $param['pageNo'] = 5;
+            $param['user'] = UserModel::find(Session::get('user_id'));
+            
+            //$param['data'] = UserActivityModel::orderBy('created_at', 'desc')->get();
+
+            
+            $recipeUrl = Yum_Recipe_Url_Of_Id.$recipeId.'?_app_id='.Yum_Recipe_App_Id.'&_app_key='.Yum_Recipe_App_Key;
+
+            $ch = curl_init($recipeUrl);
+
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            $data = curl_exec($ch);
+              
+            $result = json_decode($data);
+
+            curl_close($ch); 
+            $param['data'] = $result;
+            
+            return View::make('customer.home.recipeView')->with($param);
+        }
+    }
+
+
+     public function viewRecipe($recipeId) {
+        
+        if (!Session::has('user_id')) {
+            return Redirect::route('user.auth.login');
+        }else {
+            
+            $userId = Session::get('user_id');
+            
+            $param['username'] = Session::get('user_name');  
+            
+            $param['pageNo'] = 5;
+            
+            $param['userId'] = $userId ;
+            $param['recipeId'] = $recipeId ;
+
+            $param['user'] = UserModel::find(Session::get('user_id'));
+            
+            //$param['data'] = UserActivityModel::orderBy('created_at', 'desc')->get();
+
+            
+            $recipeUrl = Yum_Recipe_Url_Of_Id.$recipeId.'?_app_id='.Yum_Recipe_App_Id.'&_app_key='.Yum_Recipe_App_Key;
+
+            $ch = curl_init($recipeUrl);
+
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            $data = curl_exec($ch);
+              
+            $result = json_decode($data);
+
+            curl_close($ch); 
+            $param['data'] = $result;
+            $externalUrl = $result->source->sourceRecipeUrl;
+
+            $ch = curl_init($externalUrl);
+
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            $data = curl_exec($ch);
+            $param['html'] = $data;
+
+
+            ///check the condition of the recipe 
+
+            $recipeNew = RecipeModel::where('recipeId' , $recipeId)->get();
+            $is_like = 0 ;
+            if(count($recipeNew)>0){
+                $recipe_id = $recipeNew[0]->id;
+                $condition = [ 'likeCustomerId' => $userId , 'is_valid' => '1' , 'recipeId' => $recipe_id , 'usertype' => 'customer'];
+                $like = LikeModel::where($condition)->get();
+                if(count($like)>0){
+                    $is_like = 1;
+                }else{
+                    $is_like = 0 ;
+                }
+    
+            }else{
+                $is_like = 0 ;
+            }
+
+             $param['isLike'] = $is_like;
+            return View::make('customer.home.viewRecipe')->with($param);
+        }
+    }
+
+
     public function buy() {
         $customerId = Session::get('user_id');
         $buyProducts = CustomerProductModel::where('customer_id', $customerId)->get();   
@@ -312,7 +459,7 @@ class CustomerController extends \BaseController {
 		$userId = Session::get('user_id'); 
 		
 		$recipeId = Input::get('recipeId');
-		$ownerId = Input::get('ownerId');
+		$ownerId  =nput::get('ownerId');
         
 		$like->likeUserId = '1' ;
 		$like->likeCustomerId = $userId ;
@@ -326,10 +473,73 @@ class CustomerController extends \BaseController {
 		return Response::json(['result' => 'success']);
 
 	}
+
+    public function likeRecipe(){
+
+        $like = new LikeModel;
+
+        
+        $recipeId = Input::get('recipeId');
+        $userId  =Input::get('userId');
+
+        $recipeInv = RecipeModel::where('recipeId', $recipeId)->get();
+
+        if(count($recipeInv) > 0){
+            $recipe_id = $recipeInv[0]->id;
+        }else{
+            $recipe = new RecipeModel;
+            $recipe->recipeId = $recipeId; 
+            $recipe->save();
+            $recipe_id = $recipe->id;
+        }
+
+
+        $condition = [   'likeCustomerId' => $userId , 'is_valid' => '1' , 'recipeId' => $recipe_id , 'usertype' => 'customer'];
+
+
+        $likeInv = LikeModel::where($condition)->get();
+
+        if(count($likeInv) > 0){
+            $likeInv[0]->is_valid = 1;
+            $likeInv[0]->save();
+        }else{
+            $like->likeUserId = '1' ;
+            $like->likeCustomerId = $userId ;
+            $like->ownerUserId =  '1';
+            $like->recipeId = $recipe_id ;
+            $like->usertype = "customer" ;
+            $like->is_valid = "1";
+            $like->save();
+        }
+        return Response::json(['result' => 'success']);
+
+    }
+    
+    public function unlikeRecipe(){
+
+        $recipeId = Input::get('recipeId');
+        $userId  =Input::get('userId');
+
+
+        //get the recipe id from the eceip api id
+
+        $recipe = RecipeModel::where('recipeId' , $recipeId)->get();
+        $recipe_id = $recipe[0]->id;
+
+        $condition = [   'likeCustomerId' => $userId , 'is_valid' => '1' , 'recipeId' => $recipe_id , 'usertype' => 'customer'];
+
+        $like = LikeModel::where($condition)->get();
+        $like[0]->is_valid = 0;
+        
+        $like[0]->save();
+
+        return Response::json(['result' => 'success']);
+    }
+
 	public function unlike(){
 
 		
-	$userId = Session::get('user_id'); 
+	    $userId = Session::get('user_id'); 
 		
 		$recipeId = Input::get('recipeId');
 		$ownerId = Input::get('ownerId');

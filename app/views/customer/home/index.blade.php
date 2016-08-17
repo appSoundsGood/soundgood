@@ -1,200 +1,293 @@
-<?php 
-	
-?>
 @extends('customer.layout')
+
 @section('custom-styles')
-	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-	{{ HTML::style('/assets/css/demo.css') }}
-	{{ HTML::style('/assets/css/home.css') }}
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    {{ HTML::style('/assets/css/demo.css') }}
+    {{ HTML::style('/assets/css/home.css') }} <style type="text/css">
+    #pinBoot {
+      position: relative;
+      max-width: 100%;
+      width: 100%;
+    }
+    img {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+    }
+    .white-panel {
+      position: absolute;
+      background: white;
+      box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+      padding: 10px;
+    }
+    .white-panel h1 {
+      font-size: 1em;
+    }
+    .white-panel h1 a {
+      color: #A92733;
+    }
+    .white-panel:hover {
+      box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+      margin-top: -5px;
+      -webkit-transition: all 0.3s ease-in-out;
+      -moz-transition: all 0.3s ease-in-out;
+      -o-transition: all 0.3s ease-in-out;
+      transition: all 0.3s ease-in-out;
+    }
+    </style>
 @stop
+
 @section('body')
-<div>
+<main class="bs-docs-masthead gray-container" role="main">
+    <div class="background-dashboard" style="z-index: 0;"></div>
     <div class="container">
-        <div class = "row">
-            <div class = "col-sm-1 soundgoodInvite">
+    	<div class="row">
+            <div class="col-sm-1">
             </div>
-            <div class = "col-sm-11">
-                <div class = "row">
-                    <div class = "pull-right">
-                        <select class="selectpicker">
+            <form action = "{{ URL::route('customer.home')}}" method = "get">
+            <div class="col-sm-11">
+                <div class="row">
+                    <div class="pull-right">
+                        <select class="selectpicker form-control" name = "recipe" id = "recipeFilter" onChange = "searchRecipe();">
                           <option>Filter</option>
-                          <option>Ketchup</option>
-                          <option>Relish</option>
+                          <option value = "maze">Maze</option>
+                          <option value = "salad">Salad</option>
+                          <option value = "soup">Soup</option>
                         </select>
                     </div>
                 </div>
-                <div class = "row">
-                    <?php foreach($recipes as $recipe){?>
-                    <div class = "col-sm-3 text-center recipeDiv">
-                        <div class = "row">
-                            <a href="/profile/<?php echo $recipe->name;?>" target="_blank">
-                                <?php echo $recipe->content;?>
-                            </a>
-                        </div>
-                        
-                    </div>
-                    <?php }?>
-                  
-                </div>
+                <button id = "recipeButton" type = "submit" style = "display:none;"  />
             </div>
-        </div>    
-               
-    </div>
-</div>
-<div class="gray-container">    
-    <div class="container">
-       	   <div class="row margin-top-xs" id="div_job">
-					<!-- Div for More -->
-					<div class="row" id="div_more" style="display: none;">
-						<div class="col-sm-12">
-							<div class="col-sm-12">
-								<div class="alert alert-success alert-dismissibl fade in">
-						            <button type="button" class="close" data-target="div_more" onclick="hideView(this)">
-						                <span aria-hidden="true">&times;</span>
-						                <span class="sr-only">Close</span>
-						            </button>
-									<p>
-										<span class="span-job-description-title">Similar Jobs:</span>
-									</p>
-									
-						        </div>								
-							</div>
-						</div>
-					</div>
-					<div class="row" id="div_hint" style="display: none;">
-						<div class="col-sm-12">
-							<div class="col-sm-12">
-								<div class="alert alert-success alert-dismissibl fade in">
-						            <button type="button" class="close" data-target="div_hint" onclick="hideView(this)">
-						                <span aria-hidden="true">&times;</span>
-						                <span class="sr-only">Close</span>
-						            </button>
-						            <div class="row">
-						     			<input type="hidden" name="is_name" id="is_name" value="">
-						     			<input type="hidden" name="is_phonenumber" id="is_phonenumber" value="">
-						     			<input type="hidden" name="is_email" id="is_email" value="">
-						     			<input type="hidden" name="is_currentjob" id="is_currentjob" value="">
-						     			<input type="hidden" name="is_previousjobs" id="is_previousjobs" value="">
-						     			<input type="hidden" name="is_description" id="is_description" value="">
-						     			
-						            	<div class="col-sm-6">
-											<div class="row">
-												<div class="col-sm-5 padding-top-xs text-right">
-													<span class="span-job-description-title">Name *:</span>
-												</div>
-												<div class="col-sm-7">
-													<input class="form-control" name="name" type="text" id="name">
-												</div>
-											</div>
-											<div class="row margin-top-xs">
-												<div class="col-sm-5 padding-top-xs text-right">
-													<span class="span-job-description-title">Phonenumber *:</span>
-												</div>
-												<div class="col-sm-7">
-													<input class="form-control" name="phone" type="text" id="phone">
-												</div>
-											</div>
-											<div class="row margin-top-xs">
-												<div class="col-sm-5 padding-top-xs text-right">
-													<span class="span-job-description-title">Email *:</span>
-												</div>
-												<div class="col-sm-7">
-													<input class="form-control" name="email" type="text" id="email">
-												</div>
-											</div>
-											<div class="row margin-top-xs">
-												<div class="col-sm-5 padding-top-xs text-right">
-													<span class="span-job-description-title">Current Job *:</span>
-												</div>
-												<div class="col-sm-7">
-													<input class="form-control" name="currentJob" type="text" id="currentJob">
-												</div>
-											</div>
-											
-											<div class="row margin-top-xs">
-												<div class="col-sm-5 padding-top-xs text-right">
-													<span class="span-job-description-title">Previous jobs *:</span>
-												</div>
-												<div class="col-sm-7">
-													<input class="form-control" name="previousJobs" type="text" id="previousJobs">
-												</div>
-											</div>
-										</div>
-						            	<div class="col-sm-5">
-						            		<div class="row">
-												<div class="col-sm-12 text-left">
-													<span class="span-job-description-title">Description *:</span>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-sm-12">
-													<textarea class="form-control" name="description" rows="3" id="description"></textarea>
-												</div>
-											</div>
-										</div>
-						            </div>
-						            
-						            <div class="row margin-top-xs">
-						            	<div class="col-sm-12 text-center">
-											<div class="row margin-top-xs">
-												<a class="btn btn-success btn-sm btn-home" style="padding: 5px 30px;" id="js-a-hint" data-id="">Submit</a>
-											</div>	
-						            	</div>
-						            </div>													
-						        </div>								
-							</div>
-						</div>					
-					</div>
-					<!-- End for Hint -->
-					
-					<!-- Div for Apply -->
-					<div class="row" id="div_apply" style="display: none;">
-						<div class="col-sm-12">
-							<div class="col-sm-12">
-								<div class="alert alert-success alert-dismissibl fade in">
-						            <button type="button" class="close" data-target="div_apply" onclick="hideView(this)">
-						                <span aria-hidden="true">&times;</span>
-						                <span class="sr-only">Close</span>
-						            </button>
-						            
-									<div class="row">
-										<div class="col-sm-2 col-sm-offset-1">
-										</div>
-									</div>
-						            <div class="row margin-top-xs">
-										<div class="col-sm-2 col-sm-offset-1">
-											
-										</div>
-										<div class="col-sm-8">
-											
-										</div>
-									</div>
-									
-									<div class="row margin-top-xs">
-										<div class="col-sm-2 col-sm-offset-1">
-											
-										</div>
-										<div class="col-sm-8">
-											
-										</div>
-									</div>
-									
-									<div class="row margin-top-sm">
-										<div class="col-sm-8 col-sm-offset-3 text-right">
-											<div class="col-sm-4 col-sm-offset-8 text-right">
-												<button class="btn btn-sm btn-primary text-uppercase btn-block" id="js-btn-apply" data-id="">SUBMIT</button>
-											</div>
-										</div>
-									</div>
-						        </div>								
-							</div>
-						</div>
-					</div>
-					<!-- End for Apply -->
-				</div>
-			</div>
-			<div class="pull-right"></div>
+            </form>
         </div>
-    </div>
-</div>
+         <div class="row">
+			<hr>
+            <section id="pinBoot">
+			  @foreach ($data as $key => $value)
+              <article class="white-panel">
+                 @foreach($value->images as $key1=>$imageData)
+                  <a href = "{{ URL::route('customer.viewRecipe', $value->id) }}"> 
+                   <img style = "width:180px;height:120px;" src="{{$imageData->hostedMediumUrl}}" >
+                  </a><br/>
+                  @endforeach   
+                 <a class = "" href = "{{ URL::route('customer.viewRecipe', $value->id) }}">{{$value->name}}</a><br/>
+                 <div class="panel-heading"><a href="#" class="pull-right"></a> <h4></h4></div>
+                 <div class="panel-body">
+                    {{$value->name}}<br/>
+                    TotalTime : {{$value->totalTime}} <br/>
+                    Rating : {{$value->rating}}
+                </div>
+                <div class="panel-group" id="accordion{{$key}}">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion{{$key}}" href="#collapseOne{{$key}}">Ingredients</a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne{{$key}}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                 @foreach ($value->ingredientLines as $value1)
+                                    - {{$value1}}<br/>
+                                @endforeach
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <?php if($value->flavors != null){?>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion{{$key}}" href="#collapseThree{{$key}}">flavors</a>
+                            </h4>
+                        </div>
+                        <div id="collapseThree{{$key}}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <?php $keys = key($value->flavors);?>
+
+                                @foreach ($value->flavors as $key3=>$value3)
+                                    - {{$key3}}   {{$value3}}<br/>                    
+                                    
+                                @endforeach
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <?php } ?>
+                </div>   
+                
+              </article>
+              @endforeach
+            </section>
+            <hr>
+          </div>
+          <p>
+          </p>
+      
+    </div> 
+</main>
+@stop
+
+@section('custom-scripts')
+@include('js.customer.follow');
+<script type="text/javascript">
+$(document).ready(function() {
+$('#pinBoot').pinterest_grid({
+no_columns: 4,
+padding_x: 10,
+padding_y: 10,
+margin_bottom: 50,
+single_column_breakpoint: 700
+});
+});
+ $(document).ready(function() {
+
+    $('#blog-landing').pinterest_grid({
+        no_columns: 4
+    });
+
+});
+
+
+
+;(function ($, window, document, undefined) {
+    var pluginName = 'pinterest_grid',
+        defaults = {
+            padding_x: 10,
+            padding_y: 10,
+            no_columns: 3,
+            margin_bottom: 50,
+            single_column_breakpoint: 700
+        },
+        columns,
+        $article,
+        article_width;
+
+    function Plugin(element, options) {
+        this.element = element;
+        this.options = $.extend({}, defaults, options) ;
+        this._defaults = defaults;
+        this._name = pluginName;
+        this.init();
+    }
+
+    Plugin.prototype.init = function () {
+        var self = this,
+            resize_finish;
+
+        $(window).resize(function() {
+            clearTimeout(resize_finish);
+            resize_finish = setTimeout( function () {
+                self.make_layout_change(self);
+            }, 11);
+        });
+
+        self.make_layout_change(self);
+
+        setTimeout(function() {
+            $(window).resize();
+        }, 500);
+    };
+
+    Plugin.prototype.calculate = function (single_column_mode) {
+        var self = this,
+            tallest = 0,
+            row = 0,
+            $container = $(this.element),
+            container_width = $container.width();
+            $article = $(this.element).children();
+
+        if(single_column_mode === true) {
+            article_width = $container.width() - self.options.padding_x;
+        } else {
+            article_width = ($container.width() - self.options.padding_x * self.options.no_columns) / self.options.no_columns;
+        }
+
+        $article.each(function() {
+            $(this).css('width', article_width);
+        });
+
+        columns = self.options.no_columns;
+
+        $article.each(function(index) {
+            var current_column,
+                left_out = 0,
+                top = 0,
+                $this = $(this),
+                prevAll = $this.prevAll(),
+                tallest = 0;
+
+            if(single_column_mode === false) {
+                current_column = (index % columns);
+            } else {
+                current_column = 0;
+            }
+
+            for(var t = 0; t < columns; t++) {
+                $this.removeClass('c'+t);
+            }
+
+            if(index % columns === 0) {
+                row++;
+            }
+
+            $this.addClass('c' + current_column);
+            $this.addClass('r' + row);
+
+            prevAll.each(function(index) {
+                if($(this).hasClass('c' + current_column)) {
+                    top += $(this).outerHeight() + self.options.padding_y;
+                }
+            });
+
+            if(single_column_mode === true) {
+                left_out = 0;
+            } else {
+                left_out = (index % columns) * (article_width + self.options.padding_x);
+            }
+
+            $this.css({
+                'left': left_out,
+                'top' : top
+            });
+        });
+
+        this.tallest($container);
+        $(window).resize();
+    };
+
+    Plugin.prototype.tallest = function (_container) {
+        var column_heights = [],
+            largest = 0;
+
+        for(var z = 0; z < columns; z++) {
+            var temp_height = 0;
+            _container.find('.c'+z).each(function() {
+                temp_height += $(this).outerHeight();
+            });
+            column_heights[z] = temp_height;
+        }
+
+        largest = Math.max.apply(Math, column_heights);
+        _container.css('height', largest + (this.options.padding_y + this.options.margin_bottom));
+    };
+
+    Plugin.prototype.make_layout_change = function (_self) {
+        if($(window).width() < _self.options.single_column_breakpoint) {
+            _self.calculate(true);
+        } else {
+            _self.calculate(false);
+        }
+    };
+
+    $.fn[pluginName] = function (options) {
+        return this.each(function () {
+            if (!$.data(this, 'plugin_' + pluginName)) {
+                $.data(this, 'plugin_' + pluginName,
+                new Plugin(this, options));
+            }
+        });
+    }
+
+})(jQuery, window, document);
+</script>
 @stop

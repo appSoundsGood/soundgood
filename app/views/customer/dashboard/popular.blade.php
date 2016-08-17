@@ -20,7 +20,6 @@
       box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
       padding: 10px;
     }
-  
     .white-panel h1 {
       font-size: 1em;
     }
@@ -66,7 +65,6 @@
                 <?php  }else{ ?>
                     <button type="button" class="btn btn-primary pull-right" onclick = "like({{$value->recipe->id}},{{$value->user_id}})" id = "likeButton{{$value->recipe->id}}">Like</button>
                     <button type="button" class="btn btn-primary pull-right" onclick = "unlike({{$value->recipe->id}},{{$value->user_id}})" style = "display:none;" id = "unlikeButton{{$value->recipe->id}}">Unlike</button>    
-                 
                 <?php  } ?>
                 <?php } ?>
              
