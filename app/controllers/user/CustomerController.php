@@ -34,6 +34,7 @@ use Product as ProductModel;
 use Like as LikeModel;
 
 use Mail;
+use Illuminate\Support\Facades\Cache;
 
 class CustomerController extends \BaseController {
 	
@@ -130,18 +131,29 @@ class CustomerController extends \BaseController {
             foreach ($data as $key => $value){
                 $recipeId = $value->id;
                 $recipeUrl = Yum_Recipe_Url_Of_Id.$recipeId.'?_app_id='.Yum_Recipe_App_Id.'&_app_key='.Yum_Recipe_App_Key;
-
-                $ch = curl_init($recipeUrl);
-
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-                $data = curl_exec($ch);
-                  
-                $result = json_decode($data);
-
-                curl_close($ch); 
+                
+                $cache_key = md5($recipeUrl);
+                
+                $result = null;
+                
+                if (!Cache::has($cache_key)) {
+                	$ch = curl_init($recipeUrl);
+                	
+                	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+                	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                	$data = curl_exec($ch);
+                	
+                	$result = json_decode($data);
+                	Cache::put($cache_key, $result, 60);
+                	
+                	curl_close($ch);
+                }
+                else {
+                	$result = Cache::get($cache_key);
+                }
+                
                 $recipeData[] = $result;
             }
             $param['data'] = $recipeData;
