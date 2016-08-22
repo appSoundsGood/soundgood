@@ -18,16 +18,13 @@
                 <ul class="nav nav-pills nav-top">
           <?php if (!isset($pageNo)) { $pageNo = 0; } ?>
                     @if (Session::has('user_id'))
-                      <li class="{{ ($pageNo == 5) ? 'active' : ''}}"><a href="{{ URL::route('customer.home') }}">For you</a></li>
-                        <li class="{{ ($pageNo == 16) ? 'active' : ''}}"><a href="{{ URL::route('customer.profile') }}">Profile</a></li>
-                        
+                    	<li class="{{ ($pageNo == 5) ? 'active' : ''}}"><a href="{{ URL::route('customer.home') }}">For you</a></li>               
                         <li class="{{ ($pageNo == 10) ? 'active' : ''}}"><a href="{{ URL::route('customer.dashboard.cabinet') }}">Cabinet</a></li>
                         <li class="{{ ($pageNo == 11) ? 'active' : ''}}" style = "display:none;"><a href="{{ URL::route('user.post') }}">Post</a></li>
-                        <li ><a href="{{ URL::route('customer.popular') }}">Popular</a></li>  
-                        <li class="{{ ($pageNo == 13) ? 'active' : ''}}" style = "display:none;"><a href="{{ URL::route('user.product') }}">Product</a></li>  
-                        <li class="{{ ($pageNo == 14) ? 'active' : ''}}"><a href="{{ URL::route('customer.shop') }}">Shop</a></li>  
+                        <li class="{{ ($pageNo == 13) ? 'active' : ''}}" style = "display:none;"><a href="{{ URL::route('user.product') }}">Product</a></li> 
                         <li class="{{ ($pageNo == 15) ? 'active' : ''}}"><a href="{{ URL::route('customer.shoppinglist') }}">Shopping List</a></li>
-                       <li><a href="{{ URL::route('user.auth.doLogout') }}">Sign Out</a></li>
+                        <li class="{{ ($pageNo == 16) ? 'active' : ''}}"><a href="{{ URL::route('customer.profile') }}">Profile</a></li>
+                       	<li><a href="{{ URL::route('user.auth.doLogout') }}">Sign Out</a></li>
                     @else
                       <li class="{{ ($pageNo == 1) ? 'active' : ''}}" style = "display:none;"><a href="{{ URL::route('user.home') }}">Home</a></li>
                         <li class="dropdown">
