@@ -146,7 +146,7 @@ class CustomerController extends \BaseController {
                 	$data = curl_exec($ch);
                 	
                 	$result = json_decode($data);
-                	Cache::put($cache_key, $result, 60);
+                	Cache::put($cache_key, $result, 1440);
                 	
                 	curl_close($ch);
                 }

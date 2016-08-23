@@ -74,6 +74,11 @@
                  <div class="panel-heading"><a href="#" class="pull-right"></a> <h4></h4></div>
                  <div class="panel-body">
                     {{$value->name}}<br/>
+                    
+                    <?php if (isset($value->source->sourceDisplayName)) {
+                    	echo 'Source : '. $value->source->sourceDisplayName. '<br/>';
+                    }
+                    ?>
                     TotalTime : {{$value->totalTime}} <br/>
                     Rating : {{$value->rating}}
                 </div>
@@ -128,7 +133,7 @@
 @stop
 
 @section('custom-scripts')
-@include('js.customer.follow');
+@include('js.customer.follow')
 <script type="text/javascript">
 $(document).ready(function() {
 $('#pinBoot').pinterest_grid({

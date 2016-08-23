@@ -173,5 +173,5 @@
 </div>
 @stop
 @section('custom-scripts')
-@include('js.customer.follow');
+@include('js.customer.follow')
 @stop
