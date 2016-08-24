@@ -1,6 +1,7 @@
 <?php namespace User;
 
 use Illuminate\Routing\Controllers\Controller;
+use DB;
 use View, Input, Redirect, Session, Validator , Response;
 use User as UserModel;
 use City as CityModel;
@@ -35,6 +36,7 @@ use Like as LikeModel;
 
 use Mail;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Contracts\ArrayableInterface;
 
 class CustomerController extends \BaseController {
 	
@@ -128,9 +130,12 @@ class CustomerController extends \BaseController {
             $data = $result->matches;
 
             $recipeData = array();
+            $recipeIds = array();
+            
             foreach ($data as $key => $value){
                 $recipeId = $value->id;
                 $recipeUrl = Yum_Recipe_Url_Of_Id.$recipeId.'?_app_id='.Yum_Recipe_App_Id.'&_app_key='.Yum_Recipe_App_Key;
+                $recipeIds[] = $recipeId;
                 
                 $cache_key = md5($recipeUrl);
                 
@@ -146,7 +151,7 @@ class CustomerController extends \BaseController {
                 	$data = curl_exec($ch);
                 	
                 	$result = json_decode($data);
-                	Cache::put($cache_key, $result, 1440);
+                	Cache::put($cache_key, $result, 1440); // cache result
                 	
                 	curl_close($ch);
                 }
@@ -154,9 +159,24 @@ class CustomerController extends \BaseController {
                 	$result = Cache::get($cache_key);
                 }
                 
-                $recipeData[] = $result;
+                $recipeData[$recipeId] = $result;
+                $recipeData[$recipeId]->likes = 0;
             }
+                        
+            // load 'Likes' count for each recipe
+            $likes = DB::table('like')
+            			->join('recipe', 'like.recipeId', '=', 'recipe.id')
+            			->select(DB::raw('ca_recipe.recipeId, COUNT(likeCustomerId) as `count`'))
+            			->whereIn('recipe.recipeId', $recipeIds)
+            			->where('is_valid', '=', 1)
+            			->groupBy('like.recipeId')
+            			->get();
+            foreach ($likes as $t) {
+            	$recipeData[$t->recipeId]->likes = $t->count;
+            }
+            
             $param['data'] = $recipeData;
+            $param['userId'] = $userId;
             
             return View::make('customer.home.index')->with($param);
         }
@@ -170,14 +190,12 @@ class CustomerController extends \BaseController {
             
             $userId = Session::get('user_id');
             
-
             $param['username'] = Session::get('user_name');  
             
             $param['pageNo'] = 5;
             $param['user'] = UserModel::find(Session::get('user_id'));
             
             //$param['data'] = UserActivityModel::orderBy('created_at', 'desc')->get();
-
             
             $recipeUrl = Yum_Recipe_Url_Of_Id.$recipeId.'?_app_id='.Yum_Recipe_App_Id.'&_app_key='.Yum_Recipe_App_Key;
 
@@ -198,9 +216,7 @@ class CustomerController extends \BaseController {
         }
     }
 
-
-     public function viewRecipe($recipeId) {
-        
+ 	public function viewRecipe($recipeId) {        
         if (!Session::has('user_id')) {
             return Redirect::route('user.auth.login');
         }else {
@@ -409,11 +425,9 @@ class CustomerController extends \BaseController {
         
     }
     public function follow(){
-
 		$follow = new FollowingModel;
 		$userId = Session::get('user_id'); 
 		$followingId = Input::get('followerId');
-
 
 		$follow->followerUserId = '1' ;
 		$follow->followerCustomerId = $userId ;
@@ -423,7 +437,6 @@ class CustomerController extends \BaseController {
 
 		$follow->save();
 		return Response::json(['result' => 'success']);
-
 	}
 
     public function addItem(){
@@ -442,7 +455,6 @@ class CustomerController extends \BaseController {
     }
 
 	public function unfollow(){
-
 		
 		$userId = Session::get('user_id'); 
 		$followingId = Input::get('followerId');
@@ -456,13 +468,9 @@ class CustomerController extends \BaseController {
 		$followModel = FollowingModel::find($followId); 
 		$followModel->is_valid = "0";
 
-
-
 		$followModel->save();
 
-		return Response::json(['result' => 'success']);
-
-	
+		return Response::json(['result' => 'success']);	
 	} 
 
 	public function like(){
@@ -487,9 +495,7 @@ class CustomerController extends \BaseController {
 	}
 
     public function likeRecipe(){
-
         $like = new LikeModel;
-
         
         $recipeId = Input::get('recipeId');
         $userId  =Input::get('userId');
@@ -505,9 +511,7 @@ class CustomerController extends \BaseController {
             $recipe_id = $recipe->id;
         }
 
-
-        $condition = [   'likeCustomerId' => $userId , 'is_valid' => '1' , 'recipeId' => $recipe_id , 'usertype' => 'customer'];
-
+        $condition = [   'likeCustomerId' => $userId, 'recipeId' => $recipe_id , 'usertype' => 'customer'];
 
         $likeInv = LikeModel::where($condition)->get();
 
@@ -523,55 +527,51 @@ class CustomerController extends \BaseController {
             $like->is_valid = "1";
             $like->save();
         }
-        return Response::json(['result' => 'success']);
-
+        return Response::json([
+        		'result' => 'success',
+        		'likes' => LikeModel::where(['recipeId' => $recipe_id])->count()
+        ]);
     }
     
     public function unlikeRecipe(){
-
         $recipeId = Input::get('recipeId');
         $userId  =Input::get('userId');
-
 
         //get the recipe id from the eceip api id
 
         $recipe = RecipeModel::where('recipeId' , $recipeId)->get();
         $recipe_id = $recipe[0]->id;
 
-        $condition = [   'likeCustomerId' => $userId , 'is_valid' => '1' , 'recipeId' => $recipe_id , 'usertype' => 'customer'];
+        $condition = ['likeCustomerId' => $userId , 'is_valid' => '1' , 'recipeId' => $recipe_id , 'usertype' => 'customer'];
 
         $like = LikeModel::where($condition)->get();
         $like[0]->is_valid = 0;
         
         $like[0]->save();
 
-        return Response::json(['result' => 'success']);
+        return Response::json([
+        		'result' => 'success',
+        		'likes' => LikeModel::where(['recipeId' => $recipe_id])->count()
+        ]);
     }
 
-	public function unlike(){
-
-		
+	public function unlike(){		
 	    $userId = Session::get('user_id'); 
 		
 		$recipeId = Input::get('recipeId');
 		$ownerId = Input::get('ownerId');
 		$userId = Session::get('user_id'); 
 		
-
-		$condition = [   'likeCustomerId' => $userId , 'is_valid' => '1' ,'ownerUserId' => $ownerId , 'recipeId' => $recipeId , 'usertype' => 'customer'];
-
+		$condition = ['likeCustomerId' => $userId , 'is_valid' => '1' ,'ownerUserId' => $ownerId , 'recipeId' => $recipeId , 'usertype' => 'customer'];
 
 		$like = LikeModel::where($condition)->get();
 		$likeId = $like[0]->id;
 		$likeModel = LikeModel::find($likeId); 
 		$likeModel->is_valid = "0";
 
-
 		$likeModel->save();
 
-		return Response::json(['result' => 'success']);
-
-	
+		return Response::json(['result' => 'success']);	
 	}
 
     public function cabinet() {
@@ -616,9 +616,7 @@ class CustomerController extends \BaseController {
         return View::make('customer.home.buy')->with($param);
     }
     
-    public function postApply($id) {
-        
-        
+    public function postApply($id) {               
         $customerId = Session::get('user_id');
         
         $receipt = str_random(32);
@@ -653,8 +651,8 @@ class CustomerController extends \BaseController {
         
         return Redirect::route('customer.home.apply');
     }
-    public function deleteApply() {
-        
+    
+    public function deleteApply() {        
         $param['users'] = CustomerModel::paginate(10);
         $param['locations'] = LocationModel::all();
         $param['recipes'] = RecipeModel::all();
@@ -725,16 +723,14 @@ class CustomerController extends \BaseController {
 	}
 	
 	
-	public function post() {
-		
+	public function post() {		
 		$param['posts'] = PostModel::paginate(10);
 		$param['pageNo'] = 5;
 			
-		return View::make('user.dashboard.appliedPosts')->with($param);
-		
+		return View::make('user.dashboard.appliedPosts')->with($param);		
 	}
-	public function postView($etc){
-		
+	
+	public function postView($etc) {		
 		$post = PostModel::where('title', $etc)->get(); 
 		
 		$postVideos = PostVideoModel::where('postId', $post[0]->id)->get(); 
@@ -758,16 +754,15 @@ class CustomerController extends \BaseController {
 		
 		return View::make('user.dashboard.postView')->with($param);
 	}
-	public function profileEdit(){
-		
+	
+	public function profileEdit(){		
 		$param['user'] = CustomerModel::find(Session::get('user_id'));
 		$param['locations'] = LocationModel::all();
 		
 		return View::make('customer.dashboard.profileEdit')->with($param);
 	}
 	
-	public function chat() {
-	
+	public function chat() {	
 		if (!Session::has('user_id')) {
 			return Redirect::route('user.auth.login');
 		}else {
@@ -926,8 +921,7 @@ class CustomerController extends \BaseController {
 		
 					$education->save();
 		
-					$count ++;
-		
+					$count ++;		
 				}
 			}
 		
@@ -1008,5 +1002,4 @@ class CustomerController extends \BaseController {
 			return Redirect::route('user.dashboard.profile')->with('alert', $alert);
 		}
 	}
-
 }

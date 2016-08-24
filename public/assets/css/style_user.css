@@ -95,9 +95,26 @@ p.titleStore {
 	width: 100%;
 }
 .header {
-	margin-top: 5px;
 	margin-bottom: 10px;
+	height: 72px;
 }
+
+.header .header-content {
+	top: 0;
+	left: 0;
+	right: 0;
+	padding-top: 5px;
+	padding-bottom: 10px;
+	background: white;
+	position: fixed;
+	z-index: 999;
+}
+
+.header .header-content a {
+	font-size: 14px;
+	font-weight: bold;
+}
+
 .form-login input, .form-login select {
 	height: 42px;
 }
@@ -854,8 +871,20 @@ a#js-btn-subscriber {
     /* padding-bottom: 100px; */
     height: 80px;
     padding-top: 30px;
+    margin-bottom: 0;
     color: #ffffff;
     font-weight: bold;
     font-size: 17px;
    
+}
+
+.footer-like .footer-like-content {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 80px;
+	padding-top: 30px;
+	background: #B12020;
+	z-index: 999;
 }

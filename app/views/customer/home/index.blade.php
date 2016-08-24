@@ -56,7 +56,7 @@
                         </select>
                     </div>
                 </div>
-                <button id = "recipeButton" type = "submit" style = "display:none;"  />
+                <button id = "recipeButton" type = "submit" style = "display:none;"></button>
             </div>
             </form>
         </div>
@@ -64,7 +64,7 @@
 			<hr>
             <section id="pinBoot">
 			  @foreach ($data as $key => $value)
-              <article class="white-panel">
+              <article class="recipe white-panel">
                  @foreach($value->images as $key1=>$imageData)
                   <a href = "{{ URL::route('customer.viewRecipe', $value->id) }}"> 
                    <img style = "width:180px;height:120px;" src="{{$imageData->hostedMediumUrl}}" >
@@ -72,9 +72,7 @@
                   @endforeach   
                  <a class = "" href = "{{ URL::route('customer.viewRecipe', $value->id) }}">{{$value->name}}</a><br/>
                  <div class="panel-heading"><a href="#" class="pull-right"></a> <h4></h4></div>
-                 <div class="panel-body">
-                    {{$value->name}}<br/>
-                    
+                 <div class="panel-body">                                       
                     <?php if (isset($value->source->sourceDisplayName)) {
                     	echo 'Source : '. $value->source->sourceDisplayName. '<br/>';
                     }
@@ -119,7 +117,12 @@
                     </div>
                     <?php } ?>
                 </div>   
-                
+                <div class="panel-body like-panel">
+                	<span class="likes">{{$value->likes}} likes</span>
+                	<div class="pull-right">
+                		<button type="button" class="btn btn-sm btn-success" onclick="likeRecipe('{{ $userId}}', '{{$value->id}}', this)">Like</button>
+                	</div>
+                </div>
               </article>
               @endforeach
             </section>
@@ -133,28 +136,65 @@
 @stop
 
 @section('custom-scripts')
-@include('js.customer.follow')
 <script type="text/javascript">
-$(document).ready(function() {
-$('#pinBoot').pinterest_grid({
-no_columns: 4,
-padding_x: 10,
-padding_y: 10,
-margin_bottom: 50,
-single_column_breakpoint: 700
-});
-});
- $(document).ready(function() {
+function searchRecipe(){
+	var recipeName = $("#recipeFilter").val();
+	if(recipeName != ""){
+		$("#recipeButton").click();
+	}
+}
+	
+function likeRecipe(userId , recipeId, button_object){
+  $.ajax({
+      url: "<?php echo URL::route('customer.likeRecipe'); ?>",
+      dataType: "json",
+      type: "POST",
+      data: { 
+      	userId : userId ,
+        recipeId : recipeId 
+      },
+      success : function(data) {
+          if (data.result == 'success') {
+              var article = $(button_object).parents('.recipe');
+              article.find('.like-panel .likes').html(data.likes + ' likes');
+          }
+      }
+   });
+}
 
-    $('#blog-landing').pinterest_grid({
+function unlikeRecipe(userId , recipeId){
+  $.ajax({
+     url: "<?php echo URL::route('customer.unlikeRecipe'); ?>",
+     dataType: "json",
+     type: "POST",
+     data: { 
+      	userId : userId ,
+        recipeId : recipeId 
+     },
+     success : function(data) {
+    	 if (data.result == 'success') {
+             var article = $(button_object).parents('.recipe');
+             article.find('.like-panel .likes').html(data.likes + ' likes');
+         }      
+     }
+   });
+}
+	
+$(document).ready(function() {
+	$('#pinBoot').pinterest_grid({
+		no_columns: 4,
+		padding_x: 10,
+		padding_y: 10,
+		margin_bottom: 50,
+		single_column_breakpoint: 700
+	});
+
+	$('#blog-landing').pinterest_grid({
         no_columns: 4
     });
-
 });
 
-
-
-;(function ($, window, document, undefined) {
+(function ($, window, document, undefined) {
     var pluginName = 'pinterest_grid',
         defaults = {
             padding_x: 10,
