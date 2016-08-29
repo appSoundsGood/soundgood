@@ -3,7 +3,7 @@ body {
   //background-image: url('/assets/site/soundgoodbackground.png');
 }
 .soundgoodLogo {
-    background-image: url('/assets/site/soundsgood.png');
+    background-image: url('../site/soundsgood.png');
     height: 67px;
     background-size: cover;
     width: 200px;

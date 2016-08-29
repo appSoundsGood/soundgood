@@ -1,19 +1,21 @@
-@extends('customer.layout')
+@extends('customer.layout_new')
 
 @section('custom-styles')
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    {{ HTML::style('/assets/css/demo.css') }}
-    {{ HTML::style('/assets/css/home.css') }} <style type="text/css">
+    <!-- <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">{{ HTML::style('/assets/css/demo.css') }}
+    {{ HTML::style('/assets/css/home.css') }} 
+     -->
+    <style type="text/css">
+    
     #pinBoot {
       position: relative;
       max-width: 100%;
       width: 100%;
     }
-    img {
+    /* img {
       width: 100%;
       max-width: 100%;
       height: auto;
-    }
+    } */
     .white-panel {
       position: absolute;
       background: white;
@@ -37,7 +39,7 @@
     </style>
 @stop
 
-@section('body')
+@section('content')
 <main class="bs-docs-masthead gray-container" role="main">
     <div class="background-dashboard" style="z-index: 0;"></div>
     <div class="container">

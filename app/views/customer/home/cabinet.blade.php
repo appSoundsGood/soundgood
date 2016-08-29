@@ -19,18 +19,20 @@
 	                          <table class="table table-striped table-bordered table-hover dataTable no-footer">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>Product</th>
-                                        <th>Created At</th>
+                                        <th>Image</th>                                        
+                                        <th>Purchased At</th>
+                                        <th>Quantity</th>
                                         <th style="width: 80px;"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($products as $key => $value)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ $value->product->itemName }}</td>
+                                            <td>{{ $value->product->productImg }}</td>
                                             <td>{{ $value->created_at }}</td>
+                                            <td>{{ $value->quantity }}</td>
                                             <td style = "display:none;">
                                                 <a href="{{ URL::route('customer.postApply', $value->id)  }}" class="btn btn-sm btn-info">
                                                     <span class="glyphicon glyphicon-edit"></span> Apply
