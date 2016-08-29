@@ -1,0 +1,119 @@
+body {
+	
+}
+
+.content {
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	width: 1280px;
+	background: #ddd;
+}
+
+/* new button styles */
+.btn-darkred {
+	color: white;
+	background: #b12020;
+}
+
+.btn-darkred:hover, .btn-darkred:focus {
+	color: white;
+	background: #c13030;
+}
+
+/*-- header styles --*/
+.header {
+	width: 100%;
+	height: 220px;
+	background-image: url('../site/header_bg.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.navbar-custom {
+	height: 54px;
+	background-color: rgba(0,0,0,.080);
+}
+
+.navbar-custom .navbar-brand {
+	padding-left: 25px;
+	padding-right: 25px;
+	height: 54px;
+}
+
+.navbar-brand .helper {
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+}
+.soundsgood-logo {
+	display: inline-block !important;
+	height: 30px;
+	width: auto;
+	vertical-align: middle;
+}
+
+#navbar {
+	padding: 10px;
+}
+
+.navbar-custom #search-form {
+	padding: 0;
+	margin: 0;
+}
+
+.navbar-custom .nav li a {
+	color: #b12020;
+	font-weight: bold;
+	padding: 7px;
+	margin-right: 10px;
+	border-radius: 4px;
+}
+
+.navbar-custom .nav li a:hover, .navbar-custom .nav li a:focus {
+	color: white;
+	background: #b12020;
+}
+
+.navbar-custom .nav li.active a {
+	color: white;
+	background: #b12020;
+	font-size: 16px;
+}
+
+/*-- Main content styles --*/
+.main-content {
+	background: #fff;
+	margin-left: 80px;
+	margin-right: 80px;
+	margin-top: 0;
+	padding: 10px;
+}
+
+.main-content > .title-bar {
+	margin-top: 15px;
+}
+
+.title-bar .title {	
+	position: relative;
+	margin-left: -25px;
+	padding-left: 30px;
+	padding-right: 40px;
+	padding-top: 10px;
+	padding-bottom: 5px;
+	color: white;
+	background: #b12020;
+}
+
+.title-bar .title:before {
+	position: absolute;
+	content: " ";
+	left: -15;
+	bottom: -15;
+	width: 0;
+	height: 0;
+	border-top: 0px solid transparent;
+	border-left: 15px solid transparent;
+	border-bottom: 15px solid transparent;
+	border-right: 15px solid #950f0f;
+}
