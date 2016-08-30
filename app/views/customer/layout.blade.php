@@ -54,7 +54,9 @@
     
 @stop
 	
+@section('body')
 @yield('content')
+@stop
 
 @section('footer')
 <div class="footer-like">
