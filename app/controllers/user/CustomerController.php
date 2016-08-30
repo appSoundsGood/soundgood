@@ -75,6 +75,7 @@ class CustomerController extends \BaseController {
         $param['alert'] =  $alert;
         return View::make('user.customer.login')->with($param);        
     }
+    
 	public function signin() {
 		
         $email = Input::get('email');

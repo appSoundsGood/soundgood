@@ -48,7 +48,7 @@
             </div>
             <form action = "{{ URL::route('customer.home')}}" method = "get">
             <div class="col-sm-11">
-                <div class="row">
+                <!-- <div class="row">
                     <div class="pull-right">
                         <select class="selectpicker form-control" name = "recipe" id = "recipeFilter" onChange = "searchRecipe();">
                           <option>Filter</option>
@@ -58,7 +58,15 @@
                         </select>
                     </div>
                 </div>
-                <button id = "recipeButton" type = "submit" style = "display:none;"></button>
+                <button id = "recipeButton" type = "submit" style = "display:none;"></button> -->
+                <div class="pull-right">
+                	<span class="ninja">
+                		<input type="text" class="form-control" name="q" id="recipe-q" placeholder="Search recipes...">
+                		<button type="submit" class="search-button">
+                			<i class="fa fa-search"></i>
+                		</button>
+                	</span>
+                </div>
             </div>
             </form>
         </div>
