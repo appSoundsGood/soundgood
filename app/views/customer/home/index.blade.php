@@ -1,4 +1,4 @@
-@extends('customer.layout_new')
+@extends('customer.layout')
 
 @section('custom-styles')
     <!-- <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">{{ HTML::style('/assets/css/demo.css') }}
