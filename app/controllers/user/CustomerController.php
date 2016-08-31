@@ -103,7 +103,7 @@ class CustomerController extends \BaseController {
         }else {
             
             $userId = Session::get('user_id');
-            $recipeName = Input::get('recipe');
+            $recipeName = Input::get('q');
 
             $param['username'] = Session::get('user_name');  
             

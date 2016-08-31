@@ -36,6 +36,26 @@
       -o-transition: all 0.3s ease-in-out;
       transition: all 0.3s ease-in-out;
     }
+    
+    .ninja input {
+    	padding: 0 10px 0 30px;
+    }
+    
+    .keywords {
+    	position: relative;
+    	max-width: 240px;
+    }
+    .keywords button {
+    	position: absolute;
+    	top: 3px;
+    	bottom: 3px;
+    	left: 6px;
+    	right: auto;
+    	background: none;
+    	border: none;
+    	z-index: 3;
+    }
+    
     </style>
 @stop
 
@@ -59,13 +79,13 @@
                     </div>
                 </div>
                 <button id = "recipeButton" type = "submit" style = "display:none;"></button> -->
-                <div class="pull-right">
+                <div class="keywords pull-right">
                 	<span class="ninja">
-                		<input type="text" class="form-control" name="q" id="recipe-q" placeholder="Search recipes...">
-                		<button type="submit" class="search-button">
-                			<i class="fa fa-search"></i>
-                		</button>
+                		<input type="text" class="form-control" name="q" id="recipe-q" placeholder="Search recipes...">                		
                 	</span>
+                	<button type="submit" class="search-button">
+                		<i class="fa fa-search"></i>
+                	</button>
                 </div>
             </div>
             </form>
