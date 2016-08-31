@@ -113,7 +113,7 @@ class CustomerController extends \BaseController {
             //$param['data'] = UserActivityModel::orderBy('created_at', 'desc')->get();
 
             
-            $recipeUrl = Yum_Recipe_Url.'?_app_id='.Yum_Recipe_App_Id.'&_app_key='.Yum_Recipe_App_Key.'&q='.$recipeName;
+            $recipeUrl = Yum_Recipe_Url.'?_app_id='.Yum_Recipe_App_Id.'&_app_key='.Yum_Recipe_App_Key.'&maxResult=20&q='.$recipeName;
 
             $ch = curl_init($recipeUrl);
 
