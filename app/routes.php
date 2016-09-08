@@ -89,7 +89,7 @@ Route::get('customer/shop',   	    ['as' => 'customer.shop',         		'uses' =>
 Route::get('customer/shop/{id}',   	['as' => 'customer.shopView',         	'uses' => 'User\CustomerController@shopView']);
 Route::post('customer/likeRecipe',  	['as' => 'customer.likeRecipe',         'uses' => 'User\CustomerController@likeRecipe']);
 Route::post('customer/unlikeRecipe',  	['as' => 'customer.unlikeRecipe',         'uses' => 'User\CustomerController@unlikeRecipe']);
-
+Route::post('customer/cookRecipe',  	['as' => 'customer.cookRecipe',         'uses' => 'User\CustomerController@cookRecipe']);
 
 Route::get('customer/shoppinglist',   	['as' => 'customer.shoppinglist',         		'uses' => 'User\CustomerController@shoppinglist']);
 

@@ -101,4 +101,19 @@ function unlikeRecipe(userId , recipeId){
       }
    });
 }
+
+function cookRecipe(userId, recipeId) {
+	$.ajax({
+	      url: "<?php echo URL::route('customer.cookRecipe'); ?>",
+	      dataType : "json",
+	      type : "POST",
+	      data : { 
+	              userId : userId ,
+	              recipeId : recipeId 
+	          },
+	      success : function(data) {
+	      		         
+	      }
+	   });
+}
 </script>

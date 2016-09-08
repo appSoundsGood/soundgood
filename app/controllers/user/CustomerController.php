@@ -555,6 +555,38 @@ class CustomerController extends \BaseController {
         		'likes' => LikeModel::where(['recipeId' => $recipe_id])->count()
         ]);
     }
+    
+    public function cookRecipe() {
+    	$recipeId = Input::get('recipeId');
+    	$userId  =Input::get('userId');
+    	
+    	$recipeUrl = Yum_Recipe_Url_Of_Id.$recipeId.'?_app_id='.Yum_Recipe_App_Id.'&_app_key='.Yum_Recipe_App_Key;
+    	
+    	$cache_key = md5($recipeUrl);
+    	
+    	$result = null;    	
+    	if (!Cache::has($cache_key)) {
+    		$ch = curl_init($recipeUrl);
+    		 
+    		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+    		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+    		$data = curl_exec($ch);
+    		 
+    		$result = json_decode($data);
+    		Cache::put($cache_key, $result, 1440); // cache result
+    		 
+    		curl_close($ch);
+    	}
+    	else {
+    		$result = Cache::get($cache_key);
+    	}
+    	
+    	if ($result) {
+    		
+    	}
+    }
 
 	public function unlike(){		
 	    $userId = Session::get('user_id'); 

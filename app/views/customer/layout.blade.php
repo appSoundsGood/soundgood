@@ -70,8 +70,8 @@
 	            <div class = "col-sm-6 text-center" id = "unlikeRecipe"  style = "border-right: 1px solid #ffffff;cursor:pointer;<?php if($isLike == 0){echo 'display:none';}?>;" onclick = "unlikeRecipe('{{ $userId}}' , '{{$recipeId}}')">
 	                UNLIKE
 	            </div>
-	             <div class = "col-sm-6 text-center" style = "cursor:pointer;" onclick = "makeMeal()">
-	                MAKE MEAL
+	             <div class = "col-sm-6 text-center" style = "cursor:pointer;" onclick = "makeMeal('{{ $userId}}' , '{{$recipeId}}')">
+	                COOK RECIPE
 	            </div>
 	        </div>
 	     </div>
