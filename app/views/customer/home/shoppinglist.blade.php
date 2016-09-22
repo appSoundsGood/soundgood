@@ -17,8 +17,10 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>name</th>
-                                        <th>Created At</th>
+                                        <th>Product Name</th>
+                                        <th>Image</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
                                         <th style="width: 80px;"></th>
                                     </tr>
                                 </thead>
@@ -27,7 +29,9 @@
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
                                             <td>{{ $value->product->itemName }}</td>
-                                            <td>{{ $value->created_at }}</td>
+                                            <td>{{ $value->product->productImg }}</td>
+                                            <td>{{ $value->product->retail }}</td>
+                                            <td>{{ $value->product->size }}</td>
                                             <td style = "display:none;">
                                                 <a href="{{ URL::route('customer.postApply', $value->id)  }}" class="btn btn-sm btn-info">
                                                     <span class="glyphicon glyphicon-edit"></span> Apply

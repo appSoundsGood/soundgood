@@ -341,9 +341,6 @@ class CustomerController extends \BaseController {
             $userId = Session::get('user_id');
            	$param['username'] = Session::get('user_name');  
             
-            $param['pageNo'] = 14;
-       
-
             $param['products'] = ProductModel::paginate(30);
             $param['stores'] = StoreModel::all();
 

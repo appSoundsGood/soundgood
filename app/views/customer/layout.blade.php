@@ -23,7 +23,7 @@
 	                    	<li class="{{ ($pageNo == 5) ? 'active' : ''}}"><a href="{{ URL::route('customer.home') }}">Recommendations</a></li>               
 	                        <li class="{{ ($pageNo == 10) ? 'active' : ''}}"><a href="{{ URL::route('customer.dashboard.cabinet') }}">Cabinet</a></li>
 	                        <li class="{{ ($pageNo == 11) ? 'active' : ''}}" style = "display:none;"><a href="{{ URL::route('user.post') }}">Post</a></li>
-	                        <li class="{{ ($pageNo == 13) ? 'active' : ''}}" style = "display:none;"><a href="{{ URL::route('user.product') }}">Product</a></li> 
+	                        <li class="{{ ($pageNo == 13) ? 'active' : ''}}"><a href="{{ URL::route('customer.shop') }}">Shop</a></li> 
 	                        <li class="{{ ($pageNo == 15) ? 'active' : ''}}"><a href="{{ URL::route('customer.shoppinglist') }}">Shopping List</a></li>
 	                        <li class="{{ ($pageNo == 16) ? 'active' : ''}}"><a href="{{ URL::route('customer.profile') }}">Profile</a></li>
 	                       	<li><a href="{{ URL::route('user.auth.doLogout') }}">Sign Out</a></li>
