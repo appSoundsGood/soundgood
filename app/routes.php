@@ -96,7 +96,7 @@ Route::get('customer/shoppinglist',   	['as' => 'customer.shoppinglist',        
 
 
 Route::get('customer/postApply/{id}', ['as' => 'customer.postApply',             'uses' => 'User\CustomerController@postApply']);
-Route::get('customer/deleteApply/{id}', ['as' => 'customer.deleteApply',           'uses' => 'User\CustomerController@deleteApply']);
+Route::post('customer/deleteApply', ['as' => 'customer.deleteApply',           'uses' => 'User\CustomerController@deleteApply']);
 
 Route::get('customer/popular', ['as' => 'customer.popular',                    'uses' => 'User\CustomerController@popular']);
 Route::get('customer/profileView/{id}', ['as' => 'customer.viewProfile',                    'uses' => 'User\CustomerController@viewProfile']);

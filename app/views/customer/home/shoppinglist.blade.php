@@ -38,9 +38,9 @@
                                                 </a>
                                             </td>
                                             <td style = "">
-                                                <a href="{{ URL::route('customer.deleteApply', $value->id)  }}" class="btn btn-sm btn-danger" id="js-a-delete">
-                                                    <span class="glyphicon glyphicon-trash"></span> Delete
-                                                </a>
+                                                <button class="btn btn-sm btn-danger" id="js-a-delete" onclick="deleteItem({{$value->id}})">
+                                                    <span class="glyphicon glyphicon-trash"></span> Remove
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -55,17 +55,26 @@
 	</div>
 </main>
 
-<div class="gray-container">    
-    <div class="container">
-       	   <div class="row margin-top-xs" id="div_job">
-					<!-- Div for More -->
-				
-					
-					
-				</div>
-			</div>
-			<div class="pull-right"></div>
-        </div>
-    </div>
-</div>
+<script>
+function deleteItem(cp_id) {
+	if (!confirm("Are you sure you want to remove this item from Shopping list?"))
+		return;
+
+	$.ajax({
+		type: 'POST',
+		url: '<?php echo URL::route('customer.deleteApply'); ?>',
+		data: {
+			'id': cp_id
+		},
+		dataType: 'json',
+		success: function(data) {
+			location.reload();
+		},
+		error: function(error) {
+			alert("Failed to remove the item!");
+			console.log(error);
+		}
+	});
+}
+</script>
 @stop

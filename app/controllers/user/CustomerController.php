@@ -37,6 +37,7 @@ use Like as LikeModel;
 use Mail;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Contracts\ArrayableInterface;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CustomerController extends \BaseController {
 	
@@ -682,8 +683,9 @@ class CustomerController extends \BaseController {
         return Redirect::route('customer.home.apply');
     }
     
-    public function deleteApply() {        
-        $param['users'] = CustomerModel::paginate(10);
+    public function deleteApply() {
+    	$id = $userId = Input::get('id');
+        /* $param['users'] = CustomerModel::paginate(10);
         $param['locations'] = LocationModel::all();
         $param['recipes'] = RecipeModel::all();
         $param['stores'] = StoreModel::paginate(10); 
@@ -691,7 +693,17 @@ class CustomerController extends \BaseController {
         if ($alert = Session::get('alert')) {
             $param['alert'] = $alert;
         }
-        return View::make('customer.home.apply')->with($param);
+        return View::make('customer.home.apply')->with($param); */
+    	$customer_product = CustomerProductModel::find($id);
+    	if ($customer_product != null) {
+    		if ($customer_product->delete())
+    			return json_encode(['result' => 'success']);
+    		else 
+    			App::abort(500, 'Failed to delete model');
+    	}
+    	else {
+    		App::abort(404, 'CustomerProduct model not found');
+    	}
     }
     
 	public function signup() {
