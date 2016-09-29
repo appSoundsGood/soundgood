@@ -30,8 +30,6 @@ use Following as FollowingModel;
 use UserActivity as UserActivityModel;
 use CustomerProduct as CustomerProductModel;
 use Product as ProductModel;
-
-
 use Like as LikeModel;
 
 use Mail;
@@ -112,55 +110,18 @@ class CustomerController extends \BaseController {
             $param['user'] = UserModel::find(Session::get('user_id'));
             
             //$param['data'] = UserActivityModel::orderBy('created_at', 'desc')->get();
-
             
-            $recipeUrl = Yum_Recipe_Url.'?_app_id='.Yum_Recipe_App_Id.'&_app_key='.Yum_Recipe_App_Key.'&maxResult=20&q='.$recipeName;
-
-            $ch = curl_init($recipeUrl);
-
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-            $data = curl_exec($ch);
-              
-            $result = json_decode($data);
-            
-            curl_close($ch); 
-
-            //include the recipe medium image and ingredient amount
-            $data = $result->matches;
+            $data = \RecipeAPI::search($recipeName);
 
             $recipeData = array();
             $recipeIds = array();
             
             foreach ($data as $key => $value){
-                $recipeId = $value->id;
-                $recipeUrl = Yum_Recipe_Url_Of_Id.$recipeId.'?_app_id='.Yum_Recipe_App_Id.'&_app_key='.Yum_Recipe_App_Key;
+                $recipeId = $value->id;                
                 $recipeIds[] = $recipeId;
-                
-                $cache_key = md5($recipeUrl);
-                
-                $result = null;
-                
-                if (!Cache::has($cache_key)) {
-                	$ch = curl_init($recipeUrl);
-                	
-                	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-                	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-                	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-                	$data = curl_exec($ch);
-                	
-                	$result = json_decode($data);
-                	Cache::put($cache_key, $result, 1440); // cache result
-                	
-                	curl_close($ch);
-                }
-                else {
-                	$result = Cache::get($cache_key);
-                }
-                
+                                
+                $result = \RecipeAPI::recipeInfo($recipeId);               
+                                
                 $recipeData[$recipeId] = $result;
                 $recipeData[$recipeId]->likes = 0;
             }
@@ -504,8 +465,11 @@ class CustomerController extends \BaseController {
         if(count($recipeInv) > 0){
             $recipe_id = $recipeInv[0]->id;
         }else{
+        	$data = \RecipeAPI::recipeInfo($recipeId);
+        	
             $recipe = new RecipeModel;
-            $recipe->recipeId = $recipeId; 
+            $recipe->recipeId = $recipeId;
+            $recipe->name = $data->name;
             $recipe->save();
             $recipe_id = $recipe->id;
         }
@@ -703,6 +667,26 @@ class CustomerController extends \BaseController {
     	}
     	else {
     		App::abort(404, 'CustomerProduct model not found');
+    	}
+    }
+    
+    public function deleteLike() {
+    	$likeId = Input::get('like_id');
+    	
+    	$like = LikeModel::find($likeId);
+    	
+    	if ($like) {
+    		$like->is_valid = 0;
+    		$like->save();
+    		
+    		return Response::json([
+    				'result' => 'success'
+    		]);
+    	}
+    	else {
+    		return Response::json([
+    				'result' => 'failed'
+    		]);
     	}
     }
     

@@ -1,4 +1,5 @@
-<?php namespace User;
+<?php 
+namespace User;
 
 use Illuminate\Routing\Controllers\Controller;
 use View, Input, Redirect, Session, Validator , Response;
@@ -34,7 +35,6 @@ use UserRecipe as UserRecipeModel;
 use UserActivity as UserActivityModel;
 use Following as FollowingModel;
 use Mail;
-
 
 
 class UserController extends \BaseController {

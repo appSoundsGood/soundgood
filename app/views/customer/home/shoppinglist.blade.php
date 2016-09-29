@@ -67,7 +67,7 @@ function deleteItem(cp_id) {
 			'id': cp_id
 		},
 		dataType: 'json',
-		success: function(data) {
+		success: function(data) {			
 			location.reload();
 		},
 		error: function(error) {

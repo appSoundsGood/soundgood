@@ -84,6 +84,7 @@ function likeRecipe(userId , recipeId){
       }
    });
 }
+
 function unlikeRecipe(userId , recipeId){
   
   $.ajax({
