@@ -25,7 +25,7 @@ class RecipeAPI {
 	 */
 	static function searchRecipesBasedCabinet($cabinet) {
 		$number_of_recipes = 20;
-		$recipeUrl = RECIPE_API_URL. "/findByIngredients?fillIngredients=false&ranking=2&number=". $number_of_recipes. "&ingredients=". implode($cabinet, ",");
+		$recipeUrl = RECIPE_API_URL. "/findByIngredients?fillIngredients=true&ranking=2&number=". $number_of_recipes. "&ingredients=". implode($cabinet, ",");
 		
 		Unirest\Request::verifyPeer(false);
 		$response = Unirest\Request::get($recipeUrl,
@@ -37,7 +37,9 @@ class RecipeAPI {
 		
 		$recipes = [];
 		foreach($response->body as $r) {
-			$recipes[] = static::recipeInfo($r->id);
+			$recipe = static::recipeInfo($r->id);
+			$recipe->missedIngredients = $r->missedIngredients;
+			$recipes[] = $recipe;
 		}
 		
 		return $recipes;

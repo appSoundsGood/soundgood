@@ -107,9 +107,26 @@
                     }
                     ?>
                     TotalTime : {{$value->readyInMinutes}} min <br/>
-                    Rating : {{$value->weightWatcherSmartPoints}}
+                    Rating : {{$value->weightWatcherSmartPoints}} 
                 </div>
                 <div class="panel-group" id="accordion{{$key}}">
+                	<?php if (isset($value->missedIngredients) && count($value->missedIngredients) > 0) { ?>
+					<div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion{{$key}}" href="#collapseTwo{{$key}}">Missed Ingredients</a>
+                            </h4>
+                        </div>
+                        <div id="collapseTwo{{$key}}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                 @foreach ($value->missedIngredients as $t)
+                                    - {{ $t->name }}<br/>
+                                @endforeach
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <?php } ?>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
