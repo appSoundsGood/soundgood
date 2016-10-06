@@ -10,6 +10,7 @@ use Recipt as ReciptModel;
 use ReciptProduct as ReciptProductModel;
 use Product as ProductModel;
 use CustomerProduct as CustomerProductModel;
+use Cabinet as CabinetModel;
 
 class HomeController extends BaseController {
 
@@ -38,31 +39,22 @@ class HomeController extends BaseController {
             die('Mailbox is empty');
         }
         var_dump($mail);
-        echo "\n\n\n\n\n";  */
+        echo "<br>\n<br>\n<br>\n<br>\n<br>\n";  */
         set_time_limit(4000);
-        //$mailbox = new PhpImap\Mailbox('{imap.gmail.com:993/imap/ssl/novalidate-cert}INBOX', 'appsoundsgood@gmail.com', 'welcometotheculinaryrevolution' , __DIR__);    
-        $mailbox = new PhpImap\Mailbox('{imap.gmail.com:993/imap/ssl/novalidate-cert}INBOX', 'appsoundsgood@gmail.com', 'welcometotheculinaryrevolution' , __DIR__);
-        $mailsIds = $mailbox->searchMailbox('ALL');
-/*        $hostname = '{imap.gmail.com:993/imap/ssl/novalidate-cert}INBOX';
-        $username = 'appsoundsgood@gmail.com';
-        $password = 'culinaryrevolution';
         
-
-        $connection = imap_open($hostname, $username, $password)
-          or die("Can't connect to '$hostname': " . imap_last_error());
-        imap_close($connection);
+        $mailbox = new PhpImap\Mailbox('{imap.gmail.com:993/imap/ssl/novalidate-cert}INBOX', RECEIPT_MAIL_ADDR, RECEIPT_MAIL_PASSWORD , __DIR__);
+        $mailsIds = $mailbox->searchMailbox('UNDELETED');
         
+        echo "Mail Count: ". count($mailsIds). "<br><br>\n";
+        if (count($mailsIds) == 0) {
+        	echo "Mailbox is empty<br>\n";
+        	return;
+        }
 
-        /* try to connect */
-        //$inbox = imap_open($hostname,$username,$password) or die('Cannot connect to Gmail: ' . imap_last_error()); 
-
-        /* grab emails */
-        //$mailsIds = imap_search($inbox,'ALL');
-        //$message = imap_fetchbody($mailbox,4,1.2);
-
-        for($j = 1 ; $j < count($mailsIds);$j = $j + 2){
-            
+        for($j = 0 ; $j < count($mailsIds); $j++) {
             $mail = $mailbox->getMail($mailsIds[$j]);
+            
+            echo " - Subject: ". $mail->subject. "  Date: ". $mail->date. "<br>\n"; 
         
             $dom = new DOMDocument();
             $string = $mail->textHtml;
@@ -93,8 +85,7 @@ class HomeController extends BaseController {
                 // because the position of 'a' is 0. The statement (0 != false) evaluates 
                 // to false.
                 if ($pos !== false) {
-                     $reciptCode =  substr( $code ,$pos + 9, strlen($code)-$pos );
-                         
+                     $reciptCode =  substr( $code ,$pos + 9, strlen($code)-$pos );                         
                 } else {
                      
                 }
@@ -122,6 +113,10 @@ class HomeController extends BaseController {
                 }
             }
             
+            echo "Receipt Code: ". $reciptCode. "<br>\n";
+            echo "Account: ". $reciptAccount. "<br>\n";
+            print_r($ingreArr);
+            print_r($prices);
             
             //echo $reciptCode ;
             //check the recipt code exist or not
@@ -159,53 +154,30 @@ class HomeController extends BaseController {
 
                            $condition = ['customer_id' => $customerId , 'product_id' => $productId ] ;
 
-                           $checkCustomerProduct = CustomerProductModel::where($condition)->get();
+                           $checkCustomerProduct = CabinetModel::where($condition)->get();
 
                            if(count($checkCustomerProduct) == 0){
-                                $newCustomerProduct = new CustomerProductModel;
-                                $newCustomerProduct-> product_id = $productId;     
-                                $newCustomerProduct-> customer_id = $customerId;  
+                                $newCustomerProduct = new CabinetModel;
+                                $newCustomerProduct->product_id = $productId;     
+                                $newCustomerProduct->customer_id = $customerId;  
                                 $newCustomerProduct->save();                    
                            }
-
-
+                        }
+                        else {
+                        	echo "Product not found<br>\n";
                         }
                     }
                 } else {
-                    $alert['msg'] = 'The token is invaild';
-                    $alert['type'] = 'success';
+                    echo "Receipt is already processed<br>\n";
                 }
-               
             }
+            else {
+            	echo "Receipt code is empty.<br>\n";
+            }
+            echo '<br>';
         }
-        //echo $reciptAccount ;
-        ///product list
-         
-        if(!$mailsIds) {
-            die('Mailbox is empty');
-        }
-        //echo($mail->textHtml);
-        echo "\n\n\n\n\n"; 
-        /*$hostname = '{imap.gmail.com:993/imap/ssl}INBOX';
-        $username = 'appsoundsgood@gmail.com';
-        $password = 'culinaryrevolution';
-
-        /* try to connect */
-        
-        // Fetch an overview for all messages in INBOX
-        /*$mbox = imap_open("{imap.gmail.com:993/imap/ssl}INBOX", " @gmail.com", "culinaryrevolution")
-        or die("can't connect: " . imap_last_error());
-        $MC = imap_check($mbox);   
-        $result = imap_fetch_overview($mbox,"1:{$MC->Nmsgs}",0);
-        foreach ($result as $overview) {
-            echo "#{$overview->msgno} ({$overview->date}) - From: {$overview->from}
-            {$overview->subject}\n";
-        }
-        imap_close($mbox);   */
-        
-        
-        //return View::make('hello');           */
     }
+    
     public function phpInfo(){
         phpInfo();
     }

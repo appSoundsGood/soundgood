@@ -70,7 +70,7 @@ Route::post('product/save',      ['as' => 'user.product.save',       'uses' => '
 Route::get('customer/home',    ['as' => 'customer.home',                      'uses' => 'User\CustomerController@home']);
 Route::get('customer/recipeView/{etc}',['as' => 'customer.recipeView',        'uses' => 'User\CustomerController@recipeView']);
 
-Route::get('recipe/external/{etc}',['as' => 'customer.viewRecipe',        'uses' => 'User\CustomerController@viewRecipe']);
+Route::get('recipe/external/{etc}/{url}',['as' => 'customer.viewRecipe',        'uses' => 'User\CustomerController@viewRecipe']);
 
 
 Route::get('dashboard',     ['as' => 'customer.dashboard',                 'uses' => 'User\CustomerController@dashboard']);

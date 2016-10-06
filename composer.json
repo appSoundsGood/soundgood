@@ -10,7 +10,8 @@
         "vlucas/phpdotenv": "1.0.*@dev" ,
         "php-imap/php-imap": "~2.0" ,
         "mtdowling/cron-expression": "1.*"  ,
-        "yangqi/htmldom": "dev-master"
+        "yangqi/htmldom": "dev-master",
+		"mashape/unirest-php": "^3.0"
 	},
 	"autoload": {
 		"classmap": [

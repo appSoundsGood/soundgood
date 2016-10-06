@@ -95,20 +95,19 @@
             <section id="pinBoot">
 			  @foreach ($data as $key => $value)
               <article class="recipe white-panel">
-                 @foreach($value->images as $key1=>$imageData)
-                  <a href = "{{ URL::route('customer.viewRecipe', $value->id) }}"> 
-                   <img style = "width:180px;height:120px;" src="{{$imageData->hostedMediumUrl}}" >
+                  <a href = "{{ URL::route('customer.viewRecipe', [$value->id, base64_encode($value->spoonacularSourceUrl)]) }}"> 
+                   <img style = "width:180px;height:120px;" src="{{$value->image}}" >
                   </a><br/>
-                  @endforeach   
-                 <a class = "" href = "{{ URL::route('customer.viewRecipe', $value->id) }}">{{$value->name}}</a><br/>
+                  
+                 <a class = "" href = "{{ URL::route('customer.viewRecipe', [$value->id, base64_encode($value->sourceUrl)]) }}">{{$value->title}}</a><br/>
                  <div class="panel-heading"><a href="#" class="pull-right"></a> <h4></h4></div>
                  <div class="panel-body">                                       
-                    <?php if (isset($value->source->sourceDisplayName)) {
-                    	echo 'Source : '. $value->source->sourceDisplayName. '<br/>';
+                    <?php if (isset($value->sourceName)) {
+                    	echo 'Source : '. $value->sourceName. '<br/>';
                     }
                     ?>
-                    TotalTime : {{$value->totalTime}} <br/>
-                    Rating : {{$value->rating}}
+                    TotalTime : {{$value->readyInMinutes}} min <br/>
+                    Rating : {{$value->weightWatcherSmartPoints}}
                 </div>
                 <div class="panel-group" id="accordion{{$key}}">
                     <div class="panel panel-default">
@@ -119,14 +118,14 @@
                         </div>
                         <div id="collapseOne{{$key}}" class="panel-collapse collapse">
                             <div class="panel-body">
-                                 @foreach ($value->ingredientLines as $value1)
-                                    - {{$value1}}<br/>
+                                 @foreach ($value->extendedIngredients as $value1)
+                                    - {{$value1->name}}<br/>
                                 @endforeach
                                
                             </div>
                         </div>
                     </div>
-                    <?php if($value->flavors != null){?>
+                    <?php if(isset($value->flavor)){?>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
@@ -148,7 +147,7 @@
                     <?php } ?>
                 </div>   
                 <div class="panel-body like-panel">
-                	<span class="likes">{{$value->likes}} likes</span>
+                	<span class="likes">{{$value->aggregateLikes}} likes</span>
                 	<div class="pull-right">
                 		<button type="button" class="btn btn-sm btn-success" onclick="likeRecipe('{{ $userId}}', '{{$value->id}}', this)">Like</button>
                 	</div>

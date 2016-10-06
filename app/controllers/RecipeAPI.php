@@ -3,53 +3,68 @@
 use Illuminate\Support\Facades\Cache;
 
 class RecipeAPI {
-	static function search($q) {
-		$recipeUrl = Yum_Recipe_Url.'?_app_id='.Yum_Recipe_App_Id.'&_app_key='.Yum_Recipe_App_Key.'&maxResult=20&q='.$q;
+	static function searchRecipes() {
+		$number_of_recipes = 20;
+		$recipeUrl = RECIPE_API_URL. "/random?number=". $number_of_recipes;
 		
-		$ch = curl_init($recipeUrl);
-		
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-		$data = curl_exec($ch);
-		
-		$result = json_decode($data);
-		
-		curl_close($ch);
-		
-		//include the recipe medium image and ingredient amount
-		$data = $result->matches;
-		
-		return $data;
+		Unirest\Request::verifyPeer(false);
+		$response = Unirest\Request::get($recipeUrl,
+				[
+					"X-Mashape-Key" => RECIPE_API_KEY,
+					"Accept" => "application/json"
+				]
+			);
+				
+		return $response->body->recipes;
 	}
 	
+	/**
+	 * 
+	 * @param $cabinet array list of ingredients
+	 * @return array of searched recipes
+	 */
+	static function searchRecipesBasedCabinet($cabinet) {
+		$number_of_recipes = 20;
+		$recipeUrl = RECIPE_API_URL. "/findByIngredients?fillIngredients=false&ranking=2&number=". $number_of_recipes. "&ingredients=". implode($cabinet, ",");
+		
+		Unirest\Request::verifyPeer(false);
+		$response = Unirest\Request::get($recipeUrl,
+				[	
+						"X-Mashape-Key" => RECIPE_API_KEY,
+						"Accept" => "application/json"
+				]
+				);
+		
+		$recipes = [];
+		foreach($response->body as $r) {
+			$recipes[] = static::recipeInfo($r->id);
+		}
+		
+		return $recipes;
+	}
+		
 	static function recipeInfo($recipeId) {
-		$recipeUrl = Yum_Recipe_Url_Of_Id.$recipeId.'?_app_id='.Yum_Recipe_App_Id.'&_app_key='.Yum_Recipe_App_Key;
-		$recipeIds[] = $recipeId;
+		$recipeUrl = RECIPE_API_URL. '/'. $recipeId. '/information';
 		
 		$cache_key = md5($recipeUrl);
 		
 		$result = null;
 		
 		if (!Cache::has($cache_key)) {
-			$ch = curl_init($recipeUrl);
-			 
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-			$data = curl_exec($ch);
-			 
-			$result = json_decode($data);
+			Unirest\Request::verifyPeer(false);
+			$result = Unirest\Request::get($recipeUrl,
+					[
+						"X-Mashape-Key" => RECIPE_API_KEY,
+						"Accept" => "application/json"
+					]
+				);
+			
 			Cache::put($cache_key, $result, 1440); // cache result
-			 
-			curl_close($ch);
 		}
 		else {
 			$result = Cache::get($cache_key);
 		}
 		
-		return $result;
+		return $result->body;
 	}
 }

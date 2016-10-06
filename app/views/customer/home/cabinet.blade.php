@@ -20,29 +20,20 @@
                                 <thead>
                                     <tr>
                                         <th>Product</th>
-                                        <th>Image</th>                                        
+                                        <th>UPC</th>
+                                        <th>Image</th>                             
                                         <th>Purchased At</th>
                                         <th>Quantity</th>
-                                        <th style="width: 80px;"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($products as $key => $value)
                                         <tr>
                                             <td>{{ $value->product->itemName }}</td>
+                                            <td>{{ $value->product->upcCode }}</td>
                                             <td>{{ $value->product->productImg }}</td>
                                             <td>{{ $value->created_at }}</td>
                                             <td>{{ $value->quantity }}</td>
-                                            <td style = "display:none;">
-                                                <a href="{{ URL::route('customer.postApply', $value->id)  }}" class="btn btn-sm btn-info">
-                                                    <span class="glyphicon glyphicon-edit"></span> Apply
-                                                </a>
-                                            </td>
-                                            <td style = "">
-                                                <a href="{{ URL::route('customer.deleteApply', $value->id)  }}" class="btn btn-sm btn-danger" id="js-a-delete">
-                                                    <span class="glyphicon glyphicon-trash"></span> Delete
-                                                </a>
-                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

@@ -109,33 +109,20 @@ class CustomerController extends \BaseController {
             $param['pageNo'] = 5;
             $param['user'] = UserModel::find(Session::get('user_id'));
             
-            //$param['data'] = UserActivityModel::orderBy('created_at', 'desc')->get();
-            
-            $data = \RecipeAPI::search($recipeName);
-
-            $recipeData = array();
-            $recipeIds = array();
-            
-            foreach ($data as $key => $value){
-                $recipeId = $value->id;                
-                $recipeIds[] = $recipeId;
-                                
-                $result = \RecipeAPI::recipeInfo($recipeId);               
-                                
-                $recipeData[$recipeId] = $result;
-                $recipeData[$recipeId]->likes = 0;
+            //$param['data'] = UserActivityModel::orderBy('created_at', 'desc')->get();            
+           
+            $cabinet = \Cabinet::with('product')->where('customer_id', $userId)->get();
+            if (count($cabinet)) {
+            	$products = [];
+            	foreach ($cabinet as $t) {
+            		$products[] = $t->product->itemName;
+            	}
+            	
+            	$recipeData = \RecipeAPI::searchRecipesBasedCabinet($products);
             }
-                        
-            // load 'Likes' count for each recipe
-            $likes = DB::table('like')
-            			->join('recipe', 'like.recipeId', '=', 'recipe.id')
-            			->select(DB::raw('ca_recipe.recipeId, COUNT(likeCustomerId) as `count`'))
-            			->whereIn('recipe.recipeId', $recipeIds)
-            			->where('is_valid', '=', 1)
-            			->groupBy('like.recipeId')
-            			->get();
-            foreach ($likes as $t) {
-            	$recipeData[$t->recipeId]->likes = $t->count;
+            else {
+            	// get random recipes
+            	$recipeData = \RecipeAPI::searchRecipes();
             }
             
             $param['data'] = $recipeData;
@@ -179,7 +166,7 @@ class CustomerController extends \BaseController {
         }
     }
 
- 	public function viewRecipe($recipeId) {        
+ 	public function viewRecipe($recipeId, $sourceUrl) {        
         if (!Session::has('user_id')) {
             return Redirect::route('user.auth.login');
         }else {
@@ -197,22 +184,7 @@ class CustomerController extends \BaseController {
             
             //$param['data'] = UserActivityModel::orderBy('created_at', 'desc')->get();
 
-            
-            $recipeUrl = Yum_Recipe_Url_Of_Id.$recipeId.'?_app_id='.Yum_Recipe_App_Id.'&_app_key='.Yum_Recipe_App_Key;
-
-            $ch = curl_init($recipeUrl);
-
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-            $data = curl_exec($ch);
-              
-            $result = json_decode($data);
-
-            curl_close($ch); 
-            $param['data'] = $result;
-            $externalUrl = $result->source->sourceRecipeUrl;
+            $externalUrl = base64_decode($sourceUrl);
 
             $ch = curl_init($externalUrl);
 
@@ -469,12 +441,12 @@ class CustomerController extends \BaseController {
         	
             $recipe = new RecipeModel;
             $recipe->recipeId = $recipeId;
-            $recipe->name = $data->name;
+            $recipe->name = $data->title;
             $recipe->save();
             $recipe_id = $recipe->id;
         }
 
-        $condition = [   'likeCustomerId' => $userId, 'recipeId' => $recipe_id , 'usertype' => 'customer'];
+        $condition = ['likeCustomerId' => $userId, 'recipeId' => $recipe_id , 'usertype' => 'customer'];
 
         $likeInv = LikeModel::where($condition)->get();
 
@@ -522,30 +494,11 @@ class CustomerController extends \BaseController {
     	$recipeId = Input::get('recipeId');
     	$userId  =Input::get('userId');
     	
-    	$recipeUrl = Yum_Recipe_Url_Of_Id.$recipeId.'?_app_id='.Yum_Recipe_App_Id.'&_app_key='.Yum_Recipe_App_Key;
-    	
-    	$cache_key = md5($recipeUrl);
-    	
-    	$result = null;    	
-    	if (!Cache::has($cache_key)) {
-    		$ch = curl_init($recipeUrl);
-    		 
-    		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-    		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-    		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-    		$data = curl_exec($ch);
-    		 
-    		$result = json_decode($data);
-    		Cache::put($cache_key, $result, 1440); // cache result
-    		 
-    		curl_close($ch);
+    	$recipe = \RecipeAPI::recipeInfo($recipeId);
+    	if ($recipe) {
+    		
     	}
     	else {
-    		$result = Cache::get($cache_key);
-    	}
-    	
-    	if ($result) {
     		
     	}
     }
@@ -571,7 +524,7 @@ class CustomerController extends \BaseController {
 
     public function cabinet() {
         $customerId = Session::get('user_id');
-        $customerProduct = CustomerProductModel::where('customer_id', $customerId)->paginate(10);
+        $customerProduct = \Cabinet::where('customer_id', $customerId)->paginate(10);
         $param['products'] = $customerProduct;
         return View::make('customer.home.cabinet')->with($param);
     }

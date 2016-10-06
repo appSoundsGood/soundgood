@@ -103,7 +103,7 @@ function unlikeRecipe(userId , recipeId){
    });
 }
 
-function cookRecipe(userId, recipeId) {
+function makeMeal(userId, recipeId) {
 	$.ajax({
 	      url: "<?php echo URL::route('customer.cookRecipe'); ?>",
 	      dataType : "json",

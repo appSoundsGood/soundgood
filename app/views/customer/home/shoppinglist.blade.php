@@ -20,7 +20,7 @@
                                         <th>Product Name</th>
                                         <th>Image</th>
                                         <th>Price</th>
-                                        <th>Quantity</th>
+                                        <th>Size</th>
                                         <th style="width: 80px;"></th>
                                     </tr>
                                 </thead>
