@@ -119,10 +119,12 @@
                         </div>
                         <div id="collapseTwo{{$key}}" class="panel-collapse collapse">
                             <div class="panel-body">
-                                 @foreach ($value->missedIngredients as $t)
-                                    - {{ $t->name }}<br/>
-                                @endforeach
-                               
+                                @foreach ($value->missedIngredients as $t)
+                                <div style="margin-bottom: 5px">
+                                    - {{ $t->name }} 
+                                    <button type="button" class="btn btn-xs btn-info" onclick="addIngredientToList('{{ $t->name }}')"><i class="fa fa-cart-plus"></i> Add</button><br/>
+                                </div>
+                                @endforeach                               
                             </div>
                         </div>
                     </div>
@@ -164,7 +166,7 @@
                     <?php } ?>
                 </div>   
                 <div class="panel-body like-panel">
-                	<span class="likes">{{$value->aggregateLikes}} likes</span>
+                	<span class="likes">{{$value->likes}} likes</span>
                 	<div class="pull-right">
                 		<button type="button" class="btn btn-sm btn-success" onclick="likeRecipe('{{ $userId}}', '{{$value->id}}', this)">Like</button>
                 	</div>
@@ -224,6 +226,26 @@ function unlikeRecipe(userId , recipeId){
          }      
      }
    });
+}
+
+function addIngredientToList(ingredient) {
+	$.ajax({
+		type: 'POST',
+		url: '<?php echo URL::route('customer.addIngredientToList'); ?>',
+		data: {
+			'ingredient': ingredient
+		},
+		dataType: 'json',
+		success: function(data) {
+			if (data.result != 'success') {
+				alert("This product is not available in the store.");
+			}
+		},
+		error: function(error) {
+			alert("Failed to add product to the shopping list.");
+			console.log(error);
+		}
+	});
 }
 	
 $(document).ready(function() {

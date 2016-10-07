@@ -46,7 +46,7 @@
 		</div>
     </div>
 </div>
-<<script type="text/javascript">
+<script type="text/javascript">
 function addToList(product_id) {
 	$.ajax({
 		type: 'POST',

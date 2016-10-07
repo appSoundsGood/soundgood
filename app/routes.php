@@ -103,7 +103,9 @@ Route::get('customer/popular', ['as' => 'customer.popular',                    '
 Route::get('customer/profileView/{id}', ['as' => 'customer.viewProfile',                    'uses' => 'User\CustomerController@viewProfile']);
 Route::get('customer/profile', ['as' => 'customer.profile',                    'uses' => 'User\CustomerController@profile']);
 Route::get('customer/profile/edit', 	['as' => 'user.dashboard.profileEdit', 	'uses' => 'User\CustomerController@profileEdit']);
+
 Route::post('customer/addItem', 	['as' => 'customer.addItem', 	'uses' => 'User\CustomerController@addItem']);
+Route::post('customer/addIngredientToList', 	['as' => 'customer.addIngredientToList', 	'uses' => 'User\CustomerController@addIngredientToList']);
 
 Route::get('profile', 		['as' => 'user.dashboard.profile', 		'uses' => 'User\UserController@profile']);
 Route::get('profile/edit', 	['as' => 'user.dashboard.profileEdit', 	'uses' => 'User\UserController@profileEdit']);

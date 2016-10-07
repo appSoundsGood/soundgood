@@ -3,7 +3,7 @@
 @section('styles')
     {{ HTML::style('/assets/css/style_user.css') }}
     {{ HTML::style('/assets/css/style_common.css') }}
-	{{ HTML::style('/assets/metronic/assets/global/plugins/font-awesome/css/font-awesome.min.css') }}
+	{{ HTML::style('/assets/font-awesome/css/font-awesome.min.css') }}
 	
 @stop
 @section('header')

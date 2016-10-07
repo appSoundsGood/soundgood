@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\Cache;
 
 class RecipeAPI {
-	static function searchRecipes() {
+	static function searchRecipes($query) {
 		$number_of_recipes = 20;
-		$recipeUrl = RECIPE_API_URL. "/random?number=". $number_of_recipes;
+		$recipeUrl = RECIPE_API_URL. "/autocomplete?number=". $number_of_recipes. "&query=". $query;
 		
 		Unirest\Request::verifyPeer(false);
 		$response = Unirest\Request::get($recipeUrl,
@@ -15,7 +15,13 @@ class RecipeAPI {
 				]
 			);
 				
-		return $response->body->recipes;
+		$recipes = [];
+		foreach($response->body as $r) {
+			$recipe = static::recipeInfo($r->id);
+			$recipes[] = $recipe;
+		}
+		
+		return $recipes;
 	}
 	
 	/**

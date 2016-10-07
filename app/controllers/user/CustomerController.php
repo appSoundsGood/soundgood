@@ -112,17 +112,35 @@ class CustomerController extends \BaseController {
             //$param['data'] = UserActivityModel::orderBy('created_at', 'desc')->get();            
            
             $cabinet = \Cabinet::with('product')->where('customer_id', $userId)->get();
-            if (count($cabinet)) {
+            if ($recipeName == '') {
             	$products = [];
             	foreach ($cabinet as $t) {
             		$products[] = $t->product->itemName;
             	}
             	
-            	$recipeData = \RecipeAPI::searchRecipesBasedCabinet($products);
+            	$result = \RecipeAPI::searchRecipesBasedCabinet($products);
             }
             else {
-            	// get random recipes
-            	$recipeData = \RecipeAPI::searchRecipes();
+            	// search recipes by query
+            	$result = \RecipeAPI::searchRecipes($recipeName);
+            }
+            
+            $array_of_ids = [];
+            $recipeData = [];
+            foreach ($result as $t) {
+            	$t->likes = 0;
+            	$array_of_ids[] = $t->id;
+            	$recipeData[$t->id] = $t;
+            }
+            
+            $likes = DB::table('like')
+	            ->select(DB::raw('recipeId, COUNT(likeCustomerId) as `count`'))
+	            ->whereIn('recipeId', $array_of_ids)
+	            ->where('is_valid', '=', 1)
+	            ->groupBy('recipeId')
+	            ->get();
+            foreach ($likes as $t) {
+            	$recipeData[$t->recipeId]->likes = $t->count;
             }
             
             $param['data'] = $recipeData;
@@ -371,21 +389,6 @@ class CustomerController extends \BaseController {
 		return Response::json(['result' => 'success']);
 	}
 
-    public function addItem(){
-
-        $customerProduct = new CustomerProductModel;
-        $customerId = Session::get('user_id'); 
-        $productId = Input::get('productId');
-        
-
-        $customerProduct->customer_id = $customerId ;
-        $customerProduct->product_id = $productId ;
-        
-        $customerProduct->save();
-        return Response::json(['result' => 'success']);
-
-    }
-
 	public function unfollow(){
 		
 		$userId = Session::get('user_id'); 
@@ -434,19 +437,16 @@ class CustomerController extends \BaseController {
 
         $recipeInv = RecipeModel::where('recipeId', $recipeId)->get();
 
-        if(count($recipeInv) > 0){
-            $recipe_id = $recipeInv[0]->id;
-        }else{
+        if(count($recipeInv) > 0){            
         	$data = \RecipeAPI::recipeInfo($recipeId);
         	
             $recipe = new RecipeModel;
             $recipe->recipeId = $recipeId;
             $recipe->name = $data->title;
             $recipe->save();
-            $recipe_id = $recipe->id;
         }
 
-        $condition = ['likeCustomerId' => $userId, 'recipeId' => $recipe_id , 'usertype' => 'customer'];
+        $condition = ['likeCustomerId' => $userId, 'recipeId' => $recipeId , 'usertype' => 'customer'];
 
         $likeInv = LikeModel::where($condition)->get();
 
@@ -457,14 +457,14 @@ class CustomerController extends \BaseController {
             $like->likeUserId = '1' ;
             $like->likeCustomerId = $userId ;
             $like->ownerUserId =  '1';
-            $like->recipeId = $recipe_id ;
+            $like->recipeId = $recipeId ;
             $like->usertype = "customer" ;
             $like->is_valid = "1";
             $like->save();
         }
         return Response::json([
         		'result' => 'success',
-        		'likes' => LikeModel::where(['recipeId' => $recipe_id])->count()
+        		'likes' => LikeModel::where(['recipeId' => $recipeId])->count()
         ]);
     }
     
@@ -472,12 +472,7 @@ class CustomerController extends \BaseController {
         $recipeId = Input::get('recipeId');
         $userId  =Input::get('userId');
 
-        //get the recipe id from the eceip api id
-
-        $recipe = RecipeModel::where('recipeId' , $recipeId)->get();
-        $recipe_id = $recipe[0]->id;
-
-        $condition = ['likeCustomerId' => $userId , 'is_valid' => '1' , 'recipeId' => $recipe_id , 'usertype' => 'customer'];
+        $condition = ['likeCustomerId' => $userId , 'is_valid' => '1' , 'recipeId' => $recipeId , 'usertype' => 'customer'];
 
         $like = LikeModel::where($condition)->get();
         $like[0]->is_valid = 0;
@@ -486,7 +481,7 @@ class CustomerController extends \BaseController {
 
         return Response::json([
         		'result' => 'success',
-        		'likes' => LikeModel::where(['recipeId' => $recipe_id])->count()
+        		'likes' => LikeModel::where(['recipeId' => $recipeId])->count()
         ]);
     }
     
@@ -640,6 +635,42 @@ class CustomerController extends \BaseController {
     		return Response::json([
     				'result' => 'failed'
     		]);
+    	}
+    }
+    
+    public function addItem(){
+    
+    	$customerProduct = new CustomerProductModel;
+    	$customerId = Session::get('user_id');
+    	$productId = Input::get('productId');
+    
+    
+    	$customerProduct->customer_id = $customerId ;
+    	$customerProduct->product_id = $productId ;
+    
+    	$customerProduct->save();
+    	return Response::json(['result' => 'success']);
+    
+    }
+    
+    public function addIngredientToList() {
+    	$customerProduct = new CustomerProductModel;
+    	$customerId = Session::get('user_id');
+    	$product_name = Input::get('ingredient');
+    	
+    	$product = ProductModel::where('itemName', 'like', '%'. $product_name)->first();
+    	if ($product) {
+    		$customerProduct = CustomerProductModel::where(['customer_id'=> $customerId, 'product_id' => $product->id])->first();
+    		if (!$customerProduct)
+    			$customerProduct = new CustomerProductModel();
+    		
+    		$customerProduct->customer_id = $customerId ;
+    		$customerProduct->product_id = $product->id;	
+    		$customerProduct->save();
+    		return Response::json(['result' => 'success']);
+    	}
+    	else {
+    		return Response::json(['result' => 'failed']);
     	}
     }
     
