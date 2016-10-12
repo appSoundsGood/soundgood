@@ -98,6 +98,7 @@ Route::get('customer/shoppinglist',   	['as' => 'customer.shoppinglist',        
 Route::get('customer/postApply/{id}', ['as' => 'customer.postApply',             'uses' => 'User\CustomerController@postApply']);
 Route::post('customer/deleteApply', ['as' => 'customer.deleteApply',           'uses' => 'User\CustomerController@deleteApply']);
 Route::post('customer/deleteLike', ['as' => 'customer.deleteLike',           'uses' => 'User\CustomerController@deleteLike']);
+Route::post('customer/deleteCabinet', ['as' => 'customer.deleteCabinet',           'uses' => 'User\CustomerController@deleteCabinet']);
 
 Route::get('customer/popular', ['as' => 'customer.popular',                    'uses' => 'User\CustomerController@popular']);
 Route::get('customer/profileView/{id}', ['as' => 'customer.viewProfile',                    'uses' => 'User\CustomerController@viewProfile']);
@@ -132,9 +133,8 @@ Route::group(['prefix' => 'async'], function () {
 });
 Route::group(['prefix' => 'customer'], function () {
 	Route::get('/login', 				['as' => 'user.customer.login',   'uses' => 'User\CustomerController@login']);
-	Route::get('/singUp',				['as' => 'user.customer.signup',  'uses' => 'User\CustomerController@signup']);
 	Route::post('/signin',   			['as' => 'user.customer.signin',  'uses' => 'User\CustomerController@signin']);
-	Route::get('/signup',   			['as' => 'user.customer.signup',   'uses' => 'User\CustomerController@signup']);
+	Route::get('/signup',   			['as' => 'user.customer.signup',  'uses' => 'User\CustomerController@signup']);
 	Route::post('/doSignup',   			['as' => 'user.customer.doSignup', 'uses' => 'User\CustomerController@doSignup']);
 	Route::get('/chat/{etc}',   		['as' => 'user.customer.chat',     'uses' => 'User\CustomerController@chat']);
 

@@ -4,7 +4,7 @@
 <main class="backgroundDiv">
 	<div class="">
 		<div class="container">
-		    <form method="POST" action="/customer/doSignup" role="form" class="soundgoodform form-login margin-top-normal col-sm-4 col-md-offset-4">
+		    <form method="POST" action="{{URL::route('user.customer.doSignup')}}" role="form" class="soundgoodform form-login margin-top-normal col-sm-4 col-md-offset-4">
                     <div class="col-sm-4 col-sm-offset-4 margin-top-lg">
                         @if ($errors->has())
                         <div class="alert alert-danger alert-dismissibl fade in">
@@ -35,33 +35,38 @@
                             <div class = "soundgoodLogo container"></div>
                        </div>
                     </div>       
-                    <div class="row margin-top-normal">
+                    <div class="row">
                         <div class="form-group">
-                            <input class="form-control" name="name" type="text" placeholder = "name">
+                        	<label>Name</label>
+                            <input class="form-control" name="name" type="text" placeholder = "Name" required>
                         </div>
                     </div> 
-                    <div class="row margin-top-normal">
+                    <div class="row">
                         <div class="form-group">
-                            <input class="form-control" name="password" type="email" placeholder = "email">
+                        	<label>E-mail</label>
+                            <input class="form-control" name="email" type="email" placeholder = "Email" required>
                         </div>
                     </div> 
-                    <div class="row margin-top-normal">
+                    <div class="row">
                         <div class="form-group">
-                            <input class="form-control" name="accNumber" type="text" placeholder = "Account Number">
+                        	<label>Account Number</label>
+                            <input class="form-control" name="accNumber" type="text" placeholder = "Account Number" required>
                         </div>
                     </div>
-                    <div class="row margin-top-normal">
+                    <div class="row">
                         <div class="form-group">
-                            <input class="form-control" name="password" type="password" placeholder = "password">
+                        	<label>Password</label>
+                            <input class="form-control" name="password" type="password" placeholder = "Password" required>
                         </div>
                     </div>                     
-                    <div class="row margin-top-normal">
-                        <div class="form-group">                                                                 
-                            <input class="form-control" name="password_confirmation" type="text" placeholder = "Confirm Password">
+                    <div class="row">
+                        <div class="form-group">
+                        	<label>Confirm Password</label>              
+                            <input class="form-control" name="password_confirmation" type="password" placeholder = "Confirm Password" required>
                         </div>
                     </div> 
  
-                    <div class="row margin-top-normal">
+                    <div class="row">
                         <div class="row">
                             <button class="btn btn-lg btn-primary text-uppercase btn-block" style="background-color: #B12020;">Sign Up</button>
                         </div>

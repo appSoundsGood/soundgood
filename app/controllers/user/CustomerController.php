@@ -1,18 +1,8 @@
 <?php namespace User;
 
-use Illuminate\Routing\Controllers\Controller;
 use DB;
 use View, Input, Redirect, Session, Validator , Response;
 use User as UserModel;
-use City as CityModel;
-use Category as CategoryModel;
-use Level as LevelModel;
-use Language as LanguageModel;
-use Type as TypeModel;
-use Cart as CartModel;
-use Apply as ApplyModel;
-use Pattern as PatternModel;
-use Job as JobModel;
 use Location as LocationModel;
 use Post as PostModel;
 use Video as VideoModel;
@@ -31,11 +21,9 @@ use UserActivity as UserActivityModel;
 use CustomerProduct as CustomerProductModel;
 use Product as ProductModel;
 use Like as LikeModel;
+use Cabinet as CabinetModel;
 
 use Mail;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Contracts\ArrayableInterface;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CustomerController extends \BaseController {
 	
@@ -437,7 +425,7 @@ class CustomerController extends \BaseController {
 
         $recipeInv = RecipeModel::where('recipeId', $recipeId)->get();
 
-        if(count($recipeInv) > 0){            
+        if(count($recipeInv) == 0) {
         	$data = \RecipeAPI::recipeInfo($recipeId);
         	
             $recipe = new RecipeModel;
@@ -674,6 +662,21 @@ class CustomerController extends \BaseController {
     	}
     }
     
+    public function deleteCabinet() {
+    	$id = $userId = Input::get('id');
+    	
+    	$cabinet_product = CabinetModel::find($id);
+    	if ($cabinet_product != null) {
+    		if ($cabinet_product->delete())
+    			return json_encode(['result' => 'success']);
+    			else
+    				App::abort(500, 'Failed to delete model');
+    	}
+    	else {
+    		App::abort(404, 'Cabinet model not found');
+    	}
+    }
+    
 	public function signup() {
 		
         $param['pageNo'] = 99;
@@ -728,7 +731,7 @@ class CustomerController extends \BaseController {
                 $message->to( $email , '')->subject('Welcome!');
             });
             
-            return Redirect::route('user.auth.signup')->with('alert', $alert);            
+            return Redirect::route('user.customer.signup')->with('alert', $alert);            
         }
 	}
 	
