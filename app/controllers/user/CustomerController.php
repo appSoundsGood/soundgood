@@ -727,7 +727,7 @@ class CustomerController extends \BaseController {
             $data = ['email' => $email , 'url' => 'http://'.$host.'/customer/login?token='.$token];
             
             Mail::send('mail_template.approveMailToSponsor', $data, function ($message) use ($email) {
-                $message->from('mickyjack123@gmail.com');
+                $message->from('thesoundsgoodteam@gmail.com');
                 $message->to( $email , '')->subject('Welcome!');
             });
             

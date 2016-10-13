@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => 'mickyjack123@gmail.com' ,
+	'username' => 'thesoundsgoodteam@gmail.com' ,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'password' => 'minister1992',
+	'password' => 'culinaryrevolution',
 
 	/*
 	|--------------------------------------------------------------------------
