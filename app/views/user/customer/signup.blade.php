@@ -5,7 +5,7 @@
 	<div class="">
 		<div class="container">
 		    <form method="POST" action="{{URL::route('user.customer.doSignup')}}" role="form" class="soundgoodform form-login margin-top-normal col-sm-4 col-md-offset-4">
-                    <div class="col-sm-4 col-sm-offset-4 margin-top-lg">
+                    <div class="">
                         @if ($errors->has())
                         <div class="alert alert-danger alert-dismissibl fade in">
                             <button type="button" class="close" data-dismiss="alert">
