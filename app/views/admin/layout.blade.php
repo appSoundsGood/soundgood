@@ -107,17 +107,17 @@
                             <span class="title">Product Management</span>
                         </a>
                     </li>
-					<li class="<?php echo ($pageNo == 1) ? "active" : "";?>" style = "display:none;">
+					<li class="<?php echo ($pageNo == 1) ? "active" : "";?>">
 						<a href="{{ URL::route('admin.customer') }}">
 						    <i class="fa fa-globe"></i>
-						    <span class="title">Customer Management</span>
+						    <span class="title">User Accounts</span>
 						</a>
 					</li>
 					
 					<li class="<?php echo ($pageNo == 2) ? "active" : "";?>">
 						<a href="{{ URL::route('admin.user') }}">
 						    <i class="fa fa-map-marker"></i>
-						    <span class="title">User Account</span>
+						    <span class="title">Store Accounts</span>
 						</a>
 					</li>
 					

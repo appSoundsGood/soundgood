@@ -1,9 +1,9 @@
 <?php namespace Admin;
 
-use Illuminate\Routing\Controllers\Controller;
 use View, Input, Redirect, Session, Validator;
 use User as UserModel;
 use Location as LocationModel;
+use Customer as CustomerModel;
 
 class UserController extends \BaseController {
 	
