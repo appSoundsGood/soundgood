@@ -134,6 +134,9 @@ class CustomerController extends \BaseController {
             $param['data'] = $recipeData;
             $param['userId'] = $userId;
             
+            // load advertisements
+            $param['posts'] = PostModel::paginate(3);
+            
             return View::make('customer.home.index')->with($param);
         }
 	}

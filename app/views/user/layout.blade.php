@@ -18,8 +18,8 @@
                     @if (Session::has('user_id'))
                     	<li class="{{ ($pageNo == 5) ? 'active' : ''}}" style = "display:none;"><a href="{{ URL::route('user.home') }}">Home</a></li>
                         <li class="{{ ($pageNo == 10) ? 'active' : ''}}"><a href="{{ URL::route('user.dashboard.profile') }}">Profile</a></li>
-                        <li class="{{ ($pageNo == 11) ? 'active' : ''}}"><a href="{{ URL::route('user.post') }}">Post</a></li>
-                        <li class="{{ ($pageNo == 12) ? 'active' : ''}}"><a href="{{ URL::route('user.store') }}">Store</a></li> 
+                        <li class="{{ ($pageNo == 11) ? 'active' : ''}}"><a href="{{ URL::route('user.post') }}">Advertise</a></li>
+                        <li class="{{ ($pageNo == 12) ? 'active' : ''}}"><a href="{{ URL::route('user.store') }}">Stores</a></li> 
                         <li class="{{ ($pageNo == 13) ? 'active' : ''}}"><a href="{{ URL::route('user.product') }}">Product</a></li>  
 						<li class="{{ ($pageNo == 14) ? 'active' : ''}}"><a href="{{ URL::route('user.popular') }}">Popular</a></li>  
                         <li><a href="{{ URL::route('user.auth.doLogout') }}">Sign Out</a></li>

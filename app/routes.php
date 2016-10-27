@@ -23,7 +23,7 @@ Route::get('/', function()
 Route::get('cron',        ['as' => 'user.cron',               'uses' => 'HomeController@cronJob']);      
 Route::get('phpinfo',        ['as' => 'user.phpinfo',          'uses' => 'HomeController@phpInfo']);
 
-
+/*** routes for store accounts ***/
 
 Route::get('signup',        ['as' => 'user.auth.signup',       		'uses' => 'User\AuthController@signup']);
 Route::post('doSignup',     ['as' => 'user.auth.doSignup',     		'uses' => 'User\AuthController@doSignup']);
@@ -37,10 +37,10 @@ Route::get('doLogout',      ['as' => 'user.auth.doLogout',     		'uses' => 'User
 Route::get('home', 			['as' => 'user.home', 					'uses' => 'User\UserController@home']);
 Route::get('search',        ['as' => 'user.post.search',  	   		'uses' => 'User\UserController@search']);
 Route::get('dashboard', 	['as' => 'user.dashboard', 				'uses' => 'User\UserController@dashboard']);
-Route::get('post', 			['as' => 'user.post', 					'uses' => 'User\UserController@post']);
+
 Route::get('popular',       ['as' => 'user.popular',                'uses' => 'User\UserController@popular']);
 Route::get('recipe',        ['as' => 'user.recipe',                 'uses' => 'User\UserController@recipe']);
-Route::get('newPost', 		['as' => 'user.postNew', 				'uses' => 'User\UserController@postNew']);
+
 Route::get('newRecipe', 	['as' => 'user.recipeNew', 				'uses' => 'User\UserController@recipeNew']);
 Route::get('followers', 		['as' => 'user.followers', 				'uses' => 'User\UserController@followers']);
 Route::get('following', 	['as' => 'user.following', 				'uses' => 'User\UserController@following']);
@@ -67,47 +67,6 @@ Route::get('product/create',     ['as' => 'user.product.create',      'uses' => 
 Route::post('product/save',      ['as' => 'user.product.save',       'uses' => 'User\UserController@storeProduct']); 
 
 
-Route::get('customer/home',    ['as' => 'customer.home',                      'uses' => 'User\CustomerController@home']);
-Route::get('customer/recipeView/{etc}',['as' => 'customer.recipeView',        'uses' => 'User\CustomerController@recipeView']);
-
-Route::get('recipe/external/{etc}/{url}',['as' => 'customer.viewRecipe',        'uses' => 'User\CustomerController@viewRecipe']);
-
-
-Route::get('dashboard',     ['as' => 'customer.dashboard',                 'uses' => 'User\CustomerController@dashboard']);
-Route::get('customer/cabinet',     ['as' => 'customer.dashboard.cabinet',         'uses' => 'User\CustomerController@cabinet']);                   
-Route::get('customer/ingredient',     ['as' => 'customer.dashboard.ingredient',      'uses' => 'User\CustomerController@ingredient']); 
-Route::get('customer/buy', ['as' => 'customer.home.buy',                    'uses' => 'User\CustomerController@buy']);
-
-Route::post('customer/follow',   	['as' => 'customer.follow',         		'uses' => 'User\CustomerController@follow']);
-Route::post('customer/unfollow',   	['as' => 'customer.unfollow',         		'uses' => 'User\CustomerController@unfollow']);
-Route::post('customer/like',   	['as' => 'customer.like',         				'uses' => 'User\CustomerController@like']);
-Route::post('customer/unlike',   	['as' => 'customer.unlike',         		'uses' => 'User\CustomerController@unlike']);
-Route::get('customer/recipe',   	['as' => 'customer.recipe',         		'uses' => 'User\CustomerController@recipe']);
-Route::get('customer/follower',   	['as' => 'customer.follower',         		'uses' => 'User\CustomerController@follower']);
-Route::get('customer/following',   	['as' => 'customer.following',         		'uses' => 'User\CustomerController@following']);
-Route::get('customer/shop',   	    ['as' => 'customer.shop',         		'uses' => 'User\CustomerController@shop']);
-Route::get('customer/shop/{id}',   	['as' => 'customer.shopView',         	'uses' => 'User\CustomerController@shopView']);
-Route::post('customer/likeRecipe',  	['as' => 'customer.likeRecipe',         'uses' => 'User\CustomerController@likeRecipe']);
-Route::post('customer/unlikeRecipe',  	['as' => 'customer.unlikeRecipe',         'uses' => 'User\CustomerController@unlikeRecipe']);
-Route::post('customer/cookRecipe',  	['as' => 'customer.cookRecipe',         'uses' => 'User\CustomerController@cookRecipe']);
-
-Route::get('customer/shoppinglist',   	['as' => 'customer.shoppinglist',         		'uses' => 'User\CustomerController@shoppinglist']);
-
-
-
-Route::get('customer/postApply/{id}', ['as' => 'customer.postApply',             'uses' => 'User\CustomerController@postApply']);
-Route::post('customer/deleteApply', ['as' => 'customer.deleteApply',           'uses' => 'User\CustomerController@deleteApply']);
-Route::post('customer/deleteLike', ['as' => 'customer.deleteLike',           'uses' => 'User\CustomerController@deleteLike']);
-Route::post('customer/deleteCabinet', ['as' => 'customer.deleteCabinet',           'uses' => 'User\CustomerController@deleteCabinet']);
-
-Route::get('customer/popular', ['as' => 'customer.popular',                    'uses' => 'User\CustomerController@popular']);
-Route::get('customer/profileView/{id}', ['as' => 'customer.viewProfile',                    'uses' => 'User\CustomerController@viewProfile']);
-Route::get('customer/profile', ['as' => 'customer.profile',                    'uses' => 'User\CustomerController@profile']);
-Route::get('customer/profile/edit', 	['as' => 'user.dashboard.profileEdit', 	'uses' => 'User\CustomerController@profileEdit']);
-
-Route::post('customer/addItem', 	['as' => 'customer.addItem', 	'uses' => 'User\CustomerController@addItem']);
-Route::post('customer/addIngredientToList', 	['as' => 'customer.addIngredientToList', 	'uses' => 'User\CustomerController@addIngredientToList']);
-
 Route::get('profile', 		['as' => 'user.dashboard.profile', 		'uses' => 'User\UserController@profile']);
 Route::get('profile/edit', 	['as' => 'user.dashboard.profileEdit', 	'uses' => 'User\UserController@profileEdit']);
 Route::get('profile/{etc}', ['as' => 'user.dashboard.profileView', 	'uses' => 'User\UserController@profileView']);
@@ -115,7 +74,16 @@ Route::post('saveProfile', 	['as' => 'user.dashboard.saveProfile', 	'uses' => 'U
 Route::get('cart', 			['as' => 'user.dashboard.cart', 		'uses' => 'User\UserController@cart']);
 Route::get('appliedJobs', 	['as' => 'user.dashboard.appliedJobs', 	'uses' => 'User\UserController@appliedJobs']);
 Route::get('user/{id}', 	['as' => 'user.view', 					'uses' => 'User\UserController@view']);
-Route::get('post/view/{etc}', ['as' =>'user.post.postView' ,	'uses' => 'User\UserController@postView']);
+
+// advertise
+Route::group(['prefix' => 'post'], function() {
+	Route::get('/', 			['as' => 'user.post', 				'uses' => 'User\PostController@index']);
+	Route::get('view/{id}', 	['as' => 'user.post.view', 			'uses' => 'User\PostController@view']);
+	Route::get('create', 		['as' => 'user.post.create', 		'uses' => 'User\PostController@create']);
+	Route::get('edit/{id}', 	['as' => 'user.post.edit', 			'uses' => 'User\PostController@edit']);
+	Route::post('save',			['as' => 'user.post.save',			'uses' => 'User\PostController@save']);
+	Route::post('delete/{id}',			['as' => 'user.post.delete',			'uses' => 'User\PostController@delete']);
+});
 
 Route::get('job/{id}', 		['as' => 'user.dashboard.viewJob', 	    'uses' => 'User\JobController@viewJob']);
 
@@ -131,17 +99,59 @@ Route::group(['prefix' => 'async'], function () {
 	Route::post('company/add/review', 	['as' => 'user.company.async.addReview', 		'uses' => 'User\CompanyController@asyncAddReview']);
 	
 });
-Route::group(['prefix' => 'customer'], function () {
+
+
+/** Customer routes **/
+Route::get('dashboard',     ['as' => 'customer.dashboard',                 'uses' => 'User\CustomerController@dashboard']);
+Route::get('recipe/external/{etc}/{url}',['as' => 'customer.viewRecipe',        'uses' => 'User\CustomerController@viewRecipe']);
+
+Route::group(['prefix' => 'customer'], function() {
 	Route::get('/login', 				['as' => 'user.customer.login',   'uses' => 'User\CustomerController@login']);
 	Route::post('/signin',   			['as' => 'user.customer.signin',  'uses' => 'User\CustomerController@signin']);
 	Route::get('/signup',   			['as' => 'user.customer.signup',  'uses' => 'User\CustomerController@signup']);
 	Route::post('/doSignup',   			['as' => 'user.customer.doSignup', 'uses' => 'User\CustomerController@doSignup']);
 	Route::get('/chat/{etc}',   		['as' => 'user.customer.chat',     'uses' => 'User\CustomerController@chat']);
 
+	Route::get('home',    ['as' => 'customer.home',                      'uses' => 'User\CustomerController@home']);
+	Route::get('recipeView/{etc}',['as' => 'customer.recipeView',        'uses' => 'User\CustomerController@recipeView']);
+
+	Route::get('cabinet',     ['as' => 'customer.dashboard.cabinet',         'uses' => 'User\CustomerController@cabinet']);
+	Route::get('ingredient',     ['as' => 'customer.dashboard.ingredient',      'uses' => 'User\CustomerController@ingredient']);
+	Route::get('buy', ['as' => 'customer.home.buy',                    'uses' => 'User\CustomerController@buy']);
+
+	Route::post('follow',   	['as' => 'customer.follow',         		'uses' => 'User\CustomerController@follow']);
+	Route::post('unfollow',   	['as' => 'customer.unfollow',         		'uses' => 'User\CustomerController@unfollow']);
+	Route::post('like',   	['as' => 'customer.like',         				'uses' => 'User\CustomerController@like']);
+	Route::post('unlike',   	['as' => 'customer.unlike',         		'uses' => 'User\CustomerController@unlike']);
+	Route::get('recipe',   	['as' => 'customer.recipe',         		'uses' => 'User\CustomerController@recipe']);
+	Route::get('follower',   	['as' => 'customer.follower',         		'uses' => 'User\CustomerController@follower']);
+	Route::get('following',   	['as' => 'customer.following',         		'uses' => 'User\CustomerController@following']);
+	Route::get('shop',   	    ['as' => 'customer.shop',         		'uses' => 'User\CustomerController@shop']);
+	Route::get('shop/{id}',   	['as' => 'customer.shopView',         	'uses' => 'User\CustomerController@shopView']);
+	Route::post('likeRecipe',  	['as' => 'customer.likeRecipe',         'uses' => 'User\CustomerController@likeRecipe']);
+	Route::post('unlikeRecipe',  	['as' => 'customer.unlikeRecipe',         'uses' => 'User\CustomerController@unlikeRecipe']);
+	Route::post('cookRecipe',  	['as' => 'customer.cookRecipe',         'uses' => 'User\CustomerController@cookRecipe']);
+
+	Route::get('shoppinglist',   	['as' => 'customer.shoppinglist',         		'uses' => 'User\CustomerController@shoppinglist']);
+
+
+
+	Route::get('postApply/{id}', ['as' => 'customer.postApply',             'uses' => 'User\CustomerController@postApply']);
+	Route::post('deleteApply', ['as' => 'customer.deleteApply',           'uses' => 'User\CustomerController@deleteApply']);
+	Route::post('deleteLike', ['as' => 'customer.deleteLike',           'uses' => 'User\CustomerController@deleteLike']);
+	Route::post('deleteCabinet', ['as' => 'customer.deleteCabinet',           'uses' => 'User\CustomerController@deleteCabinet']);
+
+	Route::get('popular', ['as' => 'customer.popular',                    'uses' => 'User\CustomerController@popular']);
+	Route::get('profileView/{id}', ['as' => 'customer.viewProfile',                    'uses' => 'User\CustomerController@viewProfile']);
+	Route::get('profile', ['as' => 'customer.profile',                    'uses' => 'User\CustomerController@profile']);
+	Route::get('profile/edit', 	['as' => 'user.dashboard.profileEdit', 	'uses' => 'User\CustomerController@profileEdit']);
+
+	Route::post('addItem', 	['as' => 'customer.addItem', 	'uses' => 'User\CustomerController@addItem']);
+	Route::post('addIngredientToList', 	['as' => 'customer.addIngredientToList', 	'uses' => 'User\CustomerController@addIngredientToList']);
 });
 
 
-
+/** routes for Admin **/
 Route::group(['prefix' => 'admin'], function () {
     
     Route::get('/',         ['as' => 'admin.auth',         'uses' => 'Admin\AdminController@index']);

@@ -36,7 +36,6 @@ use UserActivity as UserActivityModel;
 use Following as FollowingModel;
 use Mail;
 
-
 class UserController extends \BaseController {
 	
 	public function view($id) {
@@ -71,18 +70,7 @@ class UserController extends \BaseController {
       
 		return View::make('user.home.index')->with($param);
 	}
-	
-    public function post() {
-		
-        $userId = Session::get('user_id');
-        $posts = UserPostModel::where('user_id', $userId)->paginate(10);
-		
-        $param['posts'] = $posts;
-		$param['pageNo'] = 5;
-			
-		return View::make('user.dashboard.appliedPosts')->with($param);
-	}
-    
+
     public function recipe() {
         
         $userId = Session::get('user_id');
@@ -94,35 +82,7 @@ class UserController extends \BaseController {
         return View::make('user.dashboard.appliedRecipes')->with($param);
         
     }
-	
-    public function postView($etc){
-		
-		$userId = Session::get('user_id');
-        
-        
-        $post = PostModel::where('user_id', $userId)->paginate(10);
-		
-		$postVideos = PostVideoModel::where('postId', $post[0]->id)->get(); 
-		$postImages = PostImageModel::where('postId', $post[0]->id)->get();
-		
-		$param['posts'] = $post;
-		
-		$videos = array();
-		$images = array();
-		
-	
-		foreach($postVideos as $postVideo){
-			$videos[] = VideoModel::where('id', $postVideo->videoId)->get(); 
-		}
-		foreach($postImages as $postImage){
-			$images[] = ImageModel::where('id', $postImage->imageId)->get();
-		}
-		
-		$param['postVideos'] = $videos;
-		$param['postImages'] = $images;
-		
-		return View::make('user.dashboard.postView')->with($param);
-	}
+
 	public function following(){
 		$userId = Session::get('user_id');
         $condition = ["followerUserId" => $userId , 'is_valid' => '1'];
@@ -312,17 +272,7 @@ class UserController extends \BaseController {
 			}
 		}
 	}
-	
-	public function postNew() {
-		
-		if (!Session::has('user_id')) {
-			return Redirect::route('user.auth.login');
-		}else {
-			$param['pageNo'] = 5;
-			$param['user'] = UserModel::find(Session::get('user_id'));
-			return View::make('user.dashboard.postNew')->with($param);
-		}
-	}
+
     public function popular(){
         if (!Session::has('user_id')) {
             return Redirect::route('user.auth.login');

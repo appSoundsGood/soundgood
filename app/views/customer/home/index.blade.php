@@ -63,22 +63,12 @@
 <main class="bs-docs-masthead gray-container" role="main">
     <div class="background-dashboard" style="z-index: 0;"></div>
     <div class="container">
+    	
     	<div class="row">
             <div class="col-sm-1">
             </div>
             <form action = "{{ URL::route('customer.home')}}" method = "get">
             <div class="col-sm-11">
-                <!-- <div class="row">
-                    <div class="pull-right">
-                        <select class="selectpicker form-control" name = "recipe" id = "recipeFilter" onChange = "searchRecipe();">
-                          <option>Filter</option>
-                          <option value = "maze">Maze</option>
-                          <option value = "salad">Salad</option>
-                          <option value = "soup">Soup</option>
-                        </select>
-                    </div>
-                </div>
-                <button id = "recipeButton" type = "submit" style = "display:none;"></button> -->
                 <div class="keywords pull-right">
                 	<span class="ninja">
                 		<input type="text" class="form-control" name="q" id="recipe-q" placeholder="Search recipes...">                		
@@ -90,12 +80,27 @@
             </div>
             </form>
         </div>
-         <div class="row">
+        <div class="row">
+        	
 			<hr>
             <section id="pinBoot">
+    		@foreach ($posts as $post)
+    		<article class="white-panel">
+    			<a href="#">
+    				<img style = "max-width:240px;height:180px;" src="{{ asset('uploads/ads/'.$post->image) }}" >
+    			</a>
+    			<br>
+    			<a href="#">
+    				{{ $post->title }}
+    			</a>
+    		</article>
+    		@endforeach
+    		
+    		<br>
+    	
 			  @foreach ($data as $key => $value)
               <article class="recipe white-panel">
-                  <a href = "{{ URL::route('customer.viewRecipe', [$value->id, base64_encode($value->spoonacularSourceUrl)]) }}"> 
+                  <a href = "{{ URL::route('customer.viewRecipe', [$value->id, base64_encode($value->sourceUrl)]) }}"> 
                    <img style = "width:180px;height:120px;" src="{{$value->image}}" >
                   </a><br/>
                   
