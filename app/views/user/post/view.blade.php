@@ -16,6 +16,25 @@
     	@if($post->image != '')
     	<img src="{{ asset('uploads/ads/'. $post->image) }}">
     	@endif
+    	<dl>
+    		<dt>Original Price</dt>
+    		<dd>{{ $post->price_original }}</dd>
+    		<dt>Sale Price</dt>
+    		<dd>{{ $post->price_sale }}</dd>
+    		<dt>Expiration Date</dt>
+    		<dd>{{ $post->expire_date }}</dd>
+    		<dt>Vendor</dt>
+    		<dd>{{ $post->vendor }}</dd>
+    		<dt>Tags</dt>
+    		<dd>
+    		<?php
+    			$tags = $post->getTags();
+    			foreach ($tags as $t) {
+    				echo '['. $t->name. '] ';
+    			}
+    		?>
+    		</dd>
+    	</dl>
     	<div class="adver-content">
     		<?php echo $post->content ?>
     	</div>	 

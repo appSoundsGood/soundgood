@@ -63,6 +63,8 @@ class PostController extends \BaseController {
 		else {
 			$param['user'] = UserModel::find(Session::get('user_id'));
 			$param['post'] = new PostModel();
+			$param['post']->price_original = '0.00';
+			$param['post']->price_sale = '0.00';
 			$param['cuisines'] = TagModel::where('kind', 0)->lists('name', 'id');
 			$param['diets'] = TagModel::where('kind', 1)->lists('name', 'id');
 			$param['types'] = TagModel::where('kind', 2)->lists('name', 'id');

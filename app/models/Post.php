@@ -13,4 +13,8 @@ class Post extends Eloquent {
     public function userPostActivities() {
         return $this->hasMany('UserActivity');
     }
+    
+    public function getTags() {
+    	return Tag::whereIn('id', explode(',', $this->tags))->get();
+    }
 }

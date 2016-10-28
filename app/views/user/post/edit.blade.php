@@ -64,13 +64,13 @@ use Illuminate\Support\Facades\Form;
 							<?php echo Form::hidden('id') ?>
 							<div class="form-group">
 								<!-- <label class="control-label col-md-2">Title<span class="required">*</span></label> -->
-								<?= Form::label('title', 'Title *', ['class' => 'control-label col-md-2']) ?>
+								<?= Form::label('title', 'Product', ['class' => 'control-label col-md-2']) ?>
 								<div class="col-md-8">
 									<?= Form::text('title', null, ['class' => 'form-control', 'required']) ?>
 								</div>
 							</div>
 							<div class="form-group">
-								<?= Form::label('title', 'Content *', ['class' => 'control-label col-md-2']) ?>
+								<?= Form::label('content', 'Description', ['class' => 'control-label col-md-2']) ?>
 								<div class="col-md-8">
 									<textarea name="content" id="summernote_1">
 										<?php echo $post->content ?>

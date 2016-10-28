@@ -2,6 +2,7 @@
 
 @section('custom-styles')
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 	{{ HTML::style('/assets/css/components.css') }}
     {{ HTML::style('/assets/css/plugins.css') }}
     {{ HTML::style('/assets/css/summernote.css') }}
@@ -191,6 +192,13 @@
  {{ HTML::script('/assets/js/jquery.form.js') }}
  {{ HTML::script('/assets/js/script/post.js') }}
  
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+ 
  @include('js.post.postNew')
+<script type="text/javascript">
+$(function() {
+	$('.select2').select2();
+});
+</script>
  
 @stop
