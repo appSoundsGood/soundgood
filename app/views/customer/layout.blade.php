@@ -6,53 +6,6 @@
 	{{ HTML::style('/assets/font-awesome/css/font-awesome.min.css') }}
 	
 @stop
-@section('header')
-    <header class="header">
-        <div class="header-content">
-        	<div class="container">
-        	      
-		        <a href = "/home">
-		      		<div class="pull-left soundgoodLogo">
-		      		</div>
-		      	</a>
-		      	
-	            <div class="pull-right margin-top-xs">
-	                <ul class="nav nav-pills nav-top">
-	          <?php if (!isset($pageNo)) { $pageNo = 0; } ?>
-	                    @if (Session::has('user_id'))
-	                    	<li class="{{ ($pageNo == 5) ? 'active' : ''}}"><a href="{{ URL::route('customer.home') }}">Recommendations</a></li>               
-	                        <li class="{{ ($pageNo == 10) ? 'active' : ''}}"><a href="{{ URL::route('customer.dashboard.cabinet') }}">Cabinet</a></li>
-	                        <li class="{{ ($pageNo == 11) ? 'active' : ''}}" style = "display:none;"><a href="{{ URL::route('user.post') }}">Post</a></li>
-	                        <li class="{{ ($pageNo == 13) ? 'active' : ''}}"><a href="{{ URL::route('customer.shop') }}">Browse</a></li> 
-	                        <li class="{{ ($pageNo == 15) ? 'active' : ''}}"><a href="{{ URL::route('customer.shoppinglist') }}">Shopping List</a></li>
-	                        <li class="{{ ($pageNo == 16) ? 'active' : ''}}"><a href="{{ URL::route('customer.profile') }}">Profile</a></li>
-	                       	<li><a href="{{ URL::route('user.auth.doLogout') }}">Sign Out</a></li>
-	                    @else
-	                      <li class="{{ ($pageNo == 1) ? 'active' : ''}}" style = "display:none;"><a href="{{ URL::route('user.home') }}">Home</a></li>
-	                        <li class="dropdown">
-	                            <a href="">SIGN UP</a>
-	                            <ul class="dropdown-menu signin-dropdown-menu register-dropdown-menu">
-	                                <li><a href="{{ URL::route('user.auth.signup') }}">Register as Store</a></li>
-	                                <li><a href="{{ URL::route('user.customer.signup') }}">Register as Customer</a></li>
-	                            </ul>
-	                        </li>
-	                        <li><a>|</a></li>
-	                        <li class="dropdown">
-	                          <a >SIGN IN</a>
-	                          <ul class="dropdown-menu signin-dropdown-menu register-dropdown-menu">
-	                            <li><a href="{{ URL::route('user.auth.login') }}">Sign in as Store</a></li>
-	                            <li><a href="{{ URL::route('user.customer.login') }}">Sign in as Customer</a></li>
-	                          </ul>
-	                        </li>
-	                    @endif
-	                </ul>
-	            </div>
-            	<div class="clearfix"></div>
-            </div>
-        </div>
-    </header>
-    
-@stop
 	
 @section('body')
 @yield('content')

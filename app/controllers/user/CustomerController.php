@@ -135,7 +135,7 @@ class CustomerController extends \BaseController {
             $param['userId'] = $userId;
             
             // load advertisements
-            $param['posts'] = PostModel::paginate(3);
+            $param['posts'] = PostModel::where('expire_date', '>=', date('Y-m-d'))->get();
             
             return View::make('customer.home.index')->with($param);
         }

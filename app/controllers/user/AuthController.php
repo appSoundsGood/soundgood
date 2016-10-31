@@ -14,8 +14,7 @@ class AuthController extends \BaseController {
         $user = UserModel::whereRaw('token = ? and is_active = ?', array( $token , '0'))->get();
        
         if (count($user) != 0) {
-            
-             $id = $user[0]->id;
+            $id = $user[0]->id;
         
             $user =  new UserModel;
             $user = UserModel::find($id);
@@ -25,13 +24,11 @@ class AuthController extends \BaseController {
             
             $alert['msg'] = 'You have approved your account.Please login';
             $alert['type'] = 'success';
-            
+            $param['alert'] =  $alert;            
         } else {
-            $alert['msg'] = 'The token is invaild';
-            $alert['type'] = 'success';
+            //$alert['msg'] = 'The token is invaild';
+            //$alert['type'] = 'success';
         }
-        
-        $param['alert'] =  $alert;
         
         return View::make('user.auth.login')->with($param);        
     }
