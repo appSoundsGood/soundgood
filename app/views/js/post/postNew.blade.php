@@ -35,6 +35,7 @@ function nextform(){
    		$("#emailPreview").text(email);
 
    		$('.button-submit').show();
+   		$('.button-next').hide();
    		
    		document.getElementById("mainDiv").scrollIntoView();
 		
@@ -62,6 +63,8 @@ function backform(){
 
    	if (step == 1) {
    	   	// go to list
+   	   	location.href = "{{ URL::route('user.post') }}";
+   	   	return;
    	}
    	else if( step == 2){
    		$("#step2").removeClass("active");
@@ -74,6 +77,7 @@ function backform(){
    		$("#tab1").addClass("active");
 
    		$('.button-submit').hide();
+   		$('.button-next').show();
    		
    		document.getElementById("mainDiv").scrollIntoView();
    	}
