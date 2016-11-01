@@ -12,13 +12,25 @@
             <h2 class="home color-white"> Advertisements</h2>
         </div>  
         <div class="row">
+        	<?php if (isset($alert)) { ?>
+                    <div class="alert alert-<?php echo $alert['type'];?> alert-dismissibl fade in">
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <p>
+                            <?php echo $alert['msg'];?>
+                        </p>
+                    </div>
+                    <?php } ?>
+                    
             <table class="table table-store-list">
                 <thead style="background-color: #F7F7F7">
                     <tr>
                         <th>Post TITLE</th>
                         <th class="text-center">APPLIED DATE</th>
                         <th class="text-center">STATE</th>
-                        <th><a href="{{URL::route('user.post.create')}}" class="btn btn-success btn-sm btn-home">Post Ad</a></th>
+                        <th class=""><a href="{{URL::route('user.post.create')}}" class="btn btn-success btn-sm btn-home">Post Ad</a></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,11 +39,13 @@
                         <td><a href="" style = "cursor:pointer;text-decoration:none;">{{ $value->post->title}}</a></td>
                         <td class="text-center">{{ $value->created_at}}</td>
                         <td class="text-center"></td>
-                        	
-                        </td>
-                        <td class="text-center">
-                            <a href="{{ URL::route('user.post.view', $value->post->id) }}" class="btn btn-success btn-sm btn-home">View</a>
-                            <a href="{{ URL::route('user.post.edit', $value->post->id) }}" class="btn btn-success btn-sm">Edit</a>
+                        <td class="">
+                            {{ Form::open(array('url' => 'post/' . $value->post->id, 'class' => '')) }}
+                    			{{ Form::hidden('_method', 'DELETE') }}
+                    			<a href="{{ URL::route('user.post.view', $value->post->id) }}" class="btn btn-success btn-sm btn-home">View</a>
+                            	<a href="{{ URL::route('user.post.edit', $value->post->id) }}" class="btn btn-success btn-sm">Edit</a>
+                    			{{ Form::submit('Delete', array('class' => 'btn btn-danger btn-sm')) }}
+               				{{ Form::close() }}
                         </td>
                     </tr>
                     @endforeach

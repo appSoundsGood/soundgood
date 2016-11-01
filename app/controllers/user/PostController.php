@@ -25,6 +25,7 @@ class PostController extends \BaseController {
 		
         $param['posts'] = $posts;
 		$param['pageNo'] = 11;
+		$param['alert'] = Session::get('alert');
 		        
 		return View::make('user.post.index')->with($param);
 	}
@@ -65,6 +66,7 @@ class PostController extends \BaseController {
 			$param['post'] = new PostModel();
 			$param['post']->price_original = '0.00';
 			$param['post']->price_sale = '0.00';
+			$param['post']->duration = 30;
 			$param['cuisines'] = TagModel::where('kind', 0)->lists('name', 'id');
 			$param['diets'] = TagModel::where('kind', 1)->lists('name', 'id');
 			$param['types'] = TagModel::where('kind', 2)->lists('name', 'id');
@@ -116,7 +118,7 @@ class PostController extends \BaseController {
 	        $presence->content = Input::get('content');
 	        $presence->price_original = Input::get('price_original');
 	        $presence->price_sale = Input::get('price_sale');
-	        $presence->expire_date = Input::get('expire_date');
+	        $presence->duration = Input::get('duration');
 	        $presence->vendor = Input::get('vendor');
 	        $presence->tags = implode(',', Input::get('tags'));
 	        
@@ -130,6 +132,15 @@ class PostController extends \BaseController {
 	        	if(Input::hasFile('image')) {
         			Input::file('image')->move(base_path() . '/public/uploads/ads/', $imageName);
 	        	}
+	        	
+	        	$user_post = UserPostModel::whereRaw('user_id=? AND post_id=?', [Session::get('user_id'), $presence->id])->first();
+	        	if ($user_post == null) {
+	        		$user_post = new UserPostModel();
+	        		$user_post->user_id = Session::get('user_id');
+	        		$user_post->post_id = $presence->id;
+	        		$user_post->save();	        		
+	        	}
+	        	
 	        	Session::flash('message', 'Successfully saved advertisement!');
 	        }
 	          

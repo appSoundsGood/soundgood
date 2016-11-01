@@ -1,2 +1,6 @@
 .alert-danger{
 }
+
+#preview-image {
+	max-width: 100%;
+}

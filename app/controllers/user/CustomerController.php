@@ -52,6 +52,7 @@ class CustomerController extends \BaseController {
             $alert['msg'] = 'You have approved your account.Please login';
             $alert['type'] = 'success';
             
+            $param['alert'] =  $alert;
         } else {
             
             $alert['msg'] = 'The token is invaild';
@@ -59,7 +60,6 @@ class CustomerController extends \BaseController {
             
         }
         
-        $param['alert'] =  $alert;
         return View::make('user.customer.login')->with($param);        
     }
     
@@ -135,7 +135,7 @@ class CustomerController extends \BaseController {
             $param['userId'] = $userId;
             
             // load advertisements
-            $param['posts'] = PostModel::where('expire_date', '>=', date('Y-m-d'))->get();
+            $param['posts'] = PostModel::whereRaw('DATE_ADD(`updated_at`, INTERVAL `duration` DAY) >= ?', [date('Y-m-d')])->get();
             
             return View::make('customer.home.index')->with($param);
         }

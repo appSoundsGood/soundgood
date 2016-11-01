@@ -23,22 +23,16 @@
 			<div class="form-wizard">
 				<div class="form-body">
 					<ul class="nav nav-pills nav-justified steps">
-						<li id = "step1" class = "active">
+						<li id="step1" class = "active">
 							<a href="#tab1" data-toggle="tab" class="step">
 								<span class="number">1 </span>
 								<span class="desc"><i class="fa fa-check"></i> Create Advertisement</span>
 							</a>
 						</li>
-						<li id = "step2">
+						<li id="step2">
 							<a href="#tab2" data-toggle="tab" class="step">
 								<span class="number">2 </span>
 								<span class="desc"><i class="fa fa-check"></i> Preview Advertisement </span>
-							</a>
-						</li>
-						<li id = "step3">
-							<a href="#tab3" data-toggle="tab" class="step">
-								<span class="number">3</span>
-								<span class="desc"><i class="fa fa-check"></i> All Done </span>
 							</a>
 						</li>
 					</ul>
@@ -94,9 +88,9 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<?= Form::label('expire_date', 'Expiration Date', ['class' => 'control-label col-md-2']) ?>
+								<?= Form::label('duration', 'Duration', ['class' => 'control-label col-md-2']) ?>
 								<div class="col-md-8">
-									<?= Form::text('expire_date', null, ['class' => 'form-control']) ?>
+									<?= Form::number('duration', null, ['class' => 'form-control']) ?>
 								</div>
 							</div>
 							<div class="form-group">
@@ -124,42 +118,19 @@
 							<div class="form-group">
 								<label class="control-label col-md-2"><span class="required"></span></label>
 								<div class="col-md-8">
-									<p  id = "titlePreview"></p>
+									<h3 id="titlePreview"></h3>
 								</div>
+							</div>
+							<div class="form-group">
+								<img id="preview-image" alt="No image" src="">
 							</div>
 							<div class="form-group">
 								<label class="control-label col-md-2"> <span class="required">
 								</span>
 								</label>
 								<div class="col-md-8">
-									<div name="summernote" id="previewArticle">
+									<div id="previewArticle">
 									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="control-label col-md-2"><span class="required">
-								</span>
-								</label>
-								<div class="col-md-8">
-									<p  id = "locationPreview"></p>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="control-label col-md-2"><span class="required">
-								</span>
-								</label>
-								<div class="col-md-8">
-									<p  id = "emailPreview"></p>
-								</div>
-							</div>
-						</div>
-						<div class="tab-pane" id="tab3">
-							<div class="form-group">
-								<label class="control-label col-md-2"><span class="required">
-								</span>
-								</label>
-								<div class="col-md-8">
-									<p id="successEmail"></p>
 								</div>
 							</div>							
 						</div>

@@ -82,7 +82,7 @@ Route::group(['prefix' => 'post'], function() {
 	Route::get('create', 		['as' => 'user.post.create', 		'uses' => 'User\PostController@create']);
 	Route::get('edit/{id}', 	['as' => 'user.post.edit', 			'uses' => 'User\PostController@edit']);
 	Route::post('save',			['as' => 'user.post.save',			'uses' => 'User\PostController@save']);
-	Route::post('delete/{id}',			['as' => 'user.post.delete',			'uses' => 'User\PostController@delete']);
+	Route::delete('/{id}',			['as' => 'user.post.delete',			'uses' => 'User\PostController@delete']);
 });
 
 Route::get('job/{id}', 		['as' => 'user.dashboard.viewJob', 	    'uses' => 'User\JobController@viewJob']);

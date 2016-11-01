@@ -38,12 +38,6 @@ use Illuminate\Support\Facades\Form;
 								<span class="desc"><i class="fa fa-check"></i> Preview Advertisement </span>
 							</a>
 						</li>
-						<li id = "step3">
-							<a href="#tab3" data-toggle="tab" class="step">
-								<span class="number">3</span>
-								<span class="desc"><i class="fa fa-check"></i> All Done </span>
-							</a>
-						</li>
 					</ul>
 					<div id="bar" class="progress progress-striped" role="progressbar">
 						<div class="progress-bar progress-bar-success">
@@ -96,9 +90,9 @@ use Illuminate\Support\Facades\Form;
 								</div>
 							</div>
 							<div class="form-group">
-								<?= Form::label('expire_date', 'Expiration Date', ['class' => 'control-label col-md-2']) ?>
+								<?= Form::label('duration', 'Duration', ['class' => 'control-label col-md-2']) ?>
 								<div class="col-md-8">
-									<?= Form::text('expire_date', null, ['class' => 'form-control']) ?>
+									<?= Form::number('duration', null, ['class' => 'form-control']) ?>
 								</div>
 							</div>
 							<div class="form-group">
@@ -124,46 +118,21 @@ use Illuminate\Support\Facades\Form;
 						</div>
 						<div class="tab-pane" id="tab2">
 							<div class="form-group">
-								<label class="control-label col-md-2"><span class="required"></span></label>
 								<div class="col-md-8">
-									<p  id = "titlePreview"></p>
+									<h3 id = "titlePreview"></h3>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-2"> <span class="required">
-								</span>
-								</label>
+								<img id="preview-image" alt="No image" src="<?=$post->image ? asset('uploads/ads/'. $post->image) : '' ?>">
+							</div>
+							<div class="form-group">
 								<div class="col-md-8">
-									<div name="summernote" id="previewArticle">
+									<div id="previewArticle">
 									</div>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-2"><span class="required">
-								</span>
-								</label>
-								<div class="col-md-8">
-									<p  id = "locationPreview"></p>
-								</div>
 							</div>
-							<div class="form-group">
-								<label class="control-label col-md-2"><span class="required">
-								</span>
-								</label>
-								<div class="col-md-8">
-									<p  id = "emailPreview"></p>
-								</div>
-							</div>
-						</div>
-						<div class="tab-pane" id="tab3">
-							<div class="form-group">
-								<label class="control-label col-md-2"><span class="required">
-								</span>
-								</label>
-								<div class="col-md-8">
-									<p id="successEmail"></p>
-								</div>
-							</div>							
 						</div>
 					</div>
 				</div>
@@ -173,7 +142,7 @@ use Illuminate\Support\Facades\Form;
 							<div class="col-md-offset-3 col-md-9" style = "margin-bottom:20px;">
 								<a onclick="backform()" class="btn default button-previous"><i class="m-icon-swapleft"></i> Back </a>
 								<a onclick="nextform()" class="btn blue button-next">Continue <i class="m-icon-swapright m-icon-white"></i></a>
-								{{ Form::submit('Save', array('class'=>'btn green button-submit')) }}
+								{{ Form::submit('Save', array('class'=>'btn green button-submit', 'style'=>'display:none')) }}
 							</div>
 						</div>
 					</div>
@@ -193,12 +162,6 @@ use Illuminate\Support\Facades\Form;
  {{ HTML::script('/assets/js/components-editors.js') }}
  {{ HTML::script('/assets/js/jquery.form.js') }}
  {{ HTML::script('/assets/js/script/post.js') }}
- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
- 
+  
  @include('js.post.postNew')
-<script type="text/javascript">
-$(function() {
-	$('.select2').select2();
-});
-</script>
 @stop
