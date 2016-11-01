@@ -90,7 +90,7 @@
 							<div class="form-group">
 								<?= Form::label('start_date', 'Start Date', ['class' => 'control-label col-md-2']) ?>
 								<div class="col-md-8">
-									<?= Form::number('start_date', null, ['class' => 'form-control']) ?>
+									<?= Form::text('start_date', null, ['class' => 'form-control datepicker']) ?>
 								</div>
 							</div>
 							<div class="form-group">
