@@ -59,8 +59,11 @@ function backform(){
 	
 	if($("#step1").hasClass("active")){step = 1;}
    	if($("#step2").hasClass("active")){step = 2;}
-   	
-   	if( step == 2){
+
+   	if (step == 1) {
+   	   	// go to list
+   	}
+   	else if( step == 2){
    		$("#step2").removeClass("active");
    		$("#step1").addClass("active");
    		
@@ -74,7 +77,7 @@ function backform(){
    		
    		document.getElementById("mainDiv").scrollIntoView();
    	}
-   	if( step == 3){
+   	else if( step == 3){
    		$("#step3").removeClass("active");
    		$("#step2").addClass("active");
    		$("#tab3").css("display" , "none");
@@ -91,6 +94,9 @@ function backform(){
 
 $(function() {
 	$('.select2').select2();
+	$('.datepicker').datepicker({
+		format: 'mm/dd/yy',
+	});
 
 	$('input[name="image"]').change(function() {
 		var input = this;

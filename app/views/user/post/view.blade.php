@@ -21,8 +21,7 @@
     		<dd>{{ $post->price_original }}</dd>
     		<dt>Sale Price</dt>
     		<dd>{{ $post->price_sale }}</dd>
-    		<dt>Expiration Date</dt>
-    		<dd>{{ $post->expire_date }}</dd>
+    		
     		<dt>Vendor</dt>
     		<dd>{{ $post->vendor }}</dd>
     		<dt>Tags</dt>

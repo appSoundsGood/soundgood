@@ -88,6 +88,12 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<?= Form::label('start_date', 'Start Date', ['class' => 'control-label col-md-2']) ?>
+								<div class="col-md-8">
+									<?= Form::number('start_date', null, ['class' => 'form-control']) ?>
+								</div>
+							</div>
+							<div class="form-group">
 								<?= Form::label('duration', 'Duration', ['class' => 'control-label col-md-2']) ?>
 								<div class="col-md-8">
 									<?= Form::number('duration', null, ['class' => 'form-control']) ?>
@@ -162,14 +168,9 @@
  {{ HTML::script('/assets/js/components-editors.js') }}
  {{ HTML::script('/assets/js/jquery.form.js') }}
  {{ HTML::script('/assets/js/script/post.js') }}
- 
- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
- 
+  
  @include('js.post.postNew')
-<script type="text/javascript">
-$(function() {
-	$('.select2').select2();
-});
+
 </script>
  
 @stop

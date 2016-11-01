@@ -91,6 +91,7 @@ class PostController extends \BaseController {
 	    $rules = [
 	    		'title' => 'required',  
 	    		'content' => 'required',
+	    		'start_date' => 'date',
 	    		'image' => 'mimes:jpeg,jpg,png',
 	    	];
 	    $validator = Validator::make(Input::all(), $rules);
@@ -118,9 +119,10 @@ class PostController extends \BaseController {
 	        $presence->content = Input::get('content');
 	        $presence->price_original = Input::get('price_original');
 	        $presence->price_sale = Input::get('price_sale');
+	        $presence->start_date = Input::get('start_date');
 	        $presence->duration = Input::get('duration');
 	        $presence->vendor = Input::get('vendor');
-	        $presence->tags = implode(',', Input::get('tags'));
+	        $presence->tags = Input::has('tags') ? implode(',', Input::get('tags')): '';
 	        
 	        if(Input::hasFile('image')) {
 	        	$imageName = uniqid(substr(bin2hex(Input::file('image')->getClientOriginalName()), 0, 4). '_') . '.' .

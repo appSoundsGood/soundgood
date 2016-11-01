@@ -21,6 +21,9 @@ use Illuminate\Support\Facades\Session;
     @yield('styles')
     @yield('custom-styles')
     
+    {{ HTML::script('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js') }}
+    {{ HTML::script('https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js') }}
+    
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -85,9 +88,7 @@ use Illuminate\Support\Facades\Session;
     @yield('body')
     
     @yield('footer')
-    
-    {{ HTML::script('//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js') }}
-    {{ HTML::script('//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js') }}
+   
     @yield('scripts')
     @yield('custom-scripts')
     {{ HTML::script('/assets/js/jquery.scrollbox.js') }}

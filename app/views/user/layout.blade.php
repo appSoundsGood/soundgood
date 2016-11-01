@@ -1,5 +1,6 @@
 @extends('main')
 @section('styles')
+	{{ HTML::style('/assets/css/bootstrap-datepicker.css') }}
     {{ HTML::style('/assets/css/style_user.css') }}
     {{ HTML::style('/assets/css/style_common.css') }}
 	{{ HTML::style('/assets/metronic/assets/global/plugins/font-awesome/css/font-awesome.min.css') }}
@@ -54,7 +55,6 @@
 @section('scripts')
     {{ HTML::script('/assets/js/alert.js') }}
     {{ HTML::script('/assets/js/bootbox.js') }}
-	{{ HTML::script('/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}
     {{ HTML::script('/assets/js/bootstrap-datepicker.js') }}
 	{{ HTML::script('/assets/js/node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js') }}
 	{{ HTML::script('/assets/js/nodeClient.js') }}

@@ -135,7 +135,8 @@ class CustomerController extends \BaseController {
             $param['userId'] = $userId;
             
             // load advertisements
-            $param['posts'] = PostModel::whereRaw('DATE_ADD(`updated_at`, INTERVAL `duration` DAY) >= ?', [date('Y-m-d')])->get();
+            $param['posts'] = PostModel::whereRaw('DATE_ADD(`start_date`, INTERVAL `duration` DAY) >= ?', [date('Y-m-d')])
+            					->where('start_date', '<=', date('Y-m-d'))->get();
             
             return View::make('customer.home.index')->with($param);
         }

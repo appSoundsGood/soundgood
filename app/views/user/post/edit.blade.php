@@ -90,6 +90,12 @@ use Illuminate\Support\Facades\Form;
 								</div>
 							</div>
 							<div class="form-group">
+								<?= Form::label('start_date', 'Start Date', ['class' => 'control-label col-md-2']) ?>
+								<div class="col-md-8">
+									<?= Form::text('start_date', null, ['class' => 'form-control datepicker']) ?>
+								</div>
+							</div>
+							<div class="form-group">
 								<?= Form::label('duration', 'Duration', ['class' => 'control-label col-md-2']) ?>
 								<div class="col-md-8">
 									<?= Form::number('duration', null, ['class' => 'form-control']) ?>
