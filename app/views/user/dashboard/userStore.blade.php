@@ -13,7 +13,7 @@
         <div class="row">
             <div class="actions" style = "float:right;margin-bottom:10px;">
                 <a href="{{ URL::route('user.store.create') }}" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-plus"></span>&nbsp;Create
+                    <span class="glyphicon glyphicon-plus"></span> Request to Add Store
                 </a>                                    
             </div>
             <table class="table table-store-list">

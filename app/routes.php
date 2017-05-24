@@ -54,15 +54,8 @@ Route::post('unfollow',   	['as' => 'user.unfollow',         		'uses' => 'User\U
 
 
 Route::post('postData', 	['as' => 'user.post.postData', 			'uses' => 'User\UserController@postData']);
-Route::get('store',         ['as' => 'user.store',                  'uses' => 'User\UserController@store']);
-Route::get('storeEdit/{id}',     ['as' => 'user.storeEdit',         'uses' => 'User\UserController@storeEdit']);  
+
 Route::get('product', 		['as' => 'user.product', 				'uses' => 'User\UserController@product']);
-
-
-Route::get('store/create',     ['as' => 'user.store.create',      'uses' => 'User\UserController@storeCreate']);   
-Route::post('store/save',      ['as' => 'user.store.save',       'uses' => 'User\UserController@storeSave']); 
-
-
 Route::get('product/create',     ['as' => 'user.product.create',      'uses' => 'User\UserController@productCreate']);   
 Route::post('product/save',      ['as' => 'user.product.save',       'uses' => 'User\UserController@storeProduct']); 
 
@@ -74,6 +67,22 @@ Route::post('saveProfile', 	['as' => 'user.dashboard.saveProfile', 	'uses' => 'U
 Route::get('cart', 			['as' => 'user.dashboard.cart', 		'uses' => 'User\UserController@cart']);
 Route::get('appliedJobs', 	['as' => 'user.dashboard.appliedJobs', 	'uses' => 'User\UserController@appliedJobs']);
 Route::get('user/{id}', 	['as' => 'user.view', 					'uses' => 'User\UserController@view']);
+
+// Store
+Route::group(['prefix' => 'store'], function() {
+	Route::get('/', 			['as' => 'user.store', 				'uses' => 'User\StoreController@index']);
+	Route::get('/{id}', 		['as' => 'user.store.view', 		'uses' => 'User\StoreController@view']);
+	Route::get('create', 		['as' => 'user.store.create', 		'uses' => 'User\StoreController@create']);
+	Route::get('edit/{id}', 	['as' => 'user.store.edit', 		'uses' => 'User\StoreController@edit']);
+	Route::post('save',			['as' => 'user.store.save',			'uses' => 'User\StoreController@save']);
+	Route::delete('/{id}',		['as' => 'user.store.delete',		'uses' => 'User\StoreController@delete']);
+	
+	Route::get('/{store_id}/product',				['as' => 'user.store.product',	'uses' => 'User\StoreController@products']);
+	Route::get('/{store_id}/create_product',		['as' => 'user.store.product.create',	'uses' => 'User\StoreController@createProduct']);
+	Route::get('/{store_id}/edit_product/{id}',		['as' => 'user.store.product.edit',	'uses' => 'User\StoreController@editProduct']);
+	Route::post('/{store_id}/save_product',			['as' => 'user.store.product.save',	'uses' => 'User\StoreController@saveProduct']);
+	Route::delete('/product/{id}',					['as' => 'user.store.product.delete',	'uses' => 'User\StoreController@deleteProduct']);
+});
 
 // advertise
 Route::group(['prefix' => 'post'], function() {

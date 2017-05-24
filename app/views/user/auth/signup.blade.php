@@ -37,16 +37,34 @@
                 </div>
                 <div class="row">
                     <div class="form-group">
-                    	<label>Store</label>
-                        <input class="form-control" name="name" type="text" placeholder = "Store Name">
+                    	<label>Name</label>
+                        <input class="form-control" name="name" type="text" placeholder = "Company Name" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                    	<label>E-mail</label>
+                        <input class="form-control" name="email" type="email" placeholder = "Email">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                    	<label>Participating Store</label>
+                        <input class="form-control" name="store_name" type="text" placeholder = "Store Name">
                     </div>
                 </div>        
                 <div class="row">
                     <div class="form-group">
-                    	<label>E-mail</label>
-                        <input class="form-control" name="email" type="text" placeholder = "Email">
+                    	<label>Address</label>
+                        <input class="form-control" name="store_address" type="text" placeholder = "Store Address">
                     </div>
-                </div> 
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                    	<label>Phone</label>
+                        <input class="form-control" name="store_phone" type="tel" placeholder = "Phone Number">
+                    </div>
+                </div>
                 <div class="row">
                     <div class="form-group">
                     	<label>Password</label>

@@ -365,38 +365,6 @@ class UserController extends \BaseController {
 		return View::make('user.dashboard.profileView')->with($param);
 	}
     
-    public function store(){
-		if (!Session::has('user_id')) {
-			return Redirect::route('user.auth.login');
-		}else {
-			$param['pageNo'] = 12;
-            
-            $user =  UserModel::find(Session::get('user_id'));
-            
-            $param['user'] = UserStoreModel::paginate(10); 
-			
-			return View::make('user.dashboard.userStore')->with($param);
-		}
-	}
-    
-    public function storeEdit($id){
-        if (!Session::has('user_id')) {
-            return Redirect::route('user.auth.login');
-        }else {
-            $param['pageNo'] = 12;
-            
-            $user =  UserModel::find(Session::get('user_id'));
-            $param['store'] = StoreModel::find($id);   
-            $param['user'] = $user ;
-            
-            return View::make('user.dashboard.userStoreEdit')->with($param);
-        }
-    }
-    
-    public function storeCreate(){
-       $param['user'] = ""; 
-       return View::make('user.dashboard.createStore')->with($param);  
-    }
     public function storeSave(){
         
         $param['pageNo'] = 12;
@@ -457,14 +425,6 @@ class UserController extends \BaseController {
             
             return View::make('user.dashboard.userProduct')->with($param);
         } 
-    }
-    public function productCreate(){
-       
-       $param['stores'] = StoreModel::all();
-       $param['categorys'] = CategoryModel::all(); 
-       
-       return View::make('user.dashboard.createProduct')->with($param);  
-    
     }
     
     public function storeProduct(){

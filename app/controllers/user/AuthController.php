@@ -2,6 +2,8 @@
 use Illuminate\Routing\Controllers\Controller;
 use View, Input, Redirect, Session, Validator;
 use User as UserModel;
+use Store as StoreModel;
+use UserStore as UserStoreModel;
 use Location as LocationModel;
 use Mail;
 
@@ -56,11 +58,13 @@ class AuthController extends \BaseController {
     }
     
     public function doSignup() {
-        $rules = ['password'   => 'required|confirmed',
-                  'password_confirmation' => 'required',
-                  'name'       => 'required',
-                  'email'	   => 'required|email|unique:user',
-                ];
+        $rules = [
+        		'password'   => 'required|confirmed',
+                'password_confirmation' => 'required',
+                'name'       => 'required',
+               	'email'	   => 'required|email|unique:user',
+        		'store_name'	=> 'required|unique:store,name',
+               ];
         $validator = Validator::make(Input::all(), $rules);
         if ($validator->fails()) {
             return Redirect::back()
@@ -83,18 +87,35 @@ class AuthController extends \BaseController {
             $user->token = $token ;
             $user->is_active = 0;
             
-            $user->save();
-            
-            $alert['msg'] = 'User has been signed up successfully. Please verify confirmation email';
-            $alert['type'] = 'success';
-            
-            $data = array();
-            $data = ['email' => $email , 'url' => 'http://'.$host.'/login?token='.$token];
-            
-            Mail::send('mail_template.approveMailToSponsor', $data, function ($message) use ($email) {
-                $message->from('thesoundsgoodteam@gmail.com');
-                $message->to( $email , '')->subject('Welcome!');
-            });
+            if($user->save()) {            
+	            $alert['msg'] = 'User has been signed up successfully. Please verify confirmation email';
+	            $alert['type'] = 'success';
+	            
+	            $store = new StoreModel();
+	            $store->name = Input::get('store_name');
+	            $store->address = Input::get('store_address');
+	            $store->phone = Input::get('store_phone');
+	            
+	            if ($store->save()) {
+	            	$ustore = new UserStoreModel();
+	            	$ustore->user_id = $user->id;
+	            	$ustore->store_id = $store->id;
+	            	$ustore->save();
+	            }
+	            
+	            // send confirmation email
+	            $data = array();
+	            $data = ['email' => $email , 'url' => 'http://'.$host.'/login?token='.$token];
+	            
+	            /* Mail::send('mail_template.approveMailToSponsor', $data, function ($message) use ($email) {
+	                $message->from('thesoundsgoodteam@gmail.com');
+	                $message->to( $email , '')->subject('Welcome!');
+	            }) */;
+            }
+            else {
+            	$alert['msg'] = 'Failed to register new user';
+            	$alert['type'] = 'danger';
+            }
             
             return Redirect::route('user.auth.signup')->with('alert', $alert);            
         }

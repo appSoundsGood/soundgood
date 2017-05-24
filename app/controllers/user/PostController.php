@@ -13,7 +13,7 @@ class PostController extends \BaseController {
 	
 	public function __construct() {
 		$this->beforeFilter(function(){
-			if (!Session::has('user_id')) {
+			if (!Session::has('user_id') || Session::get('user_type') != 'user') {
 				return Redirect::route('user.auth.login');
 			}
 		});
