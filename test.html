@@ -1,0 +1,129 @@
+<div id="containerBlock%num%" class="resizableContainer containerBlockStyle imgDraggable" data-value="charactersBlockCommon">
+	<a onclick="catchContBlock(this)" data-toggle="modal" data-target="#containerModal">
+		<i class="glyphicon glyphicon-cog settIcon cntBl contCog" rel="alt5" title="Container"></i>
+	</a>
+	<a onclick="delDropedElem(this)" data-toggle="modal" data-target="#cautionModal">
+		<i class="glyphicon glyphicon-trash settIcon cntBl contTrash" rel="alt5" title="Remove Container"></i>
+	</a>
+</div>
+
+<!-- Headline block -->
+<div id="headline%num%-1" class="hdBlck headBlockStyle sortBlock" data-value="sortBlock">
+		<a onclick="delDropedElem(this)" data-toggle="modal" data-target="#cautionModal">
+			<i class="glyphicon glyphicon-trash settIcon hdBl" rel="alt5" title="Remove Headline"></i>
+		</a>
+		<div class="block-buttons">
+			<a onclick="catchHeadline(this)" data-toggle="modal" data-target="#headlineModal">
+				<i class="glyphicon glyphicon-cog settIcon hdBl" rel="alt5" title="Headline"></i>
+			</a>
+			<a onclick="cloneElement(this)" rel="alt5" title="Clone"><i class="fa fa-files-o"></i></a>
+		</div>
+		<div class="editable">
+			<div id="editorH%num%-1" contenteditable="true" class="ck-editorHeadline">
+				<h1 style="text-align:center">
+					<span style="color:#FFFFFF">Get Your </span>
+					<span style="color:#c94040">
+						<strong>FREE Report</strong>
+					</span>
+					<span style="color:#FFFFFF"> Today!</span>
+				</h1>
+			</div>
+		</div>
+	</div>
+	
+<!-- Textblock -->
+<div id="textblock%num%-1" class="txtBlck textBlockStyle sortBlock" data-value="sortBlock">
+		<a onclick="delDropedElem(this)" data-toggle="modal" data-target="#cautionModal">
+			<i class="glyphicon glyphicon-trash settIcon txBl" rel="alt5" title="Remove Text"></i>
+		</a>
+		<div class="block-buttons">
+			<a onclick="catchTextbox(this)" data-toggle="modal" data-target="#textboxModal">
+				<i class="glyphicon glyphicon-cog settIcon txBl" rel="alt5" title="Textbox"></i>
+			</a>
+			<a onclick="cloneElement(this)" rel="alt5" title="Clone"><i class="fa fa-files-o"></i></a>
+		</div>
+		<div class="editable">
+			<div id="editorT%num%-1" contenteditable="true" class="ck-editorText">
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris maximus odio sit amet finibus accumsan. Vivamus facilisis ex sem, in tempor metus placerat vitae. Nunc venenatis vitae lorem ut facilisis. Nunc ac fermentum sapien, nec tincidunt libero. Etiam eget tempus nulla, non imperdiet risus. In pulvinar iaculis aliquet. Sed dui ipsum, porttitor quis tempor lacinia, imperdiet at odio.</p>
+			</div>
+		</div>
+	</div>
+	
+<!-- Image -->
+<div id="imgBlock%num%-1" class="resizableImg imgBlockStyle drag sortBlock" data-value="charactersBlock" style="width: 432px; height: 472px; background-image: url(&quot;/v2/images/templates/free_report3.png&quot;); background-color: transparent; background-size: 100% 100%; background-position: center center; background-repeat: no-repeat;">
+		<a onclick="delDropedElem(this)" data-toggle="modal" data-target="#cautionModal">
+			<i class="glyphicon glyphicon-trash settIcon imBl" rel="alt5" title="Remove Image"></i>
+		</a>
+		<div class="block-buttons">
+			<a onclick="catchImgBlock(this)" data-toggle="modal" data-target="#imageModal">
+				<i class="glyphicon glyphicon-cog settIcon imBl" rel="alt5" title="Image"></i>
+			</a>
+			<a onclick="cloneElement(this)" rel="alt5" title="Clone"><i class="fa fa-files-o"></i></a>
+		</div>
+	</div>
+	
+<!-- Video -->
+<div id="videoBlock%num%-1" class="resizableVideo videoBlockStyle sortBlock" data-value="sortBlock" style="background-image: url(&quot;/v2/img/videoplaceholderbg.png&quot;); background-color: rgb(43, 43, 43); background-size: 10%; background-position: 50% 50%; background-repeat: no-repeat;">
+		<div id="mask" style="display: inline-block;"></div>
+		<a onclick="delDropedElem(this)" data-toggle="modal" data-target="#cautionModal">
+			<i class="glyphicon glyphicon-trash settIcon vdBl" rel="alt5" title="Remove Video"></i>
+		</a>
+		<div class="block-buttons">
+			<a onclick="catchVdBlock(this)" data-toggle="modal" data-target="#videoModal">
+				<i class="glyphicon glyphicon-cog settIcon vdBl" rel="alt5" title="Video"></i>
+			</a>
+			<a onclick="cloneElement(this)" rel="alt5" title="Clone"><i class="fa fa-files-o"></i></a>
+		</div>
+	</div>
+	
+<!-- Mailbox -->
+<div id="mailBoxBlock%num%-1" class="mtbBlck sortBlock" data-value="sortBlock">
+		<a onclick="delDropedElem(this)" data-toggle="modal" data-target="#cautionModal">
+			<i class="glyphicon glyphicon-trash settIcon mlBl" rel="alt5" title="Remove Mail Box"></i>
+		</a>
+		<div class="block-buttons">
+			<a onclick="catchMailBxBlock(this)" data-toggle="modal" data-target="#mailModal">
+				<i class="glyphicon glyphicon-cog settIcon mlBl" rel="alt5" title="Mail Box"></i>
+			</a>
+			<a onclick="cloneElement(this)" rel="alt5" title="Clone"><i class="fa fa-files-o"></i></a>
+		</div>
+		<div class="emailMailto">
+			<a class="mailto" href="mailto:someone@someservice.com" style="color: rgb(255, 255, 255); font-size: 30px; padding: 19px 40px; border-radius: 3px; border-style: dashed; background-color: rgb(142, 178, 33);">
+				Get Your FREE Report Now
+			</a>
+		</div>
+	</div>
+	
+<!-- Countdown Timer -->
+<div id="timerBlock%num%-1" class="timerBlock sortBlock" data-value="sortBlock" data-type="default" data-expdate data-exptime>
+		<a onclick="delDropedElem(this)" data-toggle="modal" data-target="#cautionModal">
+			<i class="glyphicon glyphicon-trash settIcon mlBl" rel="alt5" title="Remove Timer"></i>
+		</a>
+		<div class="block-buttons">
+			<a onclick="catchCountdownTimer(this)" data-toggle="modal" data-target="#timerModal" >
+				<i class="glyphicon glyphicon-cog settIcon mlBl" rel="alt5" title="Countdown Timer"></i>
+			</a>
+			<a onclick="cloneElement(this)" rel="alt5" title="Clone"><i class="fa fa-files-o"></i></a>
+		</div>
+		<div class="timer-row"> 
+		<div class="countdown cdTextSizeDefault cdBackColorBlack cdStyleTextOnly">
+			<span class="countdown-section days-section"><span class="countdown-amount">00</span><span class="countdown-label">Days</span></span>
+			<span class="countdown-section hours-section"><span class="countdown-amount">00</span><span class="countdown-label">Hours</span></span>
+			<span class="countdown-section minutes-section"><span class="countdown-amount">00</span><span class="countdown-label">Minutes</span></span>
+			<span class="countdown-section seconds-section "><span class="countdown-amount">00</span><span class="countdown-label">Seconds</span></span>
+		</div></div>
+	</div>
+	
+<!-- Divider -->
+<div id="divider%num%-1" class="dividerBlock sortBlock" data-value="sortBlock">
+		<a onclick="delDropedElem(this)" data-toggle="modal" data-target="#cautionModal">
+			<i class="glyphicon glyphicon-trash settIcon mlBl" rel="alt5" title="Remove Divider"></i>
+		</a>
+		<div class="block-buttons">
+			<a onclick="catchDivider(this)" data-toggle="modal" data-target="#dividerModal" >
+				<i class="glyphicon glyphicon-cog settIcon mlBl" rel="alt5" title="Divider"></i>
+			</a>
+			<a onclick="cloneElement(this)" rel="alt5" title="Clone"><i class="fa fa-files-o"></i></a>
+		</div>
+		<div class="divider"></div>
+	</div>
